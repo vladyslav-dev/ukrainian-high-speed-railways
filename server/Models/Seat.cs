@@ -8,6 +8,6 @@
 
         public int number { get; set; }
 
-        public Boolean reserved { get; set; }
+        public bool reserved { get; set; }
     }
 }

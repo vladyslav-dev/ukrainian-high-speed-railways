@@ -6,7 +6,7 @@
 
         public string name { get; set; }
 
-        public Route route { get; set; }
+        public ICollection<Route> routes { get; set; } 
 
         public TrainType type { get; set; }
     }
