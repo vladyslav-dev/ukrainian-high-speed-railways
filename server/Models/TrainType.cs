@@ -10,6 +10,6 @@
     {
         public int id { get; set; }
 
-        public TrainTypeEnum Type { get; set; }
+        public TrainTypeEnum type { get; set; }
     }
 }

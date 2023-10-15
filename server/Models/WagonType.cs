@@ -10,6 +10,6 @@
     {
         public int id { get; set; }
 
-        public WagonTypeEnum Type { get; set; }
+        public WagonTypeEnum type { get; set; }
     }
 }

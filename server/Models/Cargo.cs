@@ -4,7 +4,7 @@
     {
         public int id { get; set; }
 
-        public Wagon wagon { get; set; }
+        public ICollection<Wagon> wagons { get; set; }
 
         public string name { get; set; }
 
