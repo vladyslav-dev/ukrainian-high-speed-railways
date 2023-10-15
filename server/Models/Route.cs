@@ -6,7 +6,7 @@ namespace UHR.Models
 
 		public string name { get; set; }
 
-		public Destination Destination { get; set }
+		public Destination destination { get; set; }
 
         public DateTime departure_date { get; set; }
 
