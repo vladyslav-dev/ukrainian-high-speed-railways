@@ -8,7 +8,16 @@ using UHR.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddScoped<ICargoInterface, CargoRepository>();
+builder.Services.AddScoped<IDestinationInterface, DestinationRepository>();
+builder.Services.AddScoped<IPassengerInterface, PassengerRepository>();
 builder.Services.AddScoped<IRouteInterface, RouteRepository>();
+builder.Services.AddScoped<ISeatInterface, SeatRepository>();
+builder.Services.AddScoped<ITicketInterface, TicketRepository>();
+builder.Services.AddScoped<ITrainInterface, TrainRepository>();
+builder.Services.AddScoped<ITrainTypeInterface, TrainTypeRepository>();
+builder.Services.AddScoped<IWagonInterface, WagonRepository>();
+builder.Services.AddScoped<IWagonTypeInterface, WagonTypeRepository>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {

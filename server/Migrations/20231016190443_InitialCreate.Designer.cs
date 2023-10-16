@@ -12,7 +12,7 @@ using UHR.Data;
 namespace UHR.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231016110822_InitialCreate")]
+    [Migration("20231016190443_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -193,7 +193,7 @@ namespace UHR.Migrations
 
                     b.HasIndex("seatid");
 
-                    b.ToTable("Ticketes");
+                    b.ToTable("Tickets");
                 });
 
             modelBuilder.Entity("UHR.Models.Train", b =>
@@ -215,7 +215,7 @@ namespace UHR.Migrations
 
                     b.HasIndex("typeid");
 
-                    b.ToTable("Traines");
+                    b.ToTable("Trains");
                 });
 
             modelBuilder.Entity("UHR.Models.TrainType", b =>
@@ -262,7 +262,7 @@ namespace UHR.Migrations
 
                     b.HasIndex("typeid");
 
-                    b.ToTable("Wagones");
+                    b.ToTable("Wagons");
                 });
 
             modelBuilder.Entity("UHR.Models.WagonType", b =>
