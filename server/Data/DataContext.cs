@@ -15,10 +15,10 @@ namespace UHR.Data
         public DbSet<Passenger> Passengers { get; set; }
         public DbSet<UHR.Models.Route> Routes { get; set; }
         public DbSet<Seat> Seats { get; set; }
-        public DbSet<Ticket> Ticketes { get; set; }
-        public DbSet<Train> Traines { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Train> Trains { get; set; }
         public DbSet<TrainType> TrainTypes { get; set; }
-        public DbSet<Wagon> Wagones { get; set; }
+        public DbSet<Wagon> Wagons { get; set; }
         public DbSet<WagonType> WagonTypes { get; set; }
     }
 }

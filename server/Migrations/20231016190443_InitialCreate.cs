@@ -73,7 +73,7 @@ namespace UHR.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Traines",
+                name: "Trains",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
@@ -83,9 +83,9 @@ namespace UHR.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Traines", x => x.id);
+                    table.PrimaryKey("PK_Trains", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Traines_TrainTypes_typeid",
+                        name: "FK_Trains_TrainTypes_typeid",
                         column: x => x.typeid,
                         principalTable: "TrainTypes",
                         principalColumn: "id",
@@ -113,14 +113,14 @@ namespace UHR.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Routes_Traines_Trainid",
+                        name: "FK_Routes_Trains_Trainid",
                         column: x => x.Trainid,
-                        principalTable: "Traines",
+                        principalTable: "Trains",
                         principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Wagones",
+                name: "Wagons",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
@@ -132,20 +132,20 @@ namespace UHR.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Wagones", x => x.id);
+                    table.PrimaryKey("PK_Wagons", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Wagones_Cargos_Cargoid",
+                        name: "FK_Wagons_Cargos_Cargoid",
                         column: x => x.Cargoid,
                         principalTable: "Cargos",
                         principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_Wagones_Traines_trainid",
+                        name: "FK_Wagons_Trains_trainid",
                         column: x => x.trainid,
-                        principalTable: "Traines",
+                        principalTable: "Trains",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Wagones_WagonTypes_typeid",
+                        name: "FK_Wagons_WagonTypes_typeid",
                         column: x => x.typeid,
                         principalTable: "WagonTypes",
                         principalColumn: "id",
@@ -166,15 +166,15 @@ namespace UHR.Migrations
                 {
                     table.PrimaryKey("PK_Seats", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Seats_Wagones_wagonid",
+                        name: "FK_Seats_Wagons_wagonid",
                         column: x => x.wagonid,
-                        principalTable: "Wagones",
+                        principalTable: "Wagons",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Ticketes",
+                name: "Tickets",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
@@ -184,9 +184,9 @@ namespace UHR.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Ticketes", x => x.id);
+                    table.PrimaryKey("PK_Tickets", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Ticketes_Seats_seatid",
+                        name: "FK_Tickets_Seats_seatid",
                         column: x => x.seatid,
                         principalTable: "Seats",
                         principalColumn: "id",
@@ -210,9 +210,9 @@ namespace UHR.Migrations
                 {
                     table.PrimaryKey("PK_Passengers", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Passengers_Ticketes_ticketid",
+                        name: "FK_Passengers_Tickets_ticketid",
                         column: x => x.ticketid,
-                        principalTable: "Ticketes",
+                        principalTable: "Tickets",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -238,28 +238,28 @@ namespace UHR.Migrations
                 column: "wagonid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ticketes_seatid",
-                table: "Ticketes",
+                name: "IX_Tickets_seatid",
+                table: "Tickets",
                 column: "seatid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Traines_typeid",
-                table: "Traines",
+                name: "IX_Trains_typeid",
+                table: "Trains",
                 column: "typeid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Wagones_Cargoid",
-                table: "Wagones",
+                name: "IX_Wagons_Cargoid",
+                table: "Wagons",
                 column: "Cargoid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Wagones_trainid",
-                table: "Wagones",
+                name: "IX_Wagons_trainid",
+                table: "Wagons",
                 column: "trainid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Wagones_typeid",
-                table: "Wagones",
+                name: "IX_Wagons_typeid",
+                table: "Wagons",
                 column: "typeid");
         }
 
@@ -273,7 +273,7 @@ namespace UHR.Migrations
                 name: "Routes");
 
             migrationBuilder.DropTable(
-                name: "Ticketes");
+                name: "Tickets");
 
             migrationBuilder.DropTable(
                 name: "Destinations");
@@ -282,13 +282,13 @@ namespace UHR.Migrations
                 name: "Seats");
 
             migrationBuilder.DropTable(
-                name: "Wagones");
+                name: "Wagons");
 
             migrationBuilder.DropTable(
                 name: "Cargos");
 
             migrationBuilder.DropTable(
-                name: "Traines");
+                name: "Trains");
 
             migrationBuilder.DropTable(
                 name: "WagonTypes");
