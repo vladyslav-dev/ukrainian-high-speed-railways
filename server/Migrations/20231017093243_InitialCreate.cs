@@ -52,7 +52,7 @@ namespace UHR.Migrations
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    type = table.Column<int>(type: "integer", nullable: false)
+                    type = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -65,7 +65,7 @@ namespace UHR.Migrations
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    type = table.Column<int>(type: "integer", nullable: false)
+                    type = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {

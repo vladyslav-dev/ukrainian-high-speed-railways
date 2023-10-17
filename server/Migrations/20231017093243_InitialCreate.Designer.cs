@@ -12,7 +12,7 @@ using UHR.Data;
 namespace UHR.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231016190443_InitialCreate")]
+    [Migration("20231017093243_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -226,8 +226,9 @@ namespace UHR.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<int>("type")
-                        .HasColumnType("integer");
+                    b.Property<string>("type")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("id");
 
@@ -273,8 +274,9 @@ namespace UHR.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<int>("type")
-                        .HasColumnType("integer");
+                    b.Property<string>("type")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("id");
 
