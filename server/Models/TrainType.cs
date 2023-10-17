@@ -1,4 +1,6 @@
-﻿namespace UHR.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace UHR.Models
 {
     public enum TrainTypeEnum
     {
@@ -10,6 +12,7 @@
     {
         public int id { get; set; }
 
-        public TrainTypeEnum type { get; set; }
+        [EnumDataType(typeof(TrainTypeEnum))]
+        public string type { get; set; }
     }
 }

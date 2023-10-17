@@ -223,8 +223,9 @@ namespace UHR.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<int>("type")
-                        .HasColumnType("integer");
+                    b.Property<string>("type")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("id");
 
@@ -270,8 +271,9 @@ namespace UHR.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<int>("type")
-                        .HasColumnType("integer");
+                    b.Property<string>("type")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("id");
 
