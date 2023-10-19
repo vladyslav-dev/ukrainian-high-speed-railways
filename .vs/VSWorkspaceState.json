@@ -2,9 +2,13 @@
   "ExpandedNodes": [
     "",
     "\\server",
+    "\\server\\Migrations",
     "\\server\\Models",
-    "\\server\\Properties"
+    "\\server\\Properties",
+    "\\server\\Repositories",
+    "\\server\\sql",
+    "\\server\\sql\\queries"
   ],
-  "SelectedNode": "\\server\\Models\\Route.cs",
+  "SelectedNode": "\\server\\Program.cs",
   "PreviewInSolutionExplorer": false
 }
