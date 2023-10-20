@@ -1,7 +1,9 @@
-import Image from 'next/image'
+import HeroText from "@/components/HeroText";
 
 export default function Home() {
   return (
-    <div>Home page</div>
+    <div>
+      <HeroText />
+    </div>
   )
 }

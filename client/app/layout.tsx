@@ -1,5 +1,8 @@
 import type { Metadata } from 'next'
 import { Lexend_Giga } from 'next/font/google'
+import './tailwind.css'
+import HeroImage from '@/components/HeroImage'
+import Header from '@/widgets/Header'
 
 const lexendGigaFont = Lexend_Giga({ subsets: ['latin'] })
 
@@ -15,7 +18,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={lexendGigaFont.className}>{children}</body>
+      <body className={lexendGigaFont.className}>
+        <HeroImage />
+        <div className='max-w-screen-xl mx-auto px-5'>
+          <Header />
+          {children}
+        </div>
+      </body>
     </html>
   )
 }
