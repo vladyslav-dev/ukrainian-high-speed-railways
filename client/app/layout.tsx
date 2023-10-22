@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import { Lexend_Giga } from 'next/font/google'
 import './tailwind.css'
+import 'react-date-range/dist/styles.css' // main css file
+import 'react-date-range/dist/theme/default.css' // theme css file
+import './dateRangePicker.css'
 import HeroImage from '@/components/HeroImage'
 import Header from '@/widgets/Header'
 
