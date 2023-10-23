@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { getCities } from "@/services/mockCities"
 import Autocomplete from "@/components/Autocomplete"
 import DateRangeField from '@/components/DateRangeField'
@@ -34,7 +34,6 @@ export default function SearchTicketsForm() {
   const onSubmit = () => {
     console.log('searchFormData', searchFormData)
   }
-
 
   return (
     <div className=''>
