@@ -1,6 +1,6 @@
-import DateRangeField from "@/components/DateRangeField";
 import HeroText from "@/components/HeroText";
 import SearchTicketsForm from "@/widgets/SearchTicketsForm";
+import HeroText from "@/components/HeroText";
 
 export default function Home() {
   return (
