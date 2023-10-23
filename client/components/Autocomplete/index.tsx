@@ -121,7 +121,7 @@ export default function Autocomplete(props: IAutocompleteProps) {
             {showDropdown && (
                 <div
                     ref={containerRef}
-                    className="absolute left-0 right-0 border border-gray-300 mt-1 bg-white rounded shadow-md max-h-[320px] overflow-auto"
+                    className="absolute left-0 right-0 border border-gray-300 mt-1 bg-white rounded shadow-md max-h-[320px] overflow-auto z-10"
                 >
                     {isFetching ? (
                         <div className="px-3 py-1">Loading...</div>
