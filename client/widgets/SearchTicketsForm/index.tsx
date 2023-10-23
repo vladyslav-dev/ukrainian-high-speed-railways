@@ -1,43 +1,29 @@
-'use client';
+'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
-import { set, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { searchTicketsSchema } from "@/utils/validationSchemas";
-import { getCities } from "@/services/mockCities";
-import Autocomplete from "@/components/Autocomplete";
-import DateRangeField from '@/components/DateRangeField';
-import { SearchFormEnum, TCityRange, TDateRangeValue } from '@/types';
-
-// interface IFormInput {
-//   firstName: string;
-//   lastName: string;
-//   email: string;
-//   password: string;
-// }
+import { getCities } from "@/services/mockCities"
+import Autocomplete from "@/components/Autocomplete"
+import DateRangeField from '@/components/DateRangeField'
 
 interface ISearchTicketsForm {
-  originCity: string;
-  destinationCity: string;
-  departureDate: Date;
-  arrivalDate?: Date | null;
+  originCity: string
+  destinationCity: string
+  departureDate?: Date | null | undefined
+  arrivalDate?: Date | null | undefined
 }
-
 
 export default function SearchTicketsForm() {
 
-  const [cities, setCities] = useState<string[]>([]);
-  const [isFetching, setIsFetching] = useState<boolean>(true);
+  const [cities, setCities] = useState<string[]>([])
+  const [isFetching, setIsFetching] = useState<boolean>(true)
 
-  const searchFormDataRef = useRef<ISearchTicketsForm>({
+  const [searchFormData, setSearchFormData] = useState<ISearchTicketsForm>({
     originCity: '',
     destinationCity: '',
-    departureDate: new Date(),
-    arrivalDate: null,
+    departureDate: null,
+    arrivalDate: new Date(''),
   })
 
- 
- 
   useEffect(() => {
     getCities().then((cities) => {
       setCities(cities)
@@ -46,39 +32,34 @@ export default function SearchTicketsForm() {
   }, [])
 
   const onSubmit = () => {
-
-  }
-
-  const setSearchFormData = (value: any) => {
-    searchFormDataRef.current = {
-      ...searchFormDataRef.current,
-      ...value,
-    };
+    console.log('searchFormData', searchFormData)
   }
 
 
   return (
-    <div>
-      <Autocomplete 
-        label='From' 
-        isFetching={isFetching} 
-        options={cities} 
-        formKey={SearchFormEnum.originCity}
-        setFormValueCallback={(value: TCityRange) => setSearchFormData(value)}
+    <div className=''>
+      <Autocomplete
+        label='From'
+        inputValue={searchFormData.originCity}
+        onInputChange={(value) => setSearchFormData(prevState => ({ ...prevState, originCity: value }))}
+        isFetching={isFetching}
+        options={cities}
         className="rounded-tl-[6px] rounded-bl-[6px] mr-1"
       />
-      <Autocomplete 
-        label='To' 
-        isFetching={isFetching} 
-        options={cities} 
-        formKey={SearchFormEnum.destinationCity}
-        setFormValueCallback={(value: TCityRange) => setSearchFormData(value)}
+      <Autocomplete
+        label='To'
+        inputValue={searchFormData.destinationCity}
+        onInputChange={(value) => setSearchFormData(prevState => ({ ...prevState, destinationCity: value }))}
+        isFetching={isFetching}
+        options={cities}
       />
       <DateRangeField
-        formKey={SearchFormEnum.dateRange}
-        setFormValueCallback={(value: TDateRangeValue) => setSearchFormData({ 
-          [SearchFormEnum.dateRange]: value 
-        })}
+        startDateLabel='Depart'
+        endDateLabel='Return'
+        defautlStartDate={searchFormData.departureDate}
+        defaultEndDate={searchFormData.arrivalDate}
+        onStartDateChange={(value) => setSearchFormData(prevState => ({ ...prevState, departureDate: value }))}
+        onEndDateChange={(value) => setSearchFormData(prevState => ({ ...prevState, arrivalDate: value }))}
       />
 
       <button type="submit" onClick={onSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -87,4 +68,3 @@ export default function SearchTicketsForm() {
     </div>
   )
 }
-  

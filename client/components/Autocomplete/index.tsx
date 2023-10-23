@@ -1,17 +1,17 @@
-import { TCityRange, UHRFormProps } from '@/types'
 import React, { useState, useEffect, useRef, useMemo, HTMLProps, ChangeEvent, KeyboardEvent, MouseEvent } from 'react'
 
-interface IAutocompleteProps extends UHRFormProps<TCityRange, HTMLProps<HTMLInputElement>>  {
+interface IAutocompleteProps extends HTMLProps<HTMLInputElement> {
     label: string
     options: string[]
     isFetching?: boolean
     className?: string
+    inputValue: string
+    onInputChange: (value: string) => void
 }
 
 export default function Autocomplete(props: IAutocompleteProps) {
-    const { label, options, isFetching = false, className, formKey, setFormValueCallback } = props
+    const { label, options, isFetching = false, className, onInputChange, inputValue, ...restProps } = props
 
-    const [inputValue, setInputValue] = useState<string>('')
     const [filteredOptions, setFilteredOptions] = useState<string[]>([])
     const [showDropdown, setShowDropdown] = useState<boolean>(false)
     const [isFocused, setIsFocused] = useState<boolean>(false)
@@ -27,8 +27,7 @@ export default function Autocomplete(props: IAutocompleteProps) {
     }, [inputValue, options])
 
     const handleOptionSelect = (option: string) => {
-        setInputValue(option)
-        setFormValueCallback({ [formKey]: option })
+        onInputChange(option)
         setShowDropdown(false)
     }
 
@@ -39,8 +38,7 @@ export default function Autocomplete(props: IAutocompleteProps) {
     }
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setInputValue(event.target.value)
-        setFormValueCallback(event.target.value)
+        onInputChange(event.target.value)
         setShowDropdown(true)
     }
 
@@ -78,7 +76,7 @@ export default function Autocomplete(props: IAutocompleteProps) {
             const optionBottom = optionTop + optionElement.clientHeight;
             const containerTop = container.scrollTop;
             const containerBottom = containerTop + container.clientHeight;
-    
+
             if (optionTop < containerTop) {
               container.scrollTop = optionTop;
             } else if (optionBottom > containerBottom) {
@@ -99,8 +97,7 @@ export default function Autocomplete(props: IAutocompleteProps) {
             setIsFocused(false)
 
             if (filteredOptions.length === 0) {
-                setInputValue('')
-                setFormValueCallback('')
+                onInputChange('')
             }
 
         }, 100)
@@ -110,7 +107,8 @@ export default function Autocomplete(props: IAutocompleteProps) {
 
     return (
         <div className="relative inline-block">
-            <input 
+            <input
+                {...restProps}
                 type="text"
                 value={inputValue}
                 onChange={handleInputChange}
@@ -121,15 +119,15 @@ export default function Autocomplete(props: IAutocompleteProps) {
             />
 
             {showDropdown && (
-                <div 
+                <div
                     ref={containerRef}
                     className="absolute left-0 right-0 border border-gray-300 mt-1 bg-white rounded shadow-md max-h-[320px] overflow-auto"
                 >
                     {isFetching ? (
                         <div className="px-3 py-1">Loading...</div>
                     ) : filteredOptions.length > 0 ? filteredOptions.map((option, index) => (
-                        <div 
-                            key={option} 
+                        <div
+                            key={option}
                             data-value={option}
                             onMouseDown={handleOptionMouseDown}
                             className={`cursor-pointer hover:bg-gray-100 px-3 py-1 ${activeOptionIndex === index ? "bg-gray-100" : ""}`}
