@@ -1,7 +1,7 @@
 'use client'
 
 import { isValidDate } from '@/utils/common'
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useRef, useEffect } from 'react'
 import { DateRangePicker, Range } from 'react-date-range'
 
 interface IDefaultDateRange {
@@ -30,11 +30,39 @@ export default function DateRangeField(props: IDateRangeFieldProps) {
     end: false,
   })
 
+  const startDateContainerRef = useRef<HTMLInputElement | null>(null);
+  const endDateContainerRef = useRef<HTMLInputElement | null>(null);
+  const dateRangeContainerRef = useRef<HTMLDivElement | null>(null);
+
   const [ranges, setRanges] = useState<IRangeState[]>([{
     startDate: defautlStartDate,
     endDate: defaultEndDate,
     key: 'selection',
   }])
+
+  useEffect(() => {
+    const handleClickOutside = (event: any) => {
+      const isOutside = Boolean(
+        !focusedInputs.start && !focusedInputs.end &&
+        dateRangeContainerRef.current && !dateRangeContainerRef.current.contains(event.target) &&
+        startDateContainerRef.current && !startDateContainerRef.current.contains(event.target) &&
+        endDateContainerRef.current && !endDateContainerRef.current.contains(event.target)
+      );
+
+      if (isOutside) {
+        setFocusedInputs({
+          start: false,
+          end: false,
+        })
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [])
 
   const handleDatePickerChange = (item: IRangeState) => {
     const { startDate, endDate } = item.selection
@@ -49,13 +77,6 @@ export default function DateRangeField(props: IDateRangeFieldProps) {
     setFocusedInputs((prev) => ({
       ...prev,
       [inputType]: true,
-    }))
-  }
-
-  const handleInputBlur = (inputType: 'start' | 'end') => {
-    setFocusedInputs((prev) => ({
-      ...prev,
-      [inputType]: false,
     }))
   }
 
@@ -75,38 +96,40 @@ export default function DateRangeField(props: IDateRangeFieldProps) {
 
   return (
     <div className="relative inline-block">
-      <div className="relative inline-block">
+      <div className="relative inline-block" ref={startDateContainerRef}>
         <input
           type="text"
           readOnly={true}
           value={startDateInputValue}
           className={`h-[48px] px-[12px] mr-1 outline-none`}
           onFocus={() => handleInputFocus('start')}
-          onBlur={() => handleInputBlur('start')}
         />
         <div className={`transition-all absolute left-[12px] font-medium text-zinc-500 ${isStartDateLabelTop ? "top-[2px] text-[10px]" : "top-1/4"}`} >{startDateLabel}</div>
       </div>
-      <div className="relative inline-block">
+      <div className="relative inline-block" ref={endDateContainerRef}>
         <input
           type="text"
           readOnly={true}
           value={endDateInputValue}
           className={`h-[48px] px-[12px] outline-none`}
           onFocus={() => handleInputFocus('end')}
-          onBlur={() => handleInputBlur('end')}
         />
         <div className={`transition-all absolute left-[12px] font-medium text-zinc-500 ${isEndDateLabelTop ? "top-[2px] text-[10px]" : "top-1/4"}`} >{endDateLabel}</div>
       </div>
-      <DateRangePicker
-        months={2}
-        onChange={handleDatePickerChange}
-        moveRangeOnFirstSelection={false}
-        ranges={ranges as Range[]}
-        showDateDisplay={false}
-        showPreview={true}
-        direction="horizontal"
-        preventSnapRefocus={true}
-      />
+      {(focusedInputs.start || focusedInputs.end) && (
+        <div ref={dateRangeContainerRef} onClick={(e) => e.stopPropagation()} className="absolute top-10 left-0 mt-2 p-4 bg-white shadow-lg rounded-lg animate-fade-in">
+          <DateRangePicker
+            months={2}
+            onChange={handleDatePickerChange}
+            moveRangeOnFirstSelection={false}
+            ranges={ranges as Range[]}
+            showDateDisplay={false}
+            showPreview={true}
+            direction="horizontal"
+            preventSnapRefocus={true}
+          />
+        </div>
+      )}
     </div>
   )
 }
