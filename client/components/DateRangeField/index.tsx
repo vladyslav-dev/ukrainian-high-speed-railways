@@ -107,25 +107,25 @@ export default function DateRangeField(props: IDateRangeFieldProps) {
 
   return (
     <div className="relative flex items-center">
-      <div className="relative inline-block" ref={startDateContainerRef}>
+      <div className="relative inline-block mr-1" ref={startDateContainerRef}>
         <input
           type="text"
           readOnly={true}
           value={startDateInputValue}
-          className={`h-[48px] px-[12px] mr-1 outline-none ${startDateInputClassName}`}
+          className={`h-[48px] px-[12px] outline-none w-full ${startDateInputClassName}`}
           onFocus={() => handleInputFocus('start')}
         />
-        <div className={`transition-all absolute left-[12px] font-medium text-zinc-500 ${isStartDateLabelTop ? "top-[2px] text-[10px]" : "top-1/4"}`} >{startDateLabel}</div>
+        <div className={`transition-all pointer-events-none absolute left-[12px] font-medium text-zinc-500 ${isStartDateLabelTop ? "top-[2px] text-[10px]" : "top-1/4"}`} >{startDateLabel}</div>
       </div>
       <div className="relative inline-block" ref={endDateContainerRef}>
         <input
           type="text"
           readOnly={true}
           value={endDateInputValue}
-          className={`h-[48px] px-[12px] outline-none ${endDateInputClassName}`}
+          className={`h-[48px] px-[12px] outline-none w-full ${endDateInputClassName}`}
           onFocus={() => handleInputFocus('end')}
         />
-        <div className={`transition-all absolute left-[12px] font-medium text-zinc-500 ${isEndDateLabelTop ? "top-[2px] text-[10px]" : "top-1/4"}`} >{endDateLabel}</div>
+        <div className={`transition-all pointer-events-none absolute left-[12px] font-medium text-zinc-500 ${isEndDateLabelTop ? "top-[2px] text-[10px]" : "top-1/4"}`} >{endDateLabel}</div>
       </div>
       {(focusedInputs.start || focusedInputs.end) && (
         <div ref={dateRangeContainerRef} onClick={(e) => e.stopPropagation()} className="absolute top-[52px] left-0 bg-white shadow-lg rounded-lg animate-fade-in">

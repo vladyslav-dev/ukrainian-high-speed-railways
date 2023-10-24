@@ -68,7 +68,7 @@ export default function SearchTicketsForm() {
           endDateInputClassName="rounded-tr-[6px] rounded-br-[6px]"
         />
       </div>
-      <Button label="Find" onClick={onSubmit} className='ml-1' />
+      <Button label="Find" onClick={onSubmit} className='ml-3' />
     </div>
   )
 }

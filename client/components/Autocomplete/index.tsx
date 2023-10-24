@@ -115,7 +115,7 @@ export default function Autocomplete(props: IAutocompleteProps) {
                 onKeyDown={handleInputKeyDown}
                 onFocus={handleInputFocus}
                 onBlur={handleInputBlur}
-                className={`h-[48px] px-[12px] outline-none ${className}`}
+                className={`h-[48px] px-[12px] outline-none w-full ${className}`}
             />
 
             {showDropdown && (
@@ -139,7 +139,7 @@ export default function Autocomplete(props: IAutocompleteProps) {
                     )}
                 </div>
             )}
-            <div className={`transition-all absolute left-[12px] font-medium text-zinc-500 ${isLabelTop ? "top-[2px] text-[10px]" : "top-1/4"}`} >{label}</div>
+            <div className={`transition-all pointer-events-none absolute left-[12px] font-medium text-zinc-500 ${isLabelTop ? "top-[2px] text-[10px]" : "top-1/4"}`} >{label}</div>
         </div>
     )
 }
