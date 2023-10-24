@@ -14,6 +14,8 @@ interface IDateRangeFieldProps extends IDefaultDateRange {
   endDateLabel: string
   onStartDateChange: (date: Date | null | undefined) => void
   onEndDateChange: (date: Date | null | undefined) => void
+  startDateInputClassName?: string
+  endDateInputClassName?: string
 }
 
 interface IRangeState extends Omit<Range, 'startDate' | 'endDate'> {
@@ -23,7 +25,16 @@ interface IRangeState extends Omit<Range, 'startDate' | 'endDate'> {
 }
 
 export default function DateRangeField(props: IDateRangeFieldProps) {
-  const { defautlStartDate, defaultEndDate, onStartDateChange, onEndDateChange, startDateLabel, endDateLabel } = props
+  const { 
+    defautlStartDate, 
+    defaultEndDate, 
+    onStartDateChange, 
+    onEndDateChange, 
+    startDateLabel, 
+    endDateLabel,
+    startDateInputClassName,
+    endDateInputClassName,
+  } = props
 
   const [focusedInputs, setFocusedInputs] = useState<{ start: boolean, end: boolean }>({
     start: false,
@@ -95,13 +106,13 @@ export default function DateRangeField(props: IDateRangeFieldProps) {
   ])
 
   return (
-    <div className="relative inline-block">
+    <div className="relative flex items-center">
       <div className="relative inline-block" ref={startDateContainerRef}>
         <input
           type="text"
           readOnly={true}
           value={startDateInputValue}
-          className={`h-[48px] px-[12px] mr-1 outline-none`}
+          className={`h-[48px] px-[12px] mr-1 outline-none ${startDateInputClassName}`}
           onFocus={() => handleInputFocus('start')}
         />
         <div className={`transition-all absolute left-[12px] font-medium text-zinc-500 ${isStartDateLabelTop ? "top-[2px] text-[10px]" : "top-1/4"}`} >{startDateLabel}</div>
@@ -111,15 +122,17 @@ export default function DateRangeField(props: IDateRangeFieldProps) {
           type="text"
           readOnly={true}
           value={endDateInputValue}
-          className={`h-[48px] px-[12px] outline-none`}
+          className={`h-[48px] px-[12px] outline-none ${endDateInputClassName}`}
           onFocus={() => handleInputFocus('end')}
         />
         <div className={`transition-all absolute left-[12px] font-medium text-zinc-500 ${isEndDateLabelTop ? "top-[2px] text-[10px]" : "top-1/4"}`} >{endDateLabel}</div>
       </div>
       {(focusedInputs.start || focusedInputs.end) && (
-        <div ref={dateRangeContainerRef} onClick={(e) => e.stopPropagation()} className="absolute top-10 left-0 mt-2 p-4 bg-white shadow-lg rounded-lg animate-fade-in">
+        <div ref={dateRangeContainerRef} onClick={(e) => e.stopPropagation()} className="absolute top-[52px] left-0 bg-white shadow-lg rounded-lg animate-fade-in">
           <DateRangePicker
             months={2}
+            color='#25B491'
+            rangeColors={['#25B491']}
             onChange={handleDatePickerChange}
             moveRangeOnFirstSelection={false}
             ranges={ranges as Range[]}

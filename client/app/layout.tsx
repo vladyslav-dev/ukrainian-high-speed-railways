@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={lexendGigaFont.className}>
         <HeroImage />
-        <div className='max-w-screen-xl mx-auto px-5'>
+        <div className='max-w-screen-xl h-screen flex flex-col mx-auto px-5'>
           <Header />
           {children}
         </div>
