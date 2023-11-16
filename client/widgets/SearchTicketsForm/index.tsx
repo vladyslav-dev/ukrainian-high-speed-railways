@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { getCities } from "@/services/mockCities"
 import Autocomplete from "@/components/Autocomplete"
 import DateRangeField from '@/components/DateRangeField'
+import Button from '@/components/Button'
 
 interface ISearchTicketsForm {
   originCity: string
@@ -36,34 +37,38 @@ export default function SearchTicketsForm() {
   }
 
   return (
-    <div className=''>
-      <Autocomplete
-        label='From'
-        inputValue={searchFormData.originCity}
-        onInputChange={(value) => setSearchFormData(prevState => ({ ...prevState, originCity: value }))}
-        isFetching={isFetching}
-        options={cities}
-        className="rounded-tl-[6px] rounded-bl-[6px] mr-1"
-      />
-      <Autocomplete
-        label='To'
-        inputValue={searchFormData.destinationCity}
-        onInputChange={(value) => setSearchFormData(prevState => ({ ...prevState, destinationCity: value }))}
-        isFetching={isFetching}
-        options={cities}
-      />
-      <DateRangeField
-        startDateLabel='Depart'
-        endDateLabel='Return'
-        defautlStartDate={searchFormData.departureDate}
-        defaultEndDate={searchFormData.arrivalDate}
-        onStartDateChange={(value) => setSearchFormData(prevState => ({ ...prevState, departureDate: value }))}
-        onEndDateChange={(value) => setSearchFormData(prevState => ({ ...prevState, arrivalDate: value }))}
-      />
-
-      <button type="submit" onClick={onSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Submit
-      </button>
+    <div className='flex items-center'>
+      <div className='mr-1'>
+        <Autocomplete
+          label='From'
+          inputValue={searchFormData.originCity}
+          onInputChange={(value) => setSearchFormData(prevState => ({ ...prevState, originCity: value }))}
+          isFetching={isFetching}
+          options={cities}
+          className="rounded-tl-[6px] rounded-bl-[6px]"
+        />
+      </div>
+      <div className='mr-1'>
+        <Autocomplete
+          label='To'
+          inputValue={searchFormData.destinationCity}
+          onInputChange={(value) => setSearchFormData(prevState => ({ ...prevState, destinationCity: value }))}
+          isFetching={isFetching}
+          options={cities}
+        />
+      </div>
+      <div>
+        <DateRangeField
+          startDateLabel='Depart'
+          endDateLabel='Return'
+          defautlStartDate={searchFormData.departureDate}
+          defaultEndDate={searchFormData.arrivalDate}
+          onStartDateChange={(value) => setSearchFormData(prevState => ({ ...prevState, departureDate: value }))}
+          onEndDateChange={(value) => setSearchFormData(prevState => ({ ...prevState, arrivalDate: value }))}
+          endDateInputClassName="rounded-tr-[6px] rounded-br-[6px]"
+        />
+      </div>
+      <Button label="Find" onClick={onSubmit} className='ml-3' />
     </div>
   )
 }

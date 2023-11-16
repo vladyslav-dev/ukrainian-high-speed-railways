@@ -1,3 +1,7 @@
 .rdrDefinedRangesWrapper {
     display: none;
 }
+
+.rdrDayToday .rdrDayNumber span:after {
+    @apply bg-primary
+}
