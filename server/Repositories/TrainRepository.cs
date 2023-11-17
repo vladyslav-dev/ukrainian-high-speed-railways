@@ -15,7 +15,7 @@ namespace UHR.Repositories
 
         public ICollection<Train> GetTrains()
         {
-            return _context.Trains.OrderBy(t => t.id).ToList();
+            return _context.Trains.OrderBy(t => t.Id).ToList();
         }
     }
 }

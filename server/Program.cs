@@ -18,6 +18,7 @@ builder.Services.AddScoped<ITrainInterface, TrainRepository>();
 builder.Services.AddScoped<ITrainTypeInterface, TrainTypeRepository>();
 builder.Services.AddScoped<IWagonInterface, WagonRepository>();
 builder.Services.AddScoped<IWagonTypeInterface, WagonTypeRepository>();
+builder.Services.AddScoped<ICityInterface, CityRepository>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -25,8 +26,7 @@ builder.Services.AddSwaggerGen(options =>
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
-builder.Services.AddDbContext<DataContext>(options =>
-{
+builder.Services.AddDbContext<DataContext>(options => {
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 

@@ -2,10 +2,10 @@
 {
     public class Ticket
     {
-        public int id { get; set; }
+        public int Id { get; set; }
 
-        public Seat seat { get; set; }
+        public Seat Seat { get; set; }
 
-        public decimal price { get; set; }
+        public decimal Price { get; set; }
     }
 }

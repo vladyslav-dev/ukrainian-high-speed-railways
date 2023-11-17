@@ -10,9 +10,9 @@ namespace UHR.Models
 
     public class TrainType
     {
-        public int id { get; set; }
+        public int Id { get; set; }
 
         [EnumDataType(typeof(TrainTypeEnum))]
-        public string type { get; set; }
+        public string Type { get; set; }
     }
 }

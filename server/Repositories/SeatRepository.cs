@@ -15,7 +15,7 @@ namespace UHR.Repositories
 
         public ICollection<Seat> GetSeats()
         {
-            return _context.Seats.OrderBy(s => s.id).ToList();
+            return _context.Seats.OrderBy(s => s.Id).ToList();
         }
     }
 }

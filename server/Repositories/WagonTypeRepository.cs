@@ -15,7 +15,7 @@ namespace UHR.Repositories
 
         public ICollection<WagonType> GetWagonTypes()
         {
-            return _context.WagonTypes.OrderBy(wt => wt.id).ToList();
+            return _context.WagonTypes.OrderBy(wt => wt.Id).ToList();
         }
     }
 }

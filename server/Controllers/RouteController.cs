@@ -29,5 +29,32 @@ namespace UHR.Controllers
 
             return Ok(routes);
         }
+
+        /// <summary>
+        /// Get Route by id
+        /// </summary>
+        [HttpGet("{id}")]
+        [ProducesResponseType(200, Type = typeof(UHR.Models.Route))]
+        public IActionResult GetRouteById(int id)
+        {
+            var route = _routeInterface.GetRouteById(id);
+
+            return Ok(route);
+        }
+
+        /// <summary>
+        /// Create Routes
+        /// </summary>
+        [HttpPost]
+        [ProducesResponseType(201, Type = typeof(ICollection<UHR.Models.Route>))]
+        public ActionResult<UHR.Models.Route> AddRoutes([FromBody] ICollection<UHR.Models.Route> routes)
+        {
+            ICollection<UHR.Models.Route> createdRoutes = _routeInterface.AddRoutes(routes);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(createdRoutes);
+        }
     }
 }

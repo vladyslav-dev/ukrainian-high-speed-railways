@@ -15,7 +15,7 @@ namespace UHR.Repositories
 
         public ICollection<Passenger> GetPassengers()
         {
-            return _context.Passengers.OrderBy(p => p.id).ToList();
+            return _context.Passengers.OrderBy(p => p.Id).ToList();
         }
     }
 }

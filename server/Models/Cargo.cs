@@ -2,12 +2,12 @@
 {
     public class Cargo
     {
-        public int id { get; set; }
+        public int Id { get; set; }
 
-        public ICollection<Wagon> wagons { get; set; }
+        public ICollection<Wagon> Wagons { get; set; }
 
-        public string name { get; set; }
+        public string Name { get; set; }
 
-        public decimal weight { get; set; }
+        public decimal Weight { get; set; }
     }
 }

@@ -20,5 +20,6 @@ namespace UHR.Data
         public DbSet<TrainType> TrainTypes { get; set; }
         public DbSet<Wagon> Wagons { get; set; }
         public DbSet<WagonType> WagonTypes { get; set; }
+        public DbSet<City> Cities { get; set; }
     }
 }

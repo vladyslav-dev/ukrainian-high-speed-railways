@@ -10,10 +10,10 @@ namespace UHR.Models
 
     public class WagonType
     {
-        public int id { get; set; }
+        public int Id { get; set; }
 
 
         [EnumDataType(typeof(WagonTypeEnum))]
-        public string type { get; set; }
+        public string Type { get; set; }
     }
 }

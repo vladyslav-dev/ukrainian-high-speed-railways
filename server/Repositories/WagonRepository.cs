@@ -15,7 +15,7 @@ namespace UHR.Repositories
 
         public ICollection<Wagon> GetWagons()
         {
-            return _context.Wagons.OrderBy(w => w.id).ToList();
+            return _context.Wagons.OrderBy(w => w.Id).ToList();
         }
     }
 }

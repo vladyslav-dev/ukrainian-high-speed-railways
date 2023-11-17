@@ -2,12 +2,12 @@
 {
     public class Wagon
     {
-        public int id { get; set; } 
+        public int Id { get; set; } 
 
-        public Train train { get; set; }
+        public Train Train { get; set; }
 
-        public int number { get; set; }
+        public int Number { get; set; }
 
-        public WagonType type { get; set; }
+        public WagonType Type { get; set; }
     }
 }

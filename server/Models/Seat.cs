@@ -2,12 +2,12 @@
 {
     public class Seat
     {
-        public int id { get; set; }
+        public int Id { get; set; }
 
-        public Wagon wagon { get; set; }
+        public Wagon Wagon { get; set; }
 
-        public int number { get; set; }
+        public int Number { get; set; }
 
-        public bool reserved { get; set; }
+        public bool Reserved { get; set; }
     }
 }

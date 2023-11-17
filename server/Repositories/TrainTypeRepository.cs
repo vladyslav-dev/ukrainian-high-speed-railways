@@ -15,7 +15,7 @@ namespace UHR.Repositories
 
         public ICollection<TrainType> GetTrainTypes()
         {
-            return _context.TrainTypes.OrderBy(tt => tt.id).ToList();
+            return _context.TrainTypes.OrderBy(tt => tt.Id).ToList();
         }
     }
 }

@@ -2,22 +2,22 @@ namespace UHR.Models
 {
     public class Destination
     {
-        public int id { get; set; }
+        public int Id { get; set; }
 
-        public string origin_city { get; set; }
+        public City Origin_city { get; set; }
 
-        public float origin_latitude { get; set; }
+        public float Origin_latitude { get; set; }
 
-        public float origin_longitude { get; set; }
+        public float Origin_longitude { get; set; }
 
-        public string destination_city { get; set; }
+        public City Destination_city { get; set; }
 
-        public float destination_latitude { get; set; }
+        public float Destination_latitude { get; set; }
 
-        public float destination_longitude { get; set; }
+        public float Destination_longitude { get; set; }
 
-        public float current_latitude { get; set; }
+        public float Current_latitude { get; set; }
 
-        public float current_longitude { get; set; }
+        public float Current_longitude { get; set; }
     }
 }
