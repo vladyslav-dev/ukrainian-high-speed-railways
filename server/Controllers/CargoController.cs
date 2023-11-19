@@ -50,7 +50,7 @@ namespace UHR.Controllers
         /// </summary>
         [HttpPost]
         [ProducesResponseType(201, Type = typeof(ICollection<Cargo>))]
-        public ActionResult<Cargo> AddDestinations([FromBody] ICollection<Cargo> cargos)
+        public ActionResult<Cargo> AddCargos([FromBody] ICollection<Cargo> cargos)
         {
             ICollection<Cargo> createdCargos = _cargoInterface.AddCargos(cargos);
 

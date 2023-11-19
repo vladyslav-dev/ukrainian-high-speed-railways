@@ -37,6 +37,10 @@ namespace UHR.Repositories
 
         public ICollection<Cargo> AddCargos(ICollection<Cargo> cargos)
         {
+            foreach(var cargo in cargos)
+            {
+                _context.Cargos.Attach(cargo);
+            }
             _context.Cargos.AddRange(cargos);
             _context.SaveChanges();
             return cargos;
