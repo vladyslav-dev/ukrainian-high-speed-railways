@@ -19,7 +19,7 @@ namespace UHR.Controllers
         /// Gets all WagonTypes
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<WagonType>))]
+        [ProducesResponseType(200, Type = typeof(ICollection<WagonType>))]
         public IActionResult GetWagonTypes()
         {
             var wagonTypes = _wagonTypeInterface.GetWagonTypes();

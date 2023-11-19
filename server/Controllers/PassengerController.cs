@@ -19,7 +19,7 @@ namespace UHR.Controllers
         /// Gets all Passengers
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Passenger>))]
+        [ProducesResponseType(200, Type = typeof(ICollection<Passenger>))]
         public IActionResult GetPassengers()
         {
             var passengers = _passengerInterface.GetPassengers();

@@ -19,7 +19,7 @@ namespace UHR.Controllers
         /// Gets all Trains
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Train>))]
+        [ProducesResponseType(200, Type = typeof(ICollection<Train>))]
         public IActionResult GetTrains()
         {
             var trains = _trainInterface.GetTrains();

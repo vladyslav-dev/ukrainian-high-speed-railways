@@ -19,7 +19,7 @@ namespace UHR.Controllers
         /// Gets all TrainTypes
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<TrainType>))]
+        [ProducesResponseType(200, Type = typeof(ICollection<TrainType>))]
         public IActionResult GetTrainTypes()
         {
             var trainTypes = _trainTypeInterface.GetTrainTypes();
@@ -28,6 +28,33 @@ namespace UHR.Controllers
                 return BadRequest(ModelState);
 
             return Ok(trainTypes);
+        }
+
+        /// <summary>
+        /// Get TrainType by id
+        /// </summary>
+        [HttpGet("{id}")]
+        [ProducesResponseType(200, Type = typeof(TrainType))]
+        public IActionResult GetTrainTypeById(int id)
+        {
+            var trainType = _trainTypeInterface.GetTrainTypeById(id);
+
+            return Ok(trainType);
+        }
+
+        /// <summary>
+        /// Create TrainTypes
+        /// </summary>
+        [HttpPost]
+        [ProducesResponseType(201, Type = typeof(ICollection<TrainType>))]
+        public ActionResult<TrainType> AddTrainTypes([FromBody] ICollection<TrainType> trainTypes)
+        {
+            ICollection<TrainType> createdTrainTypes = _trainTypeInterface.AddTrainTypes(trainTypes);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(createdTrainTypes);
         }
     }
 }

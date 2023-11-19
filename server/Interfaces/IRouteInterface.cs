@@ -6,7 +6,7 @@ namespace UHR.Interfaces
     {
         ICollection<UHR.Models.Route> GetRoutes();
 
-        ICollection<UHR.Models.Route> AddRoutes(ICollection<UHR.Models.Route> newRoute);
+        ICollection<UHR.Models.Route> AddRoutes(ICollection<UHR.Models.Route> routes);
 
         UHR.Models.Route GetRouteById(int id);
     }

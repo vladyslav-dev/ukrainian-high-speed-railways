@@ -19,7 +19,7 @@ namespace UHR.Controllers
         /// Gets all Seats
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Seat>))]
+        [ProducesResponseType(200, Type = typeof(ICollection<Seat>))]
         public IActionResult GetSeats()
         {
             var seats = _seatInterface.GetSeats();

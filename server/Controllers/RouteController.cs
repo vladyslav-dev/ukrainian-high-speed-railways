@@ -19,7 +19,7 @@ namespace UHR.Controllers
         /// Gets all Routes
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<UHR.Models.Route>))] 
+        [ProducesResponseType(200, Type = typeof(ICollection<UHR.Models.Route>))] 
         public IActionResult GetRoutes()
         {
             var routes = _routeInterface.GetRoutes();

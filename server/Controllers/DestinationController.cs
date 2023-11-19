@@ -19,7 +19,7 @@ namespace UHR.Controllers
         /// Gets all Destinations
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Destination>))]
+        [ProducesResponseType(200, Type = typeof(ICollection<Destination>))]
         public IActionResult GetDestinations()
         {
             var destinations = _destinationInterface.GetDestinations();

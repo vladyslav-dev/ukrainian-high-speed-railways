@@ -19,7 +19,7 @@ namespace UHR.Controllers
         /// Gets all Tickets
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Ticket>))]
+        [ProducesResponseType(200, Type = typeof(ICollection<Ticket>))]
         public IActionResult GetTickets()
         {
             var tickets = _ticketInterface.GetTickets();

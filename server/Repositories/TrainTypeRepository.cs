@@ -17,5 +17,17 @@ namespace UHR.Repositories
         {
             return _context.TrainTypes.OrderBy(tt => tt.Id).ToList();
         }
+
+        public ICollection<TrainType> AddTrainTypes(ICollection<TrainType> trainTypes)
+        {
+            _context.AddRange(trainTypes);
+            _context.SaveChanges();
+            return trainTypes;
+        }
+
+        public TrainType GetTrainTypeById(int id)
+        {
+            return _context.TrainTypes.FirstOrDefault(tt => tt.Id == id);
+        }
     }
 }
