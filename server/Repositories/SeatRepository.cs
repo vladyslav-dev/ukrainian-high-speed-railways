@@ -37,6 +37,10 @@ namespace UHR.Repositories
 
         public ICollection<Seat> AddSeats(ICollection<Seat> seats)
         {
+            foreach (var seat in seats)
+            {
+                _context.Seats.Attach(seat);
+            }
             _context.Seats.AddRange(seats);
             _context.SaveChanges();
             return seats;

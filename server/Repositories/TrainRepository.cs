@@ -29,6 +29,10 @@ namespace UHR.Repositories
 
         public ICollection<Train> AddTrains(ICollection<Train> trains)
         {
+            foreach (var train in trains)
+            {
+                _context.Trains.Attach(train);
+            }
             _context.Trains.AddRange(trains);
             _context.SaveChanges();
             return trains;

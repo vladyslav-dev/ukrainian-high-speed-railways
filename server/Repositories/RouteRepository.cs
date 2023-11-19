@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UHR.Data;
 using UHR.Interfaces;
+using UHR.Models;
 
 namespace UHR.Repositories
 {
@@ -25,6 +26,10 @@ namespace UHR.Repositories
 
         public ICollection<UHR.Models.Route> AddRoutes(ICollection<UHR.Models.Route> routes)
         {
+            foreach (var route in routes)
+            {
+                _context.Routes.Attach(route);
+            }
             _context.Routes.AddRange(routes);
             _context.SaveChanges();
             return routes;
@@ -33,7 +38,7 @@ namespace UHR.Repositories
         public UHR.Models.Route GetRouteById(int id)
         {
             return _context.Routes
-                 .Include(r => r.Destination)
+                .Include(r => r.Destination)
                     .ThenInclude(d => d.Origin_city)
                 .Include(r => r.Destination)
                     .ThenInclude(d => d.Destination_city)

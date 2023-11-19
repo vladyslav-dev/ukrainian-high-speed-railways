@@ -24,6 +24,10 @@ namespace UHR.Repositories
 
         public ICollection<Destination> AddDestinations(ICollection<Destination> destinations)
         {
+            foreach (var destination in destinations)
+            {
+                _context.Destinations.Attach(destination);
+            }
             _context.Destinations.AddRange(destinations);
             _context.SaveChanges();
             return destinations;

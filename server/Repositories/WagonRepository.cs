@@ -33,6 +33,10 @@ namespace UHR.Repositories
 
         public ICollection<Wagon> AddWagons(ICollection<Wagon> wagons)
         {
+            foreach (var wagon in wagons)
+            {
+                _context.Wagons.Attach(wagon);
+            }
             _context.Wagons.AddRange(wagons);
             _context.SaveChanges();
             return wagons;

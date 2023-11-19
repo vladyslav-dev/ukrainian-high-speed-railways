@@ -21,6 +21,10 @@ namespace UHR.Repositories
 
         public ICollection<WagonType> AddWagonTypes(ICollection<WagonType> wagonTypes)
         {
+            foreach (var wagonType in wagonTypes)
+            {
+                _context.WagonTypes.Attach(wagonType);
+            }
             _context.WagonTypes.AddRange(wagonTypes);
             _context.SaveChanges();
             return wagonTypes;

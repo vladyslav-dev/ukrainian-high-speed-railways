@@ -21,6 +21,10 @@ namespace UHR.Repositories
 
         public ICollection<City> AddCities(ICollection<City> cities)
         {
+            foreach (var city in cities)
+            {
+                _context.Cities.Attach(city);
+            }
             _context.Cities.AddRange(cities);
             _context.SaveChanges();
             return cities;

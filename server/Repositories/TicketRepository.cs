@@ -41,6 +41,10 @@ namespace UHR.Repositories
 
         public ICollection<Ticket> AddTickets(ICollection<Ticket> tickets)
         {
+            foreach (var ticket in tickets)
+            {
+                _context.Tickets.Attach(ticket);
+            }
             _context.Tickets.AddRange(tickets);
             _context.SaveChanges();
             return tickets;

@@ -45,6 +45,10 @@ namespace UHR.Repositories
 
         public ICollection<Passenger> AddPassengers(ICollection<Passenger> passengers)
         {
+            foreach (var passenger in passengers)
+            {
+                _context.Passengers.Attach(passenger);
+            }
             _context.Passengers.AddRange(passengers);
             _context.SaveChanges();
             return passengers;
