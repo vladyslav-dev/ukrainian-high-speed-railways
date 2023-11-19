@@ -1,4 +1,5 @@
-﻿using UHR.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using UHR.Data;
 using UHR.Interfaces;
 using UHR.Models;
 
@@ -23,6 +24,11 @@ namespace UHR.Repositories
             _context.Cities.AddRange(cities);
             _context.SaveChanges();
             return cities;
+        }
+
+        public City GetCityById(int id)
+        {
+            return _context.Cities.FirstOrDefault(c => c.Id == id);
         }
     }
 }

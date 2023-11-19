@@ -8,5 +8,7 @@ namespace UHR.Interfaces
         ICollection<City> GetCities();
 
         ICollection<City> AddCities(ICollection<City> cities);
+
+        City GetCityById(int id);
     }
 }

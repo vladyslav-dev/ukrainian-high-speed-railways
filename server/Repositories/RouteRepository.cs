@@ -17,6 +17,9 @@ namespace UHR.Repositories
         {
             return _context.Routes
                 .Include(r => r.Destination)
+                    .ThenInclude(d => d.Origin_city)
+                .Include(r => r.Destination)
+                    .ThenInclude(d => d.Destination_city)
                 .OrderBy(r => r.Id).ToList();
         }
 
@@ -30,7 +33,10 @@ namespace UHR.Repositories
         public UHR.Models.Route GetRouteById(int id)
         {
             return _context.Routes
+                 .Include(r => r.Destination)
+                    .ThenInclude(d => d.Origin_city)
                 .Include(r => r.Destination)
+                    .ThenInclude(d => d.Destination_city)
                 .FirstOrDefault(r => r.Id == id);
         }
     }

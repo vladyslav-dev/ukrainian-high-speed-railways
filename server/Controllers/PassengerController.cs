@@ -39,6 +39,9 @@ namespace UHR.Controllers
         {
             var passenger = _passengerInterface.GetPassengerById(id);
 
+            if (passenger == null)
+                return NotFound();
+
             return Ok(passenger);
         }
 

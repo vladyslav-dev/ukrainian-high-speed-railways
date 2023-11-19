@@ -31,11 +31,26 @@ namespace UHR.Controllers
         }
 
         /// <summary>
-        /// Create City
+        /// Get City by id
+        /// </summary>
+        [HttpGet("{id}")]
+        [ProducesResponseType(200, Type = typeof(City))]
+        public IActionResult GetCityById(int id)
+        {
+            var city = _cityInterface.GetCityById(id);
+
+            if (city == null)
+                return NotFound();
+
+            return Ok(city);
+        }
+
+        /// <summary>
+        /// Create Cities
         /// </summary>
         [HttpPost]
         [ProducesResponseType(201, Type = typeof(ICollection<City>))]
-        public ActionResult<City> AddRoutes([FromBody] ICollection<City> cities)
+        public ActionResult<City> AddCities([FromBody] ICollection<City> cities)
         {
             ICollection<City> createdCities = _cityInterface.AddCities(cities);
 

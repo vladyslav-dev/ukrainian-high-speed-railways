@@ -39,6 +39,9 @@ namespace UHR.Controllers
         {
             var trainType = _trainTypeInterface.GetTrainTypeById(id);
 
+            if (trainType == null)
+                return NotFound();
+
             return Ok(trainType);
         }
 

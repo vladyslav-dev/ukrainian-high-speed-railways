@@ -54,6 +54,28 @@ namespace UHR.Repositories
         {
             return _context.Passengers
                 .Include(p => p.Ticket)
+                    .ThenInclude(t => t.Seat)
+                        .ThenInclude(s => s.Wagon)
+                            .ThenInclude(w => w.Train)
+                                .ThenInclude(t => t.Type)
+                .Include(p => p.Ticket)
+                    .ThenInclude(t => t.Seat)
+                        .ThenInclude(s => s.Wagon)
+                            .ThenInclude(w => w.Train)
+                                .ThenInclude(t => t.Routes)
+                                    .ThenInclude(r => r.Destination)
+                                        .ThenInclude(d => d.Origin_city)
+                .Include(p => p.Ticket)
+                    .ThenInclude(t => t.Seat)
+                        .ThenInclude(s => s.Wagon)
+                            .ThenInclude(w => w.Train)
+                                .ThenInclude(t => t.Routes)
+                                    .ThenInclude(r => r.Destination)
+                                        .ThenInclude(d => d.Destination_city)
+                .Include(p => p.Ticket)
+                    .ThenInclude(t => t.Seat)
+                        .ThenInclude(s => s.Wagon)
+                            .ThenInclude(w => w.Type)
                 .FirstOrDefault(p => p.Id == id);
         }
     }

@@ -29,5 +29,37 @@ namespace UHR.Controllers
 
             return Ok(tickets);
         }
+
+        /// <summary>
+        /// Get Ticket by id
+        /// </summary>
+        [HttpGet("{id}")]
+        [ProducesResponseType(200, Type = typeof(Ticket))]
+        public IActionResult GetTicketById(int id)
+        {
+            var ticket = _ticketInterface.GetTicketById(id);
+
+            if (ticket == null)
+                return NotFound();
+
+            return Ok(ticket);
+        }
+
+        /// <summary>
+        /// Create Tickets
+        /// </summary>
+        [HttpPost]
+        [ProducesResponseType(201, Type = typeof(ICollection<Ticket>))]
+        public ActionResult<Ticket> AddTickets([FromBody] ICollection<Ticket> tickets)
+        {
+            ICollection<Ticket> createdTickets = _ticketInterface.AddTickets(tickets);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(createdTickets);
+        }
+
     }
+
 }

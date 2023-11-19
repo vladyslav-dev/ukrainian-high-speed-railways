@@ -39,6 +39,9 @@ namespace UHR.Controllers
         {
             var route = _routeInterface.GetRouteById(id);
 
+            if (route == null)
+                return NotFound();
+
             return Ok(route);
         }
 

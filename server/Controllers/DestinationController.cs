@@ -29,5 +29,36 @@ namespace UHR.Controllers
 
             return Ok(destinations);
         }
+
+        /// <summary>
+        /// Get Destination by id
+        /// </summary>
+        [HttpGet("{id}")]
+        [ProducesResponseType(200, Type = typeof(Destination))]
+        public IActionResult GetDestinationById(int id)
+        {
+            var destination = _destinationInterface.GetDestinationById(id);
+
+            if (destination == null)
+                return NotFound();
+
+            return Ok(destination);
+        }
+
+        /// <summary>
+        /// Create Destinations
+        /// </summary>
+        [HttpPost]
+        [ProducesResponseType(201, Type = typeof(ICollection<Destination>))]
+        public ActionResult<Destination> AddDestinations([FromBody] ICollection<Destination> destinations)
+        {
+            ICollection<Destination> createdDestinations = _destinationInterface.AddDestinations(destinations);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(createdDestinations);
+        }
+
     }
 }

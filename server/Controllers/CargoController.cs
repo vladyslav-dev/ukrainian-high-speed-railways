@@ -31,25 +31,6 @@ namespace UHR.Controllers
         }
 
         /// <summary>
-        /// Create Cargos
-        /// </summary>
-        [HttpPost]
-        [ProducesResponseType(201, Type = typeof(ICollection<Cargo>))]
-        public ActionResult<Cargo> CreateCargos([FromBody] ICollection<Cargo> cargos)
-        {
-            {
-                ICollection<Cargo> createdCargos = _cargoInterface.AddCargos(cargos);
-
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                return Ok(createdCargos);
-            }
-        }
-
-        /// <summary>
         /// Get Cargo by id
         /// </summary>
         [HttpGet("{id}")]
@@ -58,7 +39,25 @@ namespace UHR.Controllers
         {
             var cargo = _cargoInterface.GetCargoById(id);
 
+            if (cargo == null)
+                return NotFound();
+
             return Ok(cargo);
+        }
+
+        /// <summary>
+        /// Create Cargos
+        /// </summary>
+        [HttpPost]
+        [ProducesResponseType(201, Type = typeof(ICollection<Cargo>))]
+        public ActionResult<Cargo> AddDestinations([FromBody] ICollection<Cargo> cargos)
+        {
+            ICollection<Cargo> createdCargos = _cargoInterface.AddCargos(cargos);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(createdCargos);
         }
     }
 }

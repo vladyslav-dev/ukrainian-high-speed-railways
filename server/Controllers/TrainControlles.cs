@@ -29,5 +29,35 @@ namespace UHR.Controllers
 
             return Ok(trains);
         }
+
+        /// <summary>
+        /// Get Train by id
+        /// </summary>
+        [HttpGet("{id}")]
+        [ProducesResponseType(200, Type = typeof(Train))]
+        public IActionResult GetTrainById(int id)
+        {
+            var train = _trainInterface.GetTrainById(id);
+
+            if (train == null)
+                return NotFound();
+
+            return Ok(train);
+        }
+
+        /// <summary>
+        /// Create Trains
+        /// </summary>
+        [HttpPost]
+        [ProducesResponseType(201, Type = typeof(ICollection<Train>))]
+        public ActionResult<Train> AddTrains([FromBody] ICollection<Train> trains)
+        {
+            ICollection<Train> createdTrains = _trainInterface.AddTrains(trains);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(createdTrains);
+        }
     }
 }
