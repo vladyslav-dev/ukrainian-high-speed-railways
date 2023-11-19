@@ -29,5 +29,32 @@ namespace UHR.Controllers
 
             return Ok(passengers);
         }
+
+        /// <summary>
+        /// Get Passanger by id
+        /// </summary>
+        [HttpGet("{id}")]
+        [ProducesResponseType(200, Type = typeof(Passenger))]
+        public IActionResult GetPassengerById(int id)
+        {
+            var passenger = _passengerInterface.GetPassengerById(id);
+
+            return Ok(passenger);
+        }
+
+        /// <summary>
+        /// Create Passangers
+        /// </summary>
+        [HttpPost]
+        [ProducesResponseType(201, Type = typeof(ICollection<Passenger>))]
+        public ActionResult<Passenger> AddPassenger([FromBody] ICollection<Passenger> passengers)
+        {
+            ICollection<Passenger> createdPassengers = _passengerInterface.AddPassengers(passengers);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(createdPassengers);
+        }
     }
 }
