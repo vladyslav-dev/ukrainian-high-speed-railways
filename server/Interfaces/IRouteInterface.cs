@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using UHR.Models;
 
 namespace UHR.Interfaces
 {
@@ -9,5 +10,7 @@ namespace UHR.Interfaces
         ICollection<UHR.Models.Route> AddRoutes(ICollection<UHR.Models.Route> routes);
 
         UHR.Models.Route GetRouteById(int id);
+
+        ICollection<UHR.Models.Route> GetRoutesByQueries(string fromCity, string toCity, string fromDate, string? toDate);
     }
 }

@@ -59,5 +59,21 @@ namespace UHR.Controllers
 
             return Ok(createdRoutes);
         }
+
+        /// <summary>
+        /// Gets all Routes By Query Params
+        /// </summary>
+        [HttpGet("search")]
+        [ProducesResponseType(200, Type = typeof(ICollection<UHR.Models.Route>))]
+        public IActionResult GetRoutesByQueries([FromQuery] string originCity, [FromQuery] string destinationCity, [FromQuery] string fromDate, [FromQuery] string? toDate)
+        {
+            var routes = _routeInterface.GetRoutesByQueries(originCity, destinationCity, fromDate, toDate);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(routes);
+        }
+
     }
 }

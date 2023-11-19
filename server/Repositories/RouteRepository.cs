@@ -44,5 +44,26 @@ namespace UHR.Repositories
                     .ThenInclude(d => d.Destination_city)
                 .FirstOrDefault(r => r.Id == id);
         }
+
+        public ICollection<UHR.Models.Route> GetRoutesByQueries(string fromCity, string toCity, string fromDate, string? toDate)
+        {
+            var routes = _context.Routes
+                .Include(r => r.Destination)
+                    .ThenInclude(d => d.Origin_city)
+                .Include(r => r.Destination)
+                    .ThenInclude(d => d.Destination_city)
+                .Where(r => r.Destination.Origin_city.Name == fromCity && r.Destination.Destination_city.Name == toCity);
+
+            if (!string.IsNullOrEmpty(toDate))
+            {
+                
+                routes = routes.Where(r => r.Departure_date >= DateTime.Parse(fromDate).ToUniversalTime() && r.Arrival_date <= DateTime.Parse(toDate).ToUniversalTime());
+            }
+            else
+            {
+                routes = routes.Where(r => r.Departure_date >= DateTime.Parse(fromDate).ToUniversalTime());
+            }
+            return routes.OrderBy(r => r.Id).ToList();
+        }
     }
 }

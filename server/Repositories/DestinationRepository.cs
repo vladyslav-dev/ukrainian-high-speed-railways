@@ -2,6 +2,7 @@
 using UHR.Data;
 using UHR.Interfaces;
 using UHR.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace UHR.Repositories
 {
