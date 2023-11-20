@@ -31,9 +31,16 @@ namespace UHR.Repositories
         {
             foreach (var train in trains)
             {
-                _context.Trains.Attach(train);
+                var existingTrainType = _context.TrainTypes.Find(train.Type.Id);
+
+                if (existingTrainType != null)
+                {
+                    train.Type = existingTrainType;
+                }
+
+                _context.Trains.Add(train);
             }
-            _context.Trains.AddRange(trains);
+
             _context.SaveChanges();
             return trains;
         }

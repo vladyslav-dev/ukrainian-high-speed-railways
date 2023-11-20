@@ -27,10 +27,24 @@ namespace UHR.Repositories
         {
             foreach (var railway in railways)
             {
-                _context.Railways.Attach(railway);
+                var existingOriginCity = _context.Cities.Find(railway.Origin_city.Id);
+                var existingDestinationCity = _context.Cities.Find(railway.Destination_city.Id);
+
+                if (existingOriginCity != null)
+                {
+                    railway.Origin_city = existingOriginCity;
+                }
+
+                if (existingDestinationCity != null)
+                {
+                    railway.Destination_city = existingDestinationCity;
+                }
+
+                _context.Railways.Add(railway);
             }
-            _context.Railways.AddRange(railways);
+
             _context.SaveChanges();
+
             return railways;
         }
 
