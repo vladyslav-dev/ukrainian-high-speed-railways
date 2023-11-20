@@ -5,7 +5,20 @@ using UHR.Data;
 using UHR.Interfaces;
 using UHR.Repositories;
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          /* policy.WithOrigins("http://example.com",
+                                               "http://www.contoso.com");*/
+                          policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                      });
+});
 
 builder.Services.AddControllers();
 builder.Services.AddScoped<ICargoInterface, CargoRepository>();
@@ -43,5 +56,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors(MyAllowSpecificOrigins);
 
 app.Run();

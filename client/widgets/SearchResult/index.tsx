@@ -1,8 +1,10 @@
 import CardList from "@/components/CardList"
 import { mockSearchResults } from "@/services/mockSearchResult"
 
-const SearchResult = () => {
 
+
+
+const SearchResult = async () => {
     return (
         <>
             <h2 className="text-xl p-4 font-medium">Search Result</h2>
