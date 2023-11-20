@@ -1,7 +1,8 @@
+import SearchResult from '@/widgets/SearchResult'
 import React from 'react'
 
 export default function Search() {
   return (
-    <div>Search Page</div>
+    <SearchResult />
   )
 }
