@@ -17,13 +17,13 @@ namespace UHR.Repositories
         public ICollection<Train> GetTrains()
         {
             return _context.Trains
-                .Include(t => t.Routes)
-                    .ThenInclude(r => r.Destination)
-                        .ThenInclude(d => d.Origin_city)
-                .Include(t => t.Routes)
-                    .ThenInclude(r => r.Destination)
-                        .ThenInclude(d => d.Destination_city)
-                .Include(t => t.Type)
+                //.Include(t => t.Routes)
+                //    .ThenInclude(r => r.Destination)
+                //        .ThenInclude(d => d.Origin_city)
+                //.Include(t => t.Routes)
+                //    .ThenInclude(r => r.Destination)
+                //        .ThenInclude(d => d.Destination_city)
+                //.Include(t => t.Type)
                 .OrderBy(t => t.Id).ToList();
         }
 
@@ -41,13 +41,13 @@ namespace UHR.Repositories
         public Train GetTrainById(int id)
         {
             return _context.Trains
-                .Include(t => t.Routes)
-                    .ThenInclude(r => r.Destination)
-                        .ThenInclude(d => d.Origin_city)
-                .Include(t => t.Routes)
-                    .ThenInclude(r => r.Destination)
-                        .ThenInclude(d => d.Destination_city)
-                .Include(t => t.Type)
+                //.Include(t => t.Routes)
+                //    .ThenInclude(r => r.Destination)
+                //        .ThenInclude(d => d.Origin_city)
+                //.Include(t => t.Routes)
+                //    .ThenInclude(r => r.Destination)
+                //        .ThenInclude(d => d.Destination_city)
+                //.Include(t => t.Type)
                 .FirstOrDefault(t => t.Id == id);
         }
     }

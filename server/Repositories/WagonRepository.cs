@@ -17,17 +17,17 @@ namespace UHR.Repositories
         public ICollection<Wagon> GetWagons()
         {
             return _context.Wagons
-                .Include(w => w.Train)
-                    .ThenInclude(t => t.Routes)
-                        .ThenInclude(r => r.Destination)
-                            .ThenInclude(d => d.Origin_city)
-                .Include(w => w.Train)
-                    .ThenInclude(t => t.Routes)
-                        .ThenInclude(r => r.Destination)
-                            .ThenInclude(d => d.Destination_city)
-                .Include(w => w.Train)
-                    .ThenInclude(t => t.Type)
-                .Include(w => w.Type)
+                //.Include(w => w.Train)
+                //    .ThenInclude(t => t.Routes)
+                //        .ThenInclude(r => r.Destination)
+                //            .ThenInclude(d => d.Origin_city)
+                //.Include(w => w.Train)
+                //    .ThenInclude(t => t.Routes)
+                //        .ThenInclude(r => r.Destination)
+                //            .ThenInclude(d => d.Destination_city)
+                //.Include(w => w.Train)
+                //    .ThenInclude(t => t.Type)
+                //.Include(w => w.Type)
                 .OrderBy(w => w.Id).ToList();
         }
 
@@ -45,17 +45,17 @@ namespace UHR.Repositories
         public Wagon GetWagonById(int id)
         {
             return _context.Wagons
-                .Include(w => w.Train)
-                    .ThenInclude(t => t.Routes)
-                        .ThenInclude(r => r.Destination)
-                            .ThenInclude(d => d.Origin_city)
-                .Include(w => w.Train)
-                    .ThenInclude(t => t.Routes)
-                        .ThenInclude(r => r.Destination)
-                            .ThenInclude(d => d.Destination_city)
-                .Include(w => w.Train)
-                    .ThenInclude(t => t.Type)
-                .Include(w => w.Type)
+                //.Include(w => w.Train)
+                //    .ThenInclude(t => t.Routes)
+                //        .ThenInclude(r => r.Destination)
+                //            .ThenInclude(d => d.Origin_city)
+                //.Include(w => w.Train)
+                //    .ThenInclude(t => t.Routes)
+                //        .ThenInclude(r => r.Destination)
+                //            .ThenInclude(d => d.Destination_city)
+                //.Include(w => w.Train)
+                //    .ThenInclude(t => t.Type)
+                //.Include(w => w.Type)
                 .FirstOrDefault(w => w.Id == id);
         }
     }
