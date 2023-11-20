@@ -5,7 +5,7 @@ namespace UHR.Models
     public enum WagonTypeEnum
     {
         VIP,
-        Standard
+        Standart
     }
 
     public class WagonType

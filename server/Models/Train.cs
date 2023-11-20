@@ -4,9 +4,7 @@
     {
         public int Id { get; set; } 
 
-        public string Name { get; set; }
-
-        public ICollection<Route> Routes { get; set; } 
+        public string Number { get; set; }
 
         public TrainType Type { get; set; }
     }

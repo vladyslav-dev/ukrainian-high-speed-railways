@@ -1,14 +1,12 @@
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace UHR.Models
 {
-    public class Route
+    public class Trip
     {
         public int Id { get; set; }
 
         public string Name { get; set; }
 
-        public Destination Destination { get; set; }
+        public Railway Railway { get; set; }
 
         public DateTime Departure_date { get; set; }
 
