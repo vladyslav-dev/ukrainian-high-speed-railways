@@ -66,5 +66,12 @@ namespace UHR.Repositories
                 //   .ThenInclude(w => w.Type)
                 .FirstOrDefault(s => s.Id == id);
         }
+
+        public ICollection<Seat> GetSeatsByTripsId(int[] ids)
+        {
+            return _context.Seats
+                .Where(seat => ids.Contains(seat.Trip.Id))
+                    .ToList();
+        }
     }
 }

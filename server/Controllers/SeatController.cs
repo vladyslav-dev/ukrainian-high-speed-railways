@@ -59,5 +59,24 @@ namespace UHR.Controllers
 
             return Ok(createdSeats);
         }
+
+        /// <summary>
+        /// Get Seats by TripsId
+        /// </summary>
+        /// 
+        [HttpPost("SeatsByTripsIds")]
+        [ProducesResponseType(200, Type = typeof(ICollection<Seat>))]
+        public ActionResult<ICollection<Seat>> GetSeatsByTripsId([FromBody] int[] ids)
+        {
+            ICollection<Seat> filteredSeats = _seatInterface.GetSeatsByTripsId(ids);
+
+            if (!ModelState.IsValid) 
+                return BadRequest(ModelState);
+
+            if(filteredSeats.Count == 0)
+                return NotFound();
+
+            return Ok(filteredSeats);
+        }
     }
 }
