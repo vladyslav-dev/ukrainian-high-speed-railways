@@ -1,3 +1,4 @@
+import React from "react"
 import CardItem, { ICardProps } from "./CardItem"
 
 interface ICardListProps {
@@ -14,4 +15,4 @@ const CardList = (props: ICardListProps) => {
     )
 }
 
-export default CardList
+export default React.memo(CardList)
