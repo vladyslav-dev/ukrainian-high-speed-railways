@@ -16,23 +16,7 @@ namespace UHR.Repositories
 
         public ICollection<Cargo> GetCargos()
         {
-            return _context.Cargos
-                //.Include(c => c.Wagons)
-                //    .ThenInclude(w => w.Train)
-                //        .ThenInclude(t => t.Routes)
-                //            .ThenInclude(r => r.Destination)
-                //                .ThenInclude(d => d.Origin_city)
-                //.Include(c => c.Wagons)
-                //    .ThenInclude(w => w.Train)
-                //        .ThenInclude(t => t.Routes)
-                //            .ThenInclude(r => r.Destination)
-                //                .ThenInclude(d => d.Destination_city)
-                //.Include(c => c.Wagons)
-                //    .ThenInclude(w => w.Train)
-                //        .ThenInclude(t => t.Type)
-                //.Include(c => c.Wagons)
-                //    .ThenInclude(w => w.Type)
-                .OrderBy(c => c.Id).ToList();
+            return _context.Cargos.OrderBy(c => c.Id).ToList();
         }
 
         public ICollection<Cargo> AddCargos(ICollection<Cargo> cargos)
@@ -48,23 +32,7 @@ namespace UHR.Repositories
 
         public Cargo GetCargoById(int id)
         {
-            return _context.Cargos
-                //.Include(c => c.Wagons)
-                //    .ThenInclude(w => w.Train)
-                //        .ThenInclude(t => t.Routes)
-                //            .ThenInclude(r => r.Destination)
-                //                .ThenInclude(d => d.Origin_city)
-                //.Include(c => c.Wagons)
-                //    .ThenInclude(w => w.Train)
-                //        .ThenInclude(t => t.Routes)
-                //            .ThenInclude(r => r.Destination)
-                //                .ThenInclude(d => d.Destination_city)
-                //.Include(c => c.Wagons)
-                //    .ThenInclude(w => w.Train)
-                //        .ThenInclude(t => t.Type)
-                //.Include(c => c.Wagons)
-                //    .ThenInclude(w => w.Type)
-                .FirstOrDefault(c => c.Id == id);
+            return _context.Cargos.FirstOrDefault(c => c.Id == id);
         }
     }
 }

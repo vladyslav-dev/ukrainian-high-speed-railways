@@ -17,21 +17,17 @@ namespace UHR.Repositories
         public ICollection<Seat> GetSeats()
         {
             return _context.Seats
-                 //.Include(s => s.Wagon)
-                 //   .ThenInclude(w => w.Train)
-                 //      .ThenInclude(t => t.Routes)
-                 //         .ThenInclude(r => r.Destination)
-                 //            .ThenInclude(d => d.Origin_city)
-                 //.Include(s => s.Wagon)
-                 //   .ThenInclude(w => w.Train)
-                 //      .ThenInclude(t => t.Routes)
-                 //         .ThenInclude(r => r.Destination)
-                 //            .ThenInclude(d => d.Destination_city)
-                 //.Include(s => s.Wagon)
-                 //   .ThenInclude(w => w.Train)
-                 //      .ThenInclude(t => t.Type)
-                 //.Include(s => s.Wagon)
-                 //   .ThenInclude(w => w.Type)
+                 .Include(s => s.Wagon)
+                    .ThenInclude(w => w.Train)
+                        .ThenInclude(t => t.Type)
+                 .Include(s => s.Wagon)
+                    .ThenInclude(w => w.Type)
+                 .Include(s => s.Trip)
+                    .ThenInclude(t => t.Railway)
+                        .ThenInclude(r => r.Origin_city)
+                 .Include(s => s.Trip)
+                    .ThenInclude(t => t.Railway)
+                        .ThenInclude(r => r.Destination_city)
                  .OrderBy(s => s.Id).ToList();
         }
 
@@ -49,22 +45,18 @@ namespace UHR.Repositories
         public Seat GetSeatById(int id)
         {
             return _context.Seats
-                //.Include(s => s.Wagon)
-                //   .ThenInclude(w => w.Train)
-                //      .ThenInclude(t => t.Routes)
-                //         .ThenInclude(r => r.Destination)
-                //            .ThenInclude(d => d.Origin_city)
-                //.Include(s => s.Wagon)
-                //   .ThenInclude(w => w.Train)
-                //      .ThenInclude(t => t.Routes)
-                //         .ThenInclude(r => r.Destination)
-                //            .ThenInclude(d => d.Destination_city)
-                //.Include(s => s.Wagon)
-                //   .ThenInclude(w => w.Train)
-                //      .ThenInclude(t => t.Type)
-                //.Include(s => s.Wagon)
-                //   .ThenInclude(w => w.Type)
-                .FirstOrDefault(s => s.Id == id);
+                 .Include(s => s.Wagon)
+                    .ThenInclude(w => w.Train)
+                       .ThenInclude(t => t.Type)
+                 .Include(s => s.Wagon)
+                    .ThenInclude(w => w.Type)
+                 .Include(s => s.Trip)
+                    .ThenInclude(t => t.Railway)
+                       .ThenInclude(r => r.Origin_city)
+                 .Include(s => s.Trip)
+                    .ThenInclude(t => t.Railway)
+                       .ThenInclude(r => r.Destination_city)
+                 .FirstOrDefault(s => s.Id == id);
         }
 
         public ICollection<Seat> GetSeatsByTripsId(int[] ids)

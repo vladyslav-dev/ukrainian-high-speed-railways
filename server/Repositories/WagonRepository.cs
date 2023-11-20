@@ -17,17 +17,9 @@ namespace UHR.Repositories
         public ICollection<Wagon> GetWagons()
         {
             return _context.Wagons
-                //.Include(w => w.Train)
-                //    .ThenInclude(t => t.Routes)
-                //        .ThenInclude(r => r.Destination)
-                //            .ThenInclude(d => d.Origin_city)
-                //.Include(w => w.Train)
-                //    .ThenInclude(t => t.Routes)
-                //        .ThenInclude(r => r.Destination)
-                //            .ThenInclude(d => d.Destination_city)
-                //.Include(w => w.Train)
-                //    .ThenInclude(t => t.Type)
-                //.Include(w => w.Type)
+                .Include(w => w.Train)
+                    .ThenInclude(w => w.Type)
+                .Include(w => w.Type)
                 .OrderBy(w => w.Id).ToList();
         }
 
@@ -35,9 +27,28 @@ namespace UHR.Repositories
         {
             foreach (var wagon in wagons)
             {
-                _context.Wagons.Attach(wagon);
+                var existingTrain = _context.Trains.Find(wagon.Train.Id);
+                var existingTrainType = _context.TrainTypes.Find(wagon.Train.Type.Id);
+                var existingType = _context.WagonTypes.Find(wagon.Type.Id);
+
+                if (existingTrain != null)
+                {
+                    wagon.Train = existingTrain;
+                }
+
+                if (existingTrainType != null)
+                {
+                    wagon.Train.Type = existingTrainType;
+                }
+
+                if (existingType != null)
+                {
+                    wagon.Type = existingType;
+                }
+
+                _context.Wagons.Add(wagon);
             }
-            _context.Wagons.AddRange(wagons);
+
             _context.SaveChanges();
             return wagons;
         }
@@ -45,18 +56,11 @@ namespace UHR.Repositories
         public Wagon GetWagonById(int id)
         {
             return _context.Wagons
-                //.Include(w => w.Train)
-                //    .ThenInclude(t => t.Routes)
-                //        .ThenInclude(r => r.Destination)
-                //            .ThenInclude(d => d.Origin_city)
-                //.Include(w => w.Train)
-                //    .ThenInclude(t => t.Routes)
-                //        .ThenInclude(r => r.Destination)
-                //            .ThenInclude(d => d.Destination_city)
-                //.Include(w => w.Train)
-                //    .ThenInclude(t => t.Type)
-                //.Include(w => w.Type)
+                .Include(w => w.Train)
+                    .ThenInclude(w => w.Type)
+                .Include(w => w.Type)
                 .FirstOrDefault(w => w.Id == id);
         }
     }
 }
+

@@ -57,13 +57,13 @@ namespace UHR.Repositories
             if (!string.IsNullOrEmpty(toDate))
             {
 
-                trips = trips.Where(r => r.Departure_date >= DateTime.Parse(fromDate).ToUniversalTime() && r.Arrival_date <= DateTime.Parse(toDate).ToUniversalTime());
+                trips = trips.Where(t => t.Departure_date >= DateTime.Parse(fromDate).ToUniversalTime() && t.Arrival_date <= DateTime.Parse(toDate).ToUniversalTime());
             }
             else
             {
-                trips = trips.Where(r => r.Departure_date >= DateTime.Parse(fromDate).ToUniversalTime());
+                trips = trips.Where(t => t.Departure_date >= DateTime.Parse(fromDate).ToUniversalTime());
             }
-            return trips.OrderBy(r => r.Id).ToList();
+            return trips.OrderBy(t => t.Id).ToList();
         }
     }
 }

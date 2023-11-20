@@ -18,8 +18,8 @@ namespace UHR.Repositories
         public ICollection<Railway> GetRailways()
         {
             return _context.Railways
-                //.Include(r => r.Origin_city)
-                //.Include(r => r.Destination_city)
+                .Include(r => r.Origin_city)
+                .Include(r => r.Destination_city)
                 .OrderBy(r => r.Id).ToList();
         }
 
@@ -51,8 +51,8 @@ namespace UHR.Repositories
         public Railway GetRailwayById(int id)
         {
             return _context.Railways
-                //.Include(r => r.Origin_city)
-                //.Include(r => r.Destination_city)
+                .Include(r => r.Origin_city)
+                .Include(r => r.Destination_city)
                 .FirstOrDefault(r => r.Id == id);
         }
     }
