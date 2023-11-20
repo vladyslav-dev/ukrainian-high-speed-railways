@@ -25,6 +25,7 @@ namespace UHR.Repositories
             {
                 _context.Cities.Attach(city);
             }
+
             _context.Cities.AddRange(cities);
             _context.SaveChanges();
             return cities;

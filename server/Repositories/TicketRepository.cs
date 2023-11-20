@@ -39,9 +39,64 @@ namespace UHR.Repositories
         {
             foreach (var ticket in tickets)
             {
-                _context.Tickets.Attach(ticket);
+                var existingSeat = _context.Seats.Find(ticket.Seat.Id);
+                var existingWagon = _context.Wagons.Find(ticket.Seat.Wagon.Id);
+                var existingTrain = _context.Trains.Find(ticket.Seat.Wagon.Train.Id);
+                var existingTrainType = _context.TrainTypes.Find(ticket.Seat.Wagon.Train.Type.Id);
+                var existingTrip = _context.Trips.Find(ticket.Seat.Trip.Id);
+                var existingWagonType = _context.WagonTypes.Find(ticket.Seat.Wagon.Type.Id);
+                var existingRailway = _context.Railways.Find(ticket.Seat.Trip.Railway.Id);
+                var existingOriginCity = _context.Cities.Find(ticket.Seat.Trip.Railway.Origin_city.Id);
+                var existingDestinationCity = _context.Cities.Find(ticket.Seat.Trip.Railway.Destination_city.Id);
+
+                if (existingSeat != null)
+                {
+                    ticket.Seat = existingSeat;
+                }
+
+                if (existingWagon != null)
+                {
+                    ticket.Seat.Wagon = existingWagon;
+                }
+
+                if (existingTrain != null) 
+                {
+                    ticket.Seat.Wagon.Train = existingTrain;
+                }
+
+                if (existingTrainType != null)
+                {
+                    ticket.Seat.Wagon.Train.Type = existingTrainType;
+                }
+
+                if (existingTrip != null)
+                {
+                    ticket.Seat.Trip = existingTrip;
+                }
+
+                if (existingWagonType != null)
+                {
+                    ticket.Seat.Wagon.Type = existingWagonType;
+                }
+
+                if (existingRailway != null)
+                {
+                    ticket.Seat.Trip.Railway = existingRailway;
+                }
+
+                if (existingOriginCity != null)
+                {
+                    ticket.Seat.Trip.Railway.Origin_city = existingOriginCity;
+                }
+
+                if (existingDestinationCity != null)
+                {
+                    ticket.Seat.Trip.Railway.Destination_city = existingDestinationCity;
+                }
+
+                _context.Tickets.Add(ticket);
             }
-            _context.Tickets.AddRange(tickets);
+
             _context.SaveChanges();
             return tickets;
         }

@@ -24,7 +24,7 @@ namespace UHR.Repositories
             {
                 _context.TrainTypes.Attach(trainType);
             }
-            _context.AddRange(trainTypes);
+            _context.TrainTypes.AddRange(trainTypes);
             _context.SaveChanges();
             return trainTypes;
         }

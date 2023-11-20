@@ -22,10 +22,32 @@ namespace UHR.Repositories
         public ICollection<Cargo> AddCargos(ICollection<Cargo> cargos)
         {
             foreach(var cargo in cargos)
-            {
-                _context.Cargos.Attach(cargo);
+            {    
+                foreach(var wagon in cargo.Wagons) 
+                {
+                    var existingTrain = _context.Trains.Find(wagon.Train.Id);
+                    var existingTrainType = _context.TrainTypes.Find(wagon.Train.Type.Id);
+                    var existingWagonType = _context.WagonTypes.Find(wagon.Type.Id);
+
+                    if(existingTrain != null) 
+                    {
+                        wagon.Train = existingTrain;
+                    }
+
+                    if(existingTrainType != null) 
+                    {
+                        wagon.Train.Type = existingTrainType;
+                    }
+
+                    if(existingWagonType != null)
+                    {
+                        wagon.Type = existingWagonType;
+                    }
+                }
+
+                _context.Cargos.Add(cargo);
             }
-            _context.Cargos.AddRange(cargos);
+
             _context.SaveChanges();
             return cargos;
         }

@@ -61,14 +61,14 @@ namespace UHR.Controllers
         }
 
         /// <summary>
-        /// Get Seats by TripsId
+        /// Get Seats by Trips ids
         /// </summary>
         /// 
         [HttpPost("SeatsByTripsIds")]
         [ProducesResponseType(200, Type = typeof(ICollection<Seat>))]
         public ActionResult<ICollection<Seat>> GetSeatsByTripsId([FromBody] int[] ids)
         {
-            ICollection<Seat> filteredSeats = _seatInterface.GetSeatsByTripsId(ids);
+            ICollection<Seat> filteredSeats = _seatInterface.GetSeatsByTripsIds(ids);
 
             if (!ModelState.IsValid) 
                 return BadRequest(ModelState);

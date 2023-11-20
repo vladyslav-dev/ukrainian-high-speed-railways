@@ -18,7 +18,7 @@ namespace UHR.Repositories
         {
             return _context.Wagons
                 .Include(w => w.Train)
-                    .ThenInclude(w => w.Type)
+                    .ThenInclude(t => t.Type)
                 .Include(w => w.Type)
                 .OrderBy(w => w.Id).ToList();
         }
@@ -57,10 +57,28 @@ namespace UHR.Repositories
         {
             return _context.Wagons
                 .Include(w => w.Train)
-                    .ThenInclude(w => w.Type)
+                    .ThenInclude(t => t.Type)
                 .Include(w => w.Type)
                 .FirstOrDefault(w => w.Id == id);
         }
+
+        public ICollection<Wagon> GetWagonsBySeatsIds(int[] ids)
+        {
+            var wagonIds = _context.Seats
+                .Where(seat => ids.Contains(seat.Id))
+                .Select(seat => seat.Wagon.Id)
+                .ToList();
+
+            var wagons = _context.Wagons
+                .Where(wagon => wagonIds.Contains(wagon.Id))
+                .Include(w => w.Train)
+                   .ThenInclude(t => t.Type)
+                .Include(w => w.Type)
+                .ToList();
+
+            return wagons;
+        }
+
     }
 }
 

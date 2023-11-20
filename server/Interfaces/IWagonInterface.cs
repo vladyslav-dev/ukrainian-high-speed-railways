@@ -9,5 +9,7 @@ namespace UHR.Interfaces
         ICollection<Wagon> AddWagons(ICollection<Wagon> wagons);
 
         Wagon GetWagonById(int id);
+
+        ICollection<Wagon> GetWagonsBySeatsIds(int[] ids);
     }
 }
