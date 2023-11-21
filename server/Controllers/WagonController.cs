@@ -59,24 +59,5 @@ namespace UHR.Controllers
 
             return Ok(createdWagons);
         }
-
-        /// <summary>
-        /// Get Wagons by Seats ids
-        /// </summary>
-        /// 
-        [HttpPost("WagonsBySeatsIds")]
-        [ProducesResponseType(200, Type = typeof(ICollection<Wagon>))]
-        public ActionResult<ICollection<Wagon>> GetWagonsBySeatsIds([FromBody] int[] ids)
-        {
-            ICollection<Wagon> filteredWagons = _wagonInterface.GetWagonsBySeatsIds(ids);
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            if (filteredWagons.Count == 0)
-                return NotFound();
-
-            return Ok(filteredWagons);
-        }
     }
 }

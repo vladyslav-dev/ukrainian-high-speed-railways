@@ -9,7 +9,5 @@ namespace UHR.Interfaces
         ICollection<Seat> AddSeats(ICollection<Seat> seats);
 
         Seat GetSeatById(int id);
-
-        ICollection<Seat> GetSeatsByTripsIds(int[] ids);
     }
 }
