@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UHR.Interfaces;
 using UHR.Models;
+using UHR.ResponsesEntities;
 
 namespace UHR.Controllers
 {
@@ -74,5 +75,23 @@ namespace UHR.Controllers
             return Ok(trips);
         }
 
+        /// <summary>
+        /// Get TripsInfos by Trips ids
+        /// </summary>
+        /// 
+        [HttpPost("TripsInfosByTripsIds")]
+        [ProducesResponseType(200, Type = typeof(List<SearchResponse>))]
+        public ActionResult<List<SearchResponse>> GetSeatsByTripsId([FromBody] int[] ids)
+        {
+            List<SearchResponse> searchResponse = _tripInterface.GetTripsInfosByTripsIds(ids);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (searchResponse.Count == 0)
+                return NotFound();
+
+            return Ok(searchResponse);
+        }
     }
 }

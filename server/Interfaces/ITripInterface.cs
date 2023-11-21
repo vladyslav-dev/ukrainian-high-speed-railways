@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using UHR.Models;
+﻿using UHR.Models;
+using UHR.ResponsesEntities;
 
 namespace UHR.Interfaces
 {
@@ -12,5 +12,7 @@ namespace UHR.Interfaces
         Trip GetTripById(int id);
 
         ICollection<Trip> GetTripsByQueries(string fromCity, string toCity, string fromDate, string? toDate);
+
+        List<SearchResponse> GetTripsInfosByTripsIds(int[] tripsIds);
     }
 }

@@ -2,6 +2,7 @@
 using UHR.Data;
 using UHR.Interfaces;
 using UHR.Models;
+using UHR.ResponsesEntities;
 
 namespace UHR.Repositories
 {
@@ -83,6 +84,77 @@ namespace UHR.Repositories
                 trips = trips.Where(t => t.Departure_date >= DateTime.Parse(fromDate).ToUniversalTime());
             }
             return trips.OrderBy(t => t.Id).ToList();
+        }
+
+        public List<SearchResponse> GetTripsInfosByTripsIds(int[] tripsIds)
+        {
+            var seats = _context.Seats
+                            .Where(seat => tripsIds.Contains(seat.Id))
+                            .Include(s => s.Wagon)
+                                .ThenInclude(w => w.Train)
+                                    .ThenInclude(t => t.Type)
+                            .Include(s => s.Wagon)
+                                .ThenInclude(w => w.Type)
+                            .Include(s => s.Trip)
+                                .ThenInclude(t => t.Railway)
+                                    .ThenInclude(r => r.Origin_city)
+                            .Include(s => s.Trip)
+                                .ThenInclude(t => t.Railway)
+                                    .ThenInclude(r => r.Destination_city)
+                            .ToList();
+
+            List<SearchResponse> response = new List<SearchResponse>();
+
+            foreach (var trip in tripsIds)
+            {
+                int standartSeats = 0;
+                int vipSeats = 0;
+                float standartPrice = 0;
+                float vipPrice = 0;
+
+                foreach (var seat in seats)
+                {
+                    if (seat.Trip.Id == trip)
+                    {
+                        if (seat.Wagon.Type.Type == "Standart")
+                        {
+                            if (!seat.Reserved) standartSeats++;
+
+                            if (standartPrice == 0) standartPrice = seat.Wagon.Seat_Price;
+                        }
+
+                        if (seat.Wagon.Type.Type == "VIP")
+                        {
+                            if (!seat.Reserved) vipSeats++;
+
+                            if (vipPrice == 0) vipPrice = seat.Wagon.Seat_Price;
+                        }
+                    }
+                }
+
+                var StandartInfo = new TripInfo
+                {
+                    Seats = standartSeats,
+                    Price = standartPrice
+                };
+
+                var VipInfo = new TripInfo
+                {
+                    Seats = vipSeats,
+                    Price = vipPrice
+                };
+
+                var searchResponse = new SearchResponse
+                {
+                    TripId = trip,
+                    Standart = StandartInfo,
+                    Vip = VipInfo
+                };
+
+                response.Add(searchResponse);
+            }
+
+            return response;
         }
     }
 }
