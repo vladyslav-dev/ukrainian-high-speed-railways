@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Lexend_Giga } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import './tailwind.css'
 import 'react-date-range/dist/styles.css' // main css file
 import 'react-date-range/dist/theme/default.css' // theme css file
@@ -7,7 +7,7 @@ import './dateRangePicker.css'
 import HeroImage from '@/components/HeroImage'
 import Header from '@/widgets/Header'
 
-const lexendGigaFont = Lexend_Giga({ subsets: ['latin'] })
+const interFont = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Ukrainian High-Speed Railways',
@@ -21,9 +21,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={lexendGigaFont.className}>
+      <body className={interFont.className}>
         <HeroImage />
-        <div className='max-w-screen-xl h-screen flex flex-col mx-auto px-5'>
+        <div className='max-w-screen-xl h-screen flex flex-col mx-auto px-5 font-medium'>
           <Header />
           {children}
         </div>

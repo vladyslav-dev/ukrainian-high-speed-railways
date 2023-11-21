@@ -4,13 +4,14 @@ interface IAutocompleteProps extends HTMLProps<HTMLInputElement> {
     label: string
     options: string[]
     isFetching?: boolean
+    isValid?: boolean
     className?: string
     inputValue: string
     onInputChange: (value: string) => void
 }
 
 export default function Autocomplete(props: IAutocompleteProps) {
-    const { label, options, isFetching = false, className, onInputChange, inputValue, ...restProps } = props
+    const { label, options, isFetching = false, isValid = true, className, onInputChange, inputValue, ...restProps } = props
 
     const [filteredOptions, setFilteredOptions] = useState<string[]>([])
     const [showDropdown, setShowDropdown] = useState<boolean>(false)
@@ -115,7 +116,7 @@ export default function Autocomplete(props: IAutocompleteProps) {
                 onKeyDown={handleInputKeyDown}
                 onFocus={handleInputFocus}
                 onBlur={handleInputBlur}
-                className={`h-[48px] px-[12px] outline-none w-full ${className}`}
+                className={`h-[48px] px-[12px] outline-none w-full ${className} ${isValid ? "" : "border-[2px] border-danger"}`}
             />
 
             {showDropdown && (

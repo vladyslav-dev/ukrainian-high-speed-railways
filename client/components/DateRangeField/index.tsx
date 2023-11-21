@@ -16,6 +16,8 @@ interface IDateRangeFieldProps extends IDefaultDateRange {
   onEndDateChange: (date: Date | null | undefined) => void
   startDateInputClassName?: string
   endDateInputClassName?: string
+  isStartDateValid?: boolean
+  isEndDateValid?: boolean
 }
 
 interface IRangeState extends Omit<Range, 'startDate' | 'endDate'> {
@@ -25,15 +27,17 @@ interface IRangeState extends Omit<Range, 'startDate' | 'endDate'> {
 }
 
 export default function DateRangeField(props: IDateRangeFieldProps) {
-  const { 
-    defautlStartDate, 
-    defaultEndDate, 
-    onStartDateChange, 
-    onEndDateChange, 
-    startDateLabel, 
+  const {
+    defautlStartDate,
+    defaultEndDate,
+    onStartDateChange,
+    onEndDateChange,
+    startDateLabel,
     endDateLabel,
     startDateInputClassName,
     endDateInputClassName,
+    isStartDateValid = true,
+    isEndDateValid = true,
   } = props
 
   const [focusedInputs, setFocusedInputs] = useState<{ start: boolean, end: boolean }>({
@@ -112,7 +116,7 @@ export default function DateRangeField(props: IDateRangeFieldProps) {
           type="text"
           readOnly={true}
           value={startDateInputValue}
-          className={`h-[48px] px-[12px] outline-none w-full ${startDateInputClassName}`}
+          className={`h-[48px] px-[12px] outline-none w-full ${startDateInputClassName} ${isStartDateValid ? "" : "border-[2px] border-danger"}`}
           onFocus={() => handleInputFocus('start')}
         />
         <div className={`transition-all pointer-events-none absolute left-[12px] font-medium text-zinc-500 ${isStartDateLabelTop ? "top-[2px] text-[10px]" : "top-1/4"}`} >{startDateLabel}</div>
