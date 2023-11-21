@@ -80,10 +80,10 @@ namespace UHR.Controllers
         /// </summary>
         /// 
         [HttpPost("TripsInfosByTripsIds")]
-        [ProducesResponseType(200, Type = typeof(List<SearchResponse>))]
-        public ActionResult<List<SearchResponse>> GetSeatsByTripsId([FromBody] int[] ids)
+        [ProducesResponseType(200, Type = typeof(ICollection<SearchResponse>))]
+        public ActionResult<ICollection<SearchResponse>> GetSeatsByTripsId([FromBody] int[] ids)
         {
-            List<SearchResponse> searchResponse = _tripInterface.GetTripsInfosByTripsIds(ids);
+            ICollection<SearchResponse> searchResponse = _tripInterface.GetTripsInfosByTripsIds(ids);
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

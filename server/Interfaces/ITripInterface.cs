@@ -13,6 +13,6 @@ namespace UHR.Interfaces
 
         ICollection<Trip> GetTripsByQueries(string fromCity, string toCity, string fromDate, string? toDate);
 
-        List<SearchResponse> GetTripsInfosByTripsIds(int[] tripsIds);
+        ICollection<SearchResponse> GetTripsInfosByTripsIds(int[] tripsIds);
     }
 }

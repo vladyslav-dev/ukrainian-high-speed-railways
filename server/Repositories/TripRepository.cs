@@ -86,10 +86,10 @@ namespace UHR.Repositories
             return trips.OrderBy(t => t.Id).ToList();
         }
 
-        public List<SearchResponse> GetTripsInfosByTripsIds(int[] tripsIds)
+        public ICollection<SearchResponse> GetTripsInfosByTripsIds(int[] tripsIds)
         {
             var seats = _context.Seats
-                            .Where(seat => tripsIds.Contains(seat.Id))
+                            .Where(seat => tripsIds.Contains(seat.Trip.Id))
                             .Include(s => s.Wagon)
                                 .ThenInclude(w => w.Train)
                                     .ThenInclude(t => t.Type)
@@ -103,7 +103,7 @@ namespace UHR.Repositories
                                     .ThenInclude(r => r.Destination_city)
                             .ToList();
 
-            List<SearchResponse> response = new List<SearchResponse>();
+            ICollection<SearchResponse> response = new List<SearchResponse>();
 
             foreach (var trip in tripsIds)
             {
