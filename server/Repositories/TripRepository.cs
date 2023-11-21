@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Runtime.InteropServices;
 using UHR.Data;
 using UHR.Interfaces;
 using UHR.Models;
@@ -153,6 +154,80 @@ namespace UHR.Repositories
 
                 response.Add(searchResponse);
             }
+
+            return response;
+        }
+
+        public ExactTripResponse GetWagonsAndSeatsByTripID(int id)
+        {
+            var seats = _context.Seats
+                            .Where(seat => seat.Trip.Id == id)
+                            .Include(s => s.Wagon)
+                                .ThenInclude(w => w.Train)
+                                    .ThenInclude(t => t.Type)
+                            .Include(s => s.Wagon)
+                                .ThenInclude(w => w.Type)
+                            .Include(s => s.Trip)
+                                .ThenInclude(t => t.Railway)
+                                    .ThenInclude(r => r.Origin_city)
+                            .Include(s => s.Trip)
+                                .ThenInclude(t => t.Railway)
+                                    .ThenInclude(r => r.Destination_city)
+                            .ToList();
+
+            ICollection<int> wagons = new List<int>();
+
+            foreach (var seat in seats)
+            {
+                if (!wagons.Contains(seat.Wagon.Id)) wagons.Add(seat.Wagon.Id);
+            }
+
+            ICollection<WagonsResponse> wagonsResponse = new List<WagonsResponse>();
+
+            foreach (var wagon in wagons)
+            {
+                int wagonId = 0;
+                WagonType wagonType = null;
+                float wagonPrice = 0;
+                ICollection<WagonSeatResponse> wagonSeats = new List<WagonSeatResponse>();
+
+                foreach (var seat in seats)
+                {
+                    if (wagon == seat.Wagon.Id)
+                    {
+                        if (wagonId == 0) wagonId = seat.Wagon.Id;
+
+                        if (wagonType == null) wagonType = seat.Wagon.Type;
+
+                        if (wagonPrice == 0) wagonPrice = seat.Wagon.Seat_Price;
+
+                        var wagonSeatResponse = new WagonSeatResponse
+                        {
+                            Id = seat.Id,
+                            Number = seat.Number,
+                            Reserved = seat.Reserved
+                        };
+
+                        wagonSeats.Add(wagonSeatResponse);
+                    }
+                }
+
+                var wagonsResponseList = new WagonsResponse
+                {
+                    WagonId = wagonId,
+                    WagonType = wagonType,
+                    WagonPrice = wagonPrice,
+                    WagonSeats = wagonSeats
+                };
+
+                wagonsResponse.Add(wagonsResponseList);
+            }
+
+            var response = new ExactTripResponse
+            {
+                TripId = id,
+                TripWagons = wagonsResponse
+            };
 
             return response;
         }

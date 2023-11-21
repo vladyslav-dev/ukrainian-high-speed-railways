@@ -93,5 +93,24 @@ namespace UHR.Controllers
 
             return Ok(searchResponse);
         }
+
+        /// <summary>
+        /// Get Wagons and Seats by Trip id
+        /// </summary>
+        /// 
+        [HttpGet("GetWagonsAndSeatsByTripId/{id}")]
+        [ProducesResponseType(200, Type = typeof(ICollection<ExactTripResponse>))]
+        public ActionResult<ExactTripResponse> GetWagonsAndSeatsByTripID(int id)
+        {
+            ExactTripResponse exactTripResponse = _tripInterface.GetWagonsAndSeatsByTripID(id);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (exactTripResponse == null)
+                return NotFound();
+
+            return Ok(exactTripResponse);
+        }
     }
 }

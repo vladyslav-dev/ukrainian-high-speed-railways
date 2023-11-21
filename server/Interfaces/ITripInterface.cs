@@ -14,5 +14,7 @@ namespace UHR.Interfaces
         ICollection<Trip> GetTripsByQueries(string fromCity, string toCity, string fromDate, string? toDate);
 
         ICollection<SearchResponse> GetTripsInfosByTripsIds(int[] tripsIds);
+
+        ExactTripResponse GetWagonsAndSeatsByTripID(int id);
     }
 }

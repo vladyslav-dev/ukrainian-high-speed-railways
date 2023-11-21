@@ -2,9 +2,9 @@
 {
     public interface ITripResponse
     {
-        int TripId { get; set; }
-        TripInfo Standart { get; set; }
-        TripInfo Vip { get; set; }
+        public int TripId { get; set; }
+        public TripInfo Standart { get; set; }
+        public TripInfo Vip { get; set; }
     }
 
     public class TripInfo
