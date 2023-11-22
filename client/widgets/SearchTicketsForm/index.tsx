@@ -110,7 +110,7 @@ export default function SearchTicketsForm(props: ISearchTicketsFormProps) {
   }
 
   return (
-    <div className='flex items-center'>
+    <div className='flex items-center justify-center'>
       <div className='mr-1'>
         <Autocomplete
           label='From'

@@ -31,3 +31,8 @@ export interface ITripInfo {
 }
 
 export type TTripInfoResponse = ITripInfo[]
+
+export interface ISearchResultData extends ITrip {
+    standart: TTripCategory;
+    vip: TTripCategory;
+}

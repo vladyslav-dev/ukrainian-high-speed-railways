@@ -1,5 +1,5 @@
 export async function getCities() {
-    const res = await fetch('http://localhost:5282/api/City')
+    const res = await fetch('https://uhr-server.azurewebsites.net/api/City')
     
     if (!res.ok) {
         // This will activate the closest `error.js` Error Boundary
