@@ -1,20 +1,25 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { getCities } from "@/services/mockCities"
+
 import Autocomplete from "@/components/Autocomplete"
 import DateRangeField from '@/components/DateRangeField'
 import Button from '@/components/Button'
 import Toaster from '@/components/Toaster'
+import useSWR from 'swr'
+import { getCities } from '@/api/cities'
+import { ICity } from '@/types/city'
 
 type TSearchFormCityInput = {
   value: string
   isValid: boolean
 }
 
+type DateInputValue = Date | null | undefined
+
 type TSearchFormDateInput = {
-  value: Date | null | undefined
+  value: DateInputValue
   isValid: boolean
 }
 
@@ -25,55 +30,60 @@ interface ISearchTicketsForm {
   arrivalDate: TSearchFormDateInput
 }
 
-export default function SearchTicketsForm() {
+type TSearchQueryParams = 'originCity' | 'destinationCity' | 'departureDate' | 'arrivalDate'
+
+interface ISearchTicketsFormProps {}
+
+export default function SearchTicketsForm(props: ISearchTicketsFormProps) {
+  const { data: cities = [], error, isLoading } = useSWR('/api/City', getCities)
 
   const router = useRouter()
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams()
 
-  const originCity = searchParams.get('originCity');
-  const destinationCity = searchParams.get('destinationCity');
-  const departureDate = searchParams.get('departureDate');
-  const arrivalDate = searchParams.get('arrivalDate');
-  console.log('departureDate', departureDate)
-  console.log('arrivalDate', arrivalDate)
+  const getCityValue = (paramName: TSearchQueryParams, defaultValue: string = ''): string => searchParams.get(paramName) || defaultValue
+  const getDateTimeValue = (paramName: TSearchQueryParams, defaultValue: DateInputValue = null): DateInputValue => {
+    const paramValue = searchParams.get(paramName)
+    return paramValue ? new Date(paramValue) : defaultValue
+  }
 
-  const [cities, setCities] = useState<string[]>([])
-  const [isFetching, setIsFetching] = useState<boolean>(true)
+  const { originCity = '', destinationCity = '', departureDate = null, arrivalDate = new Date('') } = {
+    originCity: getCityValue('originCity'),
+    destinationCity: getCityValue('destinationCity'),
+    departureDate: getDateTimeValue('departureDate'),
+    arrivalDate: getDateTimeValue('arrivalDate', new Date('')),
+  }
+
   const [showToaster, setShowToaster] = useState<boolean>(false)
-
   const [searchFormData, setSearchFormData] = useState<ISearchTicketsForm>({
     originCity: {
-      value: originCity || '',
+      value: originCity,
       isValid: true,
     },
     destinationCity: {
-      value: destinationCity || '',
+      value: destinationCity,
       isValid: true,
     },
     departureDate: {
-      value: departureDate ? new Date(departureDate) : null,
+      value: departureDate,
       isValid: true,
     },
     arrivalDate: {
-      value: arrivalDate ? new Date(arrivalDate) : new Date(''),
+      value: arrivalDate,
       isValid: true,
     },
   })
 
-  useEffect(() => {
-    getCities().then((cities) => {
-      setCities(cities)
-      setIsFetching(false)
-    })
-  }, [])
+  const cityNames = useMemo(() => {
+    return cities.map((city: ICity) => city.name)
+  }, [cities])
 
   const onToasterClose = () => {
     setShowToaster(false)
   }
 
   const isValidForm = () => {
-    const originCityIsValid = cities.includes(searchFormData.originCity.value)
-    const destinationCityIsValid = cities.includes(searchFormData.destinationCity.value)
+    const originCityIsValid = cityNames.includes(searchFormData.originCity.value)
+    const destinationCityIsValid = cityNames.includes(searchFormData.destinationCity.value)
     const departureDateIsValid = Boolean(searchFormData.departureDate.value)
 
     setSearchFormData(prevState => ({
@@ -100,12 +110,12 @@ export default function SearchTicketsForm() {
   }
 
   return (
-    <div className='flex items-center'>
+    <div className='flex items-center justify-center'>
       <div className='mr-1'>
         <Autocomplete
           label='From'
-          options={cities}
-          isFetching={isFetching}
+          options={cityNames}
+          isFetching={isLoading}
           isValid={searchFormData.originCity.isValid}
           inputValue={searchFormData.originCity.value}
           className="rounded-tl-[6px] rounded-bl-[6px]"
@@ -120,8 +130,8 @@ export default function SearchTicketsForm() {
       <div className='mr-1'>
         <Autocomplete
           label='To'
-          options={cities}
-          isFetching={isFetching}
+          options={cityNames}
+          isFetching={isLoading}
           isValid={searchFormData.destinationCity.isValid}
           inputValue={searchFormData.destinationCity.value}
           onInputChange={(value) => {

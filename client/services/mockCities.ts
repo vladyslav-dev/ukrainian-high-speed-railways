@@ -21,11 +21,11 @@ const ukrainianCities = [
         "Khmelnytskyi",
 ];
 
-export function getCities(): Promise<string[]> {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            resolve(ukrainianCities);
-        }, 2000);
-    });
-}
+// export function getCities(): Promise<string[]> {
+//     return new Promise(resolve => {
+//         setTimeout(() => {
+//             resolve(ukrainianCities);
+//         }, 2000);
+//     });
+// }
 
