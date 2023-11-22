@@ -1,4 +1,4 @@
-export type TCity = {
-  id: string
-  name: string
+export interface ICity {
+  id: number;
+  name: string;
 }

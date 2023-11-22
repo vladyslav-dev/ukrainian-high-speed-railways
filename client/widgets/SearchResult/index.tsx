@@ -1,46 +1,55 @@
 "use client"
 
+import { getTripsByQueryParams, getTripsInfoByTripsIds } from "@/api/trips"
 import CardList from "@/components/CardList"
+import useSearchQueryParams from "@/hooks/useSearchQueryParams"
 import { mockSearchResults } from "@/services/mockSearchResult"
-import { useSearchParams } from "next/navigation"
-import { useEffect } from "react"
+import { ITrip, ITripInfo, TTripInfoResponse, TTripResponse, TTripsIds } from "@/types/trips"
+
+import { useMemo } from "react"
+import useSWR from 'swr'
 
 const SearchResult = () => {
-    const searchParams = useSearchParams();
+    const searchQueryParams = useSearchQueryParams()
+    const { originCityQuery, destinationCityQuery, fromDateQuery, toDateQuery } = searchQueryParams
 
-    const originCity = searchParams.get('originCity');
-    const destinationCity = searchParams.get('destinationCity');
-    const departureDate = searchParams.get('departureDate');
-    const arrivalDate = searchParams.get('arrivalDate');
+    /* API - Gets All Trips By Query Params */
+    const { 
+        data: trips = [], 
+        error: tripsError, 
+        isLoading: isTripsLoading 
+    } = useSWR<TTripResponse>(
+        `/api/Trip/search?${originCityQuery}${destinationCityQuery}${fromDateQuery}${toDateQuery}`, 
+        () => getTripsByQueryParams(searchQueryParams)
+    )
 
-    useEffect(() => {
-        const departureDateISO = departureDate ? new Date(departureDate).toISOString() : null
-        const arrivalDateISO = arrivalDate ? new Date(arrivalDate).toISOString() : null
+    const tripsIds = useMemo<TTripsIds>(() => {
+        return trips.map((trip: ITrip) => trip.id)
+    }, [trips])
 
-        const originCityQuery = originCity ? `originCity=${originCity}` : ''
-        const destinationCityQuery = destinationCity ? `&destinationCity=${destinationCity}` : ''
-        const fromDateQuery = departureDateISO ? `&fromDate=${departureDateISO}` : ''
-        const toDateQuery = arrivalDateISO ? `&toDate=${arrivalDateISO}` : ''
+    /* API - Gets Trips Info By Trips Ids */
+    const { 
+        data: tripsInfo = [], 
+        error: tripsInfoError, 
+        isLoading: isTripsInfoLoading 
+    } = useSWR<TTripInfoResponse>(
+        `/api/Trip/TripsInfosByTripsIds/${JSON.stringify(tripsIds)}`, 
+        trips.length ? () => getTripsInfoByTripsIds(tripsIds) : null
+    )
+   
+    const getSearchResultData = () => {
+        const tripsInfoMap = Object.assign({}, ...tripsInfo.map((item: ITripInfo) => ({ [item.tripId]: item })))
 
-        console.log('SearchResult render')
+        return trips.map((trip: ITrip) => {
+            return {
+                ...trip,
+                standart: tripsInfoMap[trip.id].standart,
+                vip: tripsInfoMap[trip.id].vip,
+            }
+        })
+    }
 
-        fetch(`http://localhost:5282/api/Trip/search?${originCityQuery}${destinationCityQuery}${fromDateQuery}${toDateQuery}`)
-            .then(res => res.json())
-            .then(data => {
-                console.log('data', data)
-
-                return data.map((item: any) => item.id)
-            })
-            .then(data => {
-                console.log('JSON.stringify(data)', JSON.stringify(data))
-                fetch("http://localhost:5282/api/Seat/SeatsByTripsIds", { method: "POST", body: JSON.stringify(data), headers: { "Content-Type": "application/json" } })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('SeatsByTripsIds data', data)
-                    })
-            })
-
-    }, [])
+    console.log('searchResults', getSearchResultData())
 
     return (
         <>

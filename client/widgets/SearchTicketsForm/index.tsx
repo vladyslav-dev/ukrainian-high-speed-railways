@@ -9,7 +9,7 @@ import Button from '@/components/Button'
 import Toaster from '@/components/Toaster'
 import useSWR from 'swr'
 import { getCities } from '@/api/cities'
-import { TCity } from '@/types/city'
+import { ICity } from '@/types/city'
 
 type TSearchFormCityInput = {
   value: string
@@ -74,7 +74,7 @@ export default function SearchTicketsForm(props: ISearchTicketsFormProps) {
   })
 
   const cityNames = useMemo(() => {
-    return cities.map((city: TCity) => city.name)
+    return cities.map((city: ICity) => city.name)
   }, [cities])
 
   const onToasterClose = () => {
