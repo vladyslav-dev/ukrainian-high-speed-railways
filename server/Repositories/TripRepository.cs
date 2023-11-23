@@ -189,6 +189,7 @@ namespace UHR.Repositories
                 int wagonId = 0;
                 WagonType wagonType = null;
                 float wagonPrice = 0;
+                int wagonNumber = 0;
                 ICollection<WagonSeatResponse> wagonSeats = new List<WagonSeatResponse>();
 
                 foreach (var seat in seats)
@@ -200,6 +201,8 @@ namespace UHR.Repositories
                         if (wagonType == null) wagonType = seat.Wagon.Type;
 
                         if (wagonPrice == 0) wagonPrice = seat.Wagon.Seat_Price;
+
+                        if (wagonNumber == 0) wagonNumber = seat.Wagon.Number;
 
                         var wagonSeatResponse = new WagonSeatResponse
                         {
@@ -216,6 +219,7 @@ namespace UHR.Repositories
                 {
                     WagonId = wagonId,
                     WagonType = wagonType,
+                    WagonNumber = wagonNumber,
                     WagonPrice = wagonPrice,
                     WagonSeats = wagonSeats
                 };

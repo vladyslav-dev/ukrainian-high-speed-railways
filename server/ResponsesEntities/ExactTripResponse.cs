@@ -24,6 +24,8 @@ namespace UHR.ResponsesEntities
 
         public WagonType WagonType { get; set; }
 
+        public int WagonNumber { get; set; }
+
         public float WagonPrice { get; set; }
 
         public ICollection<WagonSeatResponse> WagonSeats { get; set; }
