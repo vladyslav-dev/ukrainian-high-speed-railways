@@ -1,6 +1,6 @@
 import React from "react"
 import CardItem from "./CardItem"
-import { ISearchResultData } from "@/types/trips"
+import { ISearchResultData } from "@/types/trip"
 
 interface ICardListProps {
     data: ISearchResultData[]

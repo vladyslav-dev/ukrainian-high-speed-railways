@@ -1,6 +1,6 @@
 import { useMemo } from "react"
 import { useSearchParams } from "next/navigation"
-import { TSearchTripsQueryParams } from "@/types/trips"
+import { TSearchTripsQueryParams } from "@/types/trip"
 
 const useSearchQueryParams = (): TSearchTripsQueryParams => {
     const searchParams = useSearchParams()

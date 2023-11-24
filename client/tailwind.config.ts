@@ -12,6 +12,7 @@ const config: Config = {
       colors: {
         primary: '#25B491',
         secondary: '#A3A3A3',
+        stroke: "#C9C9C9",
         backgroundLightGrey: '#F8F8F8',
         danger: '#E74C4C',
       },

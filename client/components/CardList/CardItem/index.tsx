@@ -1,22 +1,28 @@
+"use client"
+
 import Button from "@/components/Button"
 import ClockIcon from "@/components/Icons/Clock"
 import TrainIcon from "@/components/Icons/Train"
-import { ISearchResultData } from "@/types/trips"
+import { TTicketType } from "@/types/ticket"
+import { ISearchResultData } from "@/types/trip"
+import { formatDate, formatDiffTime, getDiffTime } from "@/utils/date"
+import { useRouter } from "next/navigation"
+import { useMemo } from "react"
 
-type TTicketType = 'standart' | 'vip'
-
-interface ITicket {
+interface ITicketProps {
+    tripId: number
     type: TTicketType
-    price: number,
+    price: number
     availablePlaces: number
+    onTicketClick: (tripId: number) => void
 }
 
-export interface ICardProps extends ISearchResultData {
+const Ticket = (props: ITicketProps) => {
+    const { tripId, type, price, availablePlaces, onTicketClick } = props
 
-}
-
-const Ticket = (props: ITicket) => {
-    const { type, price, availablePlaces } = props
+    const handleClick = () => {
+        onTicketClick(tripId)
+    }
 
     return (
         <div className="flex items-center justify-between px-4 py-2 bg-backgroundLightGrey rounded-[4px]">
@@ -24,74 +30,45 @@ const Ticket = (props: ITicket) => {
                 <span>{type}&nbsp;</span>
                 <span className="text-secondary text-sm">{availablePlaces} place(s)</span>
             </div>
-            <Button label={`${price} USD`} size='medium' />
+            <Button label={`${price} USD`} onClick={handleClick} size='medium' />
         </div>
     )
 }
 
+interface ICardProps extends ISearchResultData {}
+
 const CardItem = (props: ICardProps) => {
-    const {
-        departure_date,
-        arrival_date,
-        railway,
-        standart,
-        vip,
-        name
-    } = props
+    const { id, name, vip, standart, arrival_date, departure_date } = props
 
-    function formatDiffTime(time: string): string {
-        const [hoursStr, minutesStr] = time.split(':');
-        const hours = parseInt(hoursStr, 10);
-        const minutes = parseInt(minutesStr || '0', 10);
-      
-        if (hours >= 24) {
-          return `${hours} hours`;
-        } else {
-          if (minutes === 0) {
-            return `${hours} hour${hours > 1 ? 's' : ''}`;
-          } else {
-            return `${hours}:${minutes}`;
-          }
+    const router = useRouter()
+
+    const { departureTime, arrivalTime, formattedDepartureDate, formattedArrivalDate, diffTime } = useMemo(() => {
+        const departureDate = new Date(departure_date)
+        const arrivalDate = new Date(arrival_date)
+    
+        const departureTime = departureDate.toLocaleTimeString('en-US', {
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true
+        })
+        const arrivalTime = arrivalDate.toLocaleTimeString('en-US', {
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true
+        })
+
+        return {
+            departureTime,
+            arrivalTime,
+            formattedDepartureDate: formatDate(departureDate),
+            formattedArrivalDate: formatDate(arrivalDate),
+            diffTime: formatDiffTime(getDiffTime(arrivalDate, departureDate))
         }
+    }, [departure_date, arrival_date])
+
+    const handleTicketClick = (tripId: number) => {
+        router.push(`/workflow/seats?tripId=${tripId}`)
     }
-
-    function formatDate(date: Date): string {
-        const options: Intl.DateTimeFormatOptions = { weekday: 'short', day: 'numeric', month: 'short' };
-        const formatter = new Intl.DateTimeFormat('en-US', options);
-        const formattedDate = formatter.format(date);
-      
-        // Extracting and formatting individual components
-        const [weekday, month, day] = formattedDate.split(' ');
-        const abbreviatedWeekday = weekday.substring(0, 2); // Take the first two characters of the weekday
-      
-        return `${abbreviatedWeekday}, ${day} ${month}`;
-    }
-
-    function calculateHoursAndMinutesDifference(date1: Date, date2: Date): string {
-        const diffInMilliseconds = Math.abs(date2.getTime() - date1.getTime())
-        
-        const totalMinutes = Math.floor(diffInMilliseconds / (1000 * 60))
-        const hours = Math.floor(totalMinutes / 60)
-        const minutes = totalMinutes % 60
-        
-        return `${hours}:${minutes}`
-    }
-
-    const departureDate = new Date(departure_date)
-    const arrivalDate = new Date(arrival_date)
-
-    const departureTime = departureDate.toLocaleTimeString('en-US', {
-        hour: 'numeric',
-        minute: 'numeric',
-        hour12: true
-    });
-    const arrivalTime = arrivalDate.toLocaleTimeString('en-US', {
-        hour: 'numeric',
-        minute: 'numeric',
-        hour12: true
-    });
-
-    const diffTime = formatDiffTime(calculateHoursAndMinutesDifference(arrivalDate, departureDate))
 
     return (
         <div className="flex gap-6 justify-between bg-white rounded-[6px] p-4 whitespace-nowrap" style={{ boxShadow: "0px 7px 29px 0px rgba(100, 100, 111, 0.20)" }}>
@@ -99,7 +76,7 @@ const CardItem = (props: ICardProps) => {
                 <div className="flex items-center justify-between gap-4">
                     <div>
                         <div className="text-lg font-medium">{departureTime}</div>
-                        <div className="text-xs text-secondary">{formatDate(departureDate)}</div>
+                        <div className="text-xs text-secondary">{formattedDepartureDate}</div>
                     </div>
                     <div className="flex items-center">
                         <div className="w-[42px] h-[1px] bg-primary" />
@@ -111,7 +88,7 @@ const CardItem = (props: ICardProps) => {
                     </div>
                     <div>
                         <div className="text-lg font-medium">{arrivalTime}</div>
-                        <div className="text-xs text-secondary">{formatDate(arrivalDate)}</div>
+                        <div className="text-xs text-secondary">{formattedArrivalDate}</div>
                     </div>
                 </div>
                 <div className="flex items-center">
@@ -120,8 +97,8 @@ const CardItem = (props: ICardProps) => {
                 </div>
             </div>
             <div className="flex flex-col flex-1 gap-2 max-w-[320px]">
-                {standart && <Ticket type='standart' price={standart.price} availablePlaces={standart.seats} />}
-                {vip && <Ticket type='vip' price={vip.price} availablePlaces={vip.seats} />}
+                {standart && <Ticket tripId={id} type='standart' price={standart.price} availablePlaces={standart.seats} onTicketClick={handleTicketClick} />}
+                {vip && <Ticket tripId={id} type='vip' price={vip.price} availablePlaces={vip.seats} onTicketClick={handleTicketClick} />}
             </div>
         </div>
     )
