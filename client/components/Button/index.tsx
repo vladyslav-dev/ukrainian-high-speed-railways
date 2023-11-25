@@ -21,7 +21,7 @@ export default function Button(props: ButtonProps) {
     return (
         <button
             {...props}
-            className={`${sizeClass} font-medium flex-shrink-0 rounded-[6px] bg-primary text-white focus:outline-none ${className}`}
+            className={`${sizeClass} font-medium flex-shrink-0 rounded-[6px] bg-primary text-white transition-all hover:opacity-90 focus:outline-none ${className}`}
         >
             {label}
         </button>

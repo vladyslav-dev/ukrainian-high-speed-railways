@@ -3,7 +3,7 @@
 import { getTripsByQueryParams, getTripsInfoByTripsIds } from "@/api/trips"
 import CardList from "@/components/CardList"
 import useSearchQueryParams from "@/hooks/useSearchQueryParams"
-import { ISearchResultData, ITrip, ITripInfo, TTripInfoResponse, TTripResponse, TTripsIds } from "@/types/trips"
+import { ISearchResultData, ITrip, ITripInfo, TTripInfoResponse, TTripResponse, TTripsIds } from "@/types/trip"
 import React, { useMemo } from "react"
 import useSWR from 'swr'
 
