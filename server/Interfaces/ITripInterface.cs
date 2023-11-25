@@ -11,7 +11,7 @@ namespace UHR.Interfaces
 
         Trip GetTripById(int id);
 
-        ICollection<Trip> GetTripsByQueries(string fromCity, string toCity, string fromDate, string? toDate);
+        ICollection<FindTripsResponse> GetTripsByQueries(string fromCity, string toCity, string fromDate, string? toDate);
 
         ICollection<SearchResponse> GetTripsInfosByTripsIds(int[] tripsIds);
 

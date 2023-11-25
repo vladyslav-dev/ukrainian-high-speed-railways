@@ -64,7 +64,7 @@ namespace UHR.Controllers
         /// Gets all Trips By Query Params
         /// </summary>
         [HttpGet("search")]
-        [ProducesResponseType(200, Type = typeof(ICollection<Trip>))]
+        [ProducesResponseType(200, Type = typeof(ICollection<FindTripsResponse>))]
         public IActionResult GetTripsByQueries([FromQuery] string originCity, [FromQuery] string destinationCity, [FromQuery] string fromDate, [FromQuery] string? toDate)
         {
             var trips = _tripInterface.GetTripsByQueries(originCity, destinationCity, fromDate, toDate);

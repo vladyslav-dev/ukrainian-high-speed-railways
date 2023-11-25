@@ -12,6 +12,7 @@
         public int Seats { get; set; }
         public float Price { get; set; }
     }
+
     public class SearchResponse : ITripResponse
     {
         public int TripId { get; set; }

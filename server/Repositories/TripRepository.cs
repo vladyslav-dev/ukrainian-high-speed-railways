@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System.Runtime.InteropServices;
 using UHR.Data;
 using UHR.Interfaces;
@@ -66,25 +67,46 @@ namespace UHR.Repositories
                 .FirstOrDefault(t => t.Id == id);
         }
 
-        public ICollection<Trip> GetTripsByQueries(string fromCity, string toCity, string fromDate, string? toDate)
+        public ICollection<FindTripsResponse> GetTripsByQueries(string fromCity, string toCity, string fromDate, string? toDate)
         {
             var trips = _context.Trips
                 .Include(t => t.Railway)
                     .ThenInclude(r => r.Origin_city)
                 .Include(t => t.Railway)
-                    .ThenInclude(r => r.Destination_city)
-                .Where(t => t.Railway.Origin_city.Name == fromCity && t.Railway.Destination_city.Name == toCity);
+                    .ThenInclude(r => r.Destination_city);
+
+            IEnumerable<Trip> resultTrips = new List<Trip>();
+            var fromTrips = trips.Where(t => t.Railway.Origin_city.Name == fromCity && t.Railway.Destination_city.Name == toCity);
 
             if (!string.IsNullOrEmpty(toDate))
             {
-
-                trips = trips.Where(t => t.Departure_date == DateTime.Parse(fromDate).ToUniversalTime() && t.Arrival_date == DateTime.Parse(toDate).ToUniversalTime());
+                var toTrips = trips.Where(t => t.Railway.Origin_city.Name == toCity && t.Railway.Destination_city.Name == fromCity);
+                fromTrips = fromTrips.Where(t => t.Departure_date.Date == DateTime.Parse(fromDate).ToUniversalTime().Date);
+                toTrips = toTrips.Where(t => t.Departure_date.Date == DateTime.Parse(toDate).ToUniversalTime().Date);
+                resultTrips = toTrips.Union(fromTrips);
             }
             else
             {
-                trips = trips.Where(t => t.Departure_date == DateTime.Parse(fromDate).ToUniversalTime());
+                fromTrips = fromTrips.Where(t => t.Departure_date.Date == DateTime.Parse(fromDate).ToUniversalTime().Date);
+                resultTrips = fromTrips;
             }
-            return trips.OrderBy(t => t.Id).ToList();
+
+            ICollection<FindTripsResponse> response = new List<FindTripsResponse>();
+
+            foreach (var trip in resultTrips)
+            {
+                var returned = false;
+                if (trip.Railway.Origin_city.Name != fromCity) returned = true;
+
+                var findTripsResponse = new FindTripsResponse()
+                {
+                    Returned = returned,
+                    Trip = trip
+                };
+
+                response.Add(findTripsResponse);
+            }
+            return response.OrderBy(r => r.Trip.Id).ToList();
         }
 
         public ICollection<SearchResponse> GetTripsInfosByTripsIds(int[] tripsIds)
