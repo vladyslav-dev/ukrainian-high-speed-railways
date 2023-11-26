@@ -2,6 +2,7 @@
 using UHR.Data;
 using UHR.Interfaces;
 using UHR.Models;
+using UHR.ResponsesEntities;
 
 namespace UHR.Repositories
 {
@@ -120,6 +121,59 @@ namespace UHR.Repositories
                         .ThenInclude(t => t.Railway)
                             .ThenInclude(r => r.Destination_city)
                 .FirstOrDefault(t => t.Id == id);
+        }
+
+        public ICollection<BuyTicketResponse> BuyTickets(List<BuyTicketResponse> purchasedTicketsData)
+        {
+            List<int> seatsIds = new List<int>();
+
+            foreach (var seat in purchasedTicketsData)
+            {
+                seatsIds.Add(seat.Seat_id);
+            }
+
+            var purchasedSeats = _context.Seats
+                                    .Include(s => s.Wagon)
+                                        .ThenInclude(w => w.Train)
+                                            .ThenInclude(t => t.Type)
+                                    .Include(s => s.Wagon)
+                                        .ThenInclude(w => w.Type)
+                                    .Include(s => s.Trip)
+                                        .ThenInclude(t => t.Railway)
+                                            .ThenInclude(r => r.Origin_city)
+                                    .Include(s => s.Trip)
+                                        .ThenInclude(t => t.Railway)
+                                            .ThenInclude(r => r.Destination_city)
+                                    .Where(s => seatsIds.Contains(s.Id))
+                                    .ToList();
+
+            for (int i = 0; i < purchasedSeats.Count; i++)
+            {
+                purchasedSeats[i].Reserved = true;
+                _context.Seats.Update(purchasedSeats[i]);
+
+                Ticket ticket = new Ticket()
+                {
+                    Seat = purchasedSeats[i]
+                };
+
+                _context.Tickets.Add(ticket);
+
+                Passenger passenger = new Passenger()
+                {
+                    Ticket = ticket,
+                    FirstName = purchasedTicketsData[i].FirstName,
+                    MiddleName = purchasedTicketsData[i].MiddleName,
+                    LastName = purchasedTicketsData[i].LastName,
+                    Phone = purchasedTicketsData[i].Phone,
+                    Email = purchasedTicketsData[i].Email
+                };
+
+                _context.Passengers.Add(passenger);
+            }
+
+            _context.SaveChanges();
+            return purchasedTicketsData;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UHR.Interfaces;
 using UHR.Models;
+using UHR.ResponsesEntities;
 
 namespace UHR.Controllers
 {
@@ -60,6 +61,21 @@ namespace UHR.Controllers
             return Ok(createdTickets);
         }
 
+        /// <summary>
+        /// Buy Tickets by Passengers data
+        /// </summary>
+        /// 
+        [HttpPost("Buy")]
+        [ProducesResponseType(200, Type = typeof(ICollection<BuyTicketResponse>))]
+        public ActionResult<ICollection<BuyTicketResponse>> BuyTickets([FromBody] List<BuyTicketResponse> purchasedTicketsData)
+        {
+            ICollection<BuyTicketResponse> buyTicketResponse = _ticketInterface.BuyTickets(purchasedTicketsData);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(buyTicketResponse);
+        }
     }
 
 }
