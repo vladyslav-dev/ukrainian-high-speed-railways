@@ -8,7 +8,7 @@ The Ukrainian High-Speed Railways project aims to revolutionize travel across Uk
 - Accessibility: Ensuring convenient access to railway services for passengers across diverse regions.
 - Technological Advancements: Implementing state-of-the-art technologies for safe and reliable operations.
 - Environmental Sustainability: Embracing eco-friendly practices to minimize the environmental impact.
--
+
 ## Features
 - High-Speed Connectivity: Introducing high-speed trains connecting major cities, facilitating quicker and smoother travel.
 - User-Friendly Experience: Providing a seamless and user-friendly interface for ticket booking, schedule checking, and travel planning.
