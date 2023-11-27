@@ -21,7 +21,7 @@ export default function Button(props: ButtonProps) {
 
     const disabledClass = useMemo<string>(() => {
         return disabled ? 'opacity-60 hover:opacity-60 cursor-not-allowed' : ''
-    }, [])
+    }, [disabled])
 
     const variantClass = useMemo(() => {
         const variantClassMap = {

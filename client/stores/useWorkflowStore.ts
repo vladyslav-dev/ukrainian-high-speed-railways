@@ -1,5 +1,6 @@
-import { ISearchResultData, ISearchResultTrip } from '@/types/trip'
+import { ISearchResultData } from '@/types/trip'
 import { create } from 'zustand'
+import { ISelectedSeat } from '@/widgets/SelectSeats'
 
 interface WorkflowStore {
     searchResultData: ISearchResultData[]
@@ -8,8 +9,8 @@ interface WorkflowStore {
     activeTrip: ISearchResultData | null
     setActiveTrip: (activeTrip: ISearchResultData | null) => void
 
-    selectedSeats: string[]
-    setSelectedSeats: (selectedSeats: string[]) => void
+    selectedSeats: ISelectedSeat[]
+    setSelectedSeats: (selectedSeats: ISelectedSeat[]) => void
 }
 
 export const useWorkflowStore = create<WorkflowStore>()((set, get) => ({
@@ -20,5 +21,5 @@ export const useWorkflowStore = create<WorkflowStore>()((set, get) => ({
     setActiveTrip: (activeTrip: ISearchResultData | null) => set({ activeTrip }),
 
     selectedSeats: [],
-    setSelectedSeats: (selectedSeats: string[]) => set({ selectedSeats })
+    setSelectedSeats: (selectedSeats: ISelectedSeat[]) => set({ selectedSeats })
 }))

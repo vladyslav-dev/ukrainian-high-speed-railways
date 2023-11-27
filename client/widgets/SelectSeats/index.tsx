@@ -4,6 +4,7 @@ import React, { use, useMemo, useState } from "react"
 import { IWagonsAndSeatsResponse, IWagonsResponse } from "@/types/wagon"
 import { ISearchResultTrip } from "@/types/trip"
 import RemoveTicketIcon from "@/components/Icons/RemoveTicket"
+import { useWorkflowStore } from "@/stores/useWorkflowStore"
 
 interface ISelectSeatsProps {
     wagons: IWagonsAndSeatsResponse
@@ -21,7 +22,8 @@ interface ISeatProps extends React.HTMLAttributes<HTMLDivElement> {
    seatType?: SeatType
 }
 
-interface ISelectedSeat {
+export interface ISelectedSeat {
+    tripId: number,
     tripName: string
     wagonId: number
     wagonNumber: number
@@ -131,7 +133,7 @@ const Tickets = (props: ITicketsProps) => {
 const SelectSeats = (props: ISelectSeatsProps) => {
     const { wagons, trip, title } = props
 
-    const [selectedSeats, setSelectedSeats] = useState<ISelectedSeat[]>([])
+    const { selectedSeats, setSelectedSeats } = useWorkflowStore()
 
     const { departureDate, arrivalDate } = useMemo(() => {
         const departureDate = new Date(trip.departure_date).toLocaleString()
@@ -149,7 +151,7 @@ const SelectSeats = (props: ISelectSeatsProps) => {
         const found = selectedSeats.find((selectedSeat) => String(selectedSeat.seatId) === id)
 
         if (found) {
-            setSelectedSeats((prev) => prev.filter((selectedSeat) => String(selectedSeat.seatId) !== id))
+            setSelectedSeats(selectedSeats.filter((selectedSeat) => String(selectedSeat.seatId) !== id))
         } else {
             const wagon = wagons.tripWagons.find((wagon) => wagon.wagonSeats.find((seat) => String(seat.id) === id))
 
@@ -157,7 +159,8 @@ const SelectSeats = (props: ISelectSeatsProps) => {
                 const seat = wagon.wagonSeats.find((seat) => String(seat.id) === id)
 
                 if (seat) {
-                    setSelectedSeats((prev) => ([...prev, {
+                    setSelectedSeats([...selectedSeats, {
+                        tripId: trip.id,
                         tripName: trip.name,
                         wagonId: wagon.wagonId,
                         wagonNumber: wagon.wagonNumber,
@@ -166,7 +169,7 @@ const SelectSeats = (props: ISelectSeatsProps) => {
                         seatId: seat.id,
                         seatNumber: seat.number,
                         seatReserved: seat.reserved
-                    }]))
+                    }])
                 }
             }
         }
@@ -175,7 +178,7 @@ const SelectSeats = (props: ISelectSeatsProps) => {
     const handleRemoveTicketClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const { id } = event.currentTarget
 
-        setSelectedSeats((prev) => prev.filter((selectedSeat) => String(selectedSeat.seatId) !== id))
+        setSelectedSeats(selectedSeats.filter((selectedSeat) => String(selectedSeat.seatId) !== id))
     }
 
     return (

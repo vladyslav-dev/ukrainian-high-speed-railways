@@ -1,17 +1,17 @@
 "use client"
 
-import { getWagonsAndSeatsByTripId } from '@/api/trips'
+import { getWagonsAndSeatsByTripId, getTripById } from '@/api/trips'
 import Button from '@/components/Button'
 import { useWorkflowStore } from '@/stores/useWorkflowStore'
 import { IWagonsAndSeatsResponse } from '@/types/wagon'
 import SelectSeats from '@/widgets/SelectSeats'
 import { useRouter, useSearchParams } from 'next/navigation'
-import React from 'react'
+import React, { useEffect } from 'react'
 import useSWR from 'swr'
 
 export default function Seats() {
 
-  const { activeTrip } = useWorkflowStore()
+  const { activeTrip, selectedSeats, setActiveTrip } = useWorkflowStore()
 
   const router = useRouter()
 
@@ -40,7 +40,7 @@ export default function Seats() {
       router.push(`/workflow/passengers`)
     }
   }
-
+  
   const trip = activeTrip?.backTrip && isBackTrip ? activeTrip.backTrip : activeTrip?.trip
 
   const title = isBackTrip ? 'Select seat(s) - Return Journey' : 'Select seat(s) - Outbound Journey'
@@ -57,7 +57,7 @@ export default function Seats() {
         <SelectSeats trip={trip} wagons={wagons} title={title} />
         <div className='h-[90px] p-4 flex justify-end items-center border-t-2 border-stroke'>
           <Button label='Back' onClick={onBackClick} size='medium' variant='outlined' />
-          <Button label='Next' onClick={onNextClick} size='medium' className='ml-4' />
+          <Button disabled={!Boolean(selectedSeats.length)} label='Next' onClick={onNextClick} size='medium' className='ml-4' />
         </div>
       </React.Fragment>
     ) : <p>Something went wrong, try to &quot;Find&quot; the trip again</p>
