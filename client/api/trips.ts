@@ -1,4 +1,4 @@
-import { TSearchTripsQueryParams, TTripInfoResponse, TTripResponse, TTripsIds } from "@/types/trip"
+import { TFindTripsResponse, TSearchTripsQueryParams, TTripInfoResponse, TTripsIds } from "@/types/trip"
 import { IWagonsAndSeatsResponse } from "@/types/wagon"
 
 export async function getTripsByQueryParams({
@@ -6,9 +6,9 @@ export async function getTripsByQueryParams({
     destinationCityQuery,
     fromDateQuery,
     toDateQuery
-}: TSearchTripsQueryParams): Promise<TTripResponse> {
+}: TSearchTripsQueryParams): Promise<TFindTripsResponse> {
     const res = await fetch(`https://uhr-server.azurewebsites.net/api/Trip/search?${originCityQuery}${destinationCityQuery}${fromDateQuery}${toDateQuery}`)
-    
+
     if (!res.ok) {
         throw new Error('Failed to fetch data')
     }
@@ -17,12 +17,12 @@ export async function getTripsByQueryParams({
 }
 
 export async function getTripsInfoByTripsIds(tripsIds: TTripsIds): Promise<TTripInfoResponse> {
-    const res = await fetch("https://uhr-server.azurewebsites.net/api/Trip/TripsInfosByTripsIds", { 
-        method: "POST", 
-        body: JSON.stringify(tripsIds), 
-        headers: { "Content-Type": "application/json" } 
+    const res = await fetch("https://uhr-server.azurewebsites.net/api/Trip/TripsInfosByTripsIds", {
+        method: "POST",
+        body: JSON.stringify(tripsIds),
+        headers: { "Content-Type": "application/json" }
     })
-    
+
     if (!res.ok) {
         throw new Error('Failed to fetch data')
     }
@@ -31,11 +31,11 @@ export async function getTripsInfoByTripsIds(tripsIds: TTripsIds): Promise<TTrip
 }
 
 export async function getWagonsAndSeatsByTripId(tripId: string): Promise<IWagonsAndSeatsResponse> {
-    const res = await fetch(`https://uhr-server.azurewebsites.net/api/Trip/GetWagonsAndSeatsByTripId/${tripId}`, { 
-        method: "GET", 
-        headers: { "Content-Type": "application/json" } 
+    const res = await fetch(`https://uhr-server.azurewebsites.net/api/Trip/GetWagonsAndSeatsByTripId/${tripId}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
     })
-    
+
     if (!res.ok) {
         throw new Error('Failed to fetch data')
     }

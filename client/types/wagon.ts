@@ -8,9 +8,10 @@ export interface IWagonSeatsResponse {
     number: number;
     reserved: boolean;
 }
-  
+
 export interface IWagonsResponse {
     wagonId: number;
+    wagonNumber: number;
     wagonType: IWagonType;
     wagonPrice: number;
     wagonSeats: IWagonSeatsResponse[];

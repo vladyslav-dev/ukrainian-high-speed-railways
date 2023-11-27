@@ -11,6 +11,7 @@ const config: Config = {
     extend: {
       colors: {
         primary: '#25B491',
+        primaryOpacity: 'rgba(37, 180, 145, 0.20)',
         secondary: '#A3A3A3',
         stroke: "#C9C9C9",
         backgroundLightGrey: '#F8F8F8',
