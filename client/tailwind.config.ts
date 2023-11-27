@@ -24,6 +24,8 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss-pseudo-elements'),
+  ],
 }
 export default config
