@@ -1,9 +1,7 @@
-import { getTripsByQueryParams, getTripsInfoByTripsIds } from "@/api/trips"
 import CardList from "@/components/CardList"
-import useSearchQueryParams from "@/hooks/useSearchQueryParams"
-import { TFindTripsResponse, ISearchResultData, ITripInfo, TTripInfoResponse, TTripsIds, IFindTrip } from "@/types/trip"
+import { ISearchResultData } from "@/types/trip"
 import Image from "next/image"
-import React, { useMemo } from "react"
+import React from "react"
 
 interface ISearchResultProps {
     searchResultData: ISearchResultData[]
@@ -14,7 +12,7 @@ const SearchResult = (props: ISearchResultProps) => {
 
     return (
         <React.Fragment>
-            {searchResultData.length 
+            {searchResultData.length
                 ?
                     <React.Fragment>
                         <h2 className="text-xl p-4 font-medium">Search Result</h2>  

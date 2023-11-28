@@ -1,4 +1,4 @@
-import { ISearchResultData, ITrip, TFindTripsResponse, TSearchTripsQueryParams, TTripInfoResponse, TTripsIds } from "@/types/trip"
+import { ISearchResultData, TFindTripsResponse, TSearchTripsQueryParams, TTripInfoResponse, TTripsIds } from "@/types/trip"
 import { IWagonsAndSeatsResponse } from "@/types/wagon"
 
 export async function getTripsByQueryParams({
@@ -7,13 +7,17 @@ export async function getTripsByQueryParams({
     fromDateQuery,
     toDateQuery
 }: TSearchTripsQueryParams): Promise<TFindTripsResponse> {
-    const res = await fetch(`https://uhr-server.azurewebsites.net/api/Trip/search?${originCityQuery}${destinationCityQuery}${fromDateQuery}${toDateQuery}`)
-
-    if (!res.ok) {
-        throw new Error('Failed to fetch data')
-    }
-
-    return res.json()
+    return new Promise((resolve, reject) => {
+        setTimeout(async () => {
+            try {
+                const res = await fetch(`https://uhr-server.azurewebsites.net/api/Trip/search?${originCityQuery}${destinationCityQuery}${fromDateQuery}${toDateQuery}`)
+                const data = await res.json();
+                resolve(data)
+            } catch (error) {
+                reject(error)
+            }
+        }, 3000)
+    })
 }
 
 export async function getTripsInfoByTripsIds(tripsIds: TTripsIds): Promise<TTripInfoResponse> {
