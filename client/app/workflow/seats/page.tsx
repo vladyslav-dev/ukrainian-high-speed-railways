@@ -82,7 +82,7 @@ export default function Seats() {
     return sortedWagons && activeTrip && trip ? (
       <React.Fragment>
         <SelectSeats trip={trip} wagons={sortedWagons} title={title} />
-        <div className='h-[90px] p-4 flex justify-end items-center border-t-2 border-stroke'>
+        <div className='h-[90px] p-4 flex justify-end items-center border-t-2 border-primary'>
           <Button label='Back' onClick={onBackClick} size='medium' variant='outlined' />
           <Button disabled={!Boolean(selectedSeats.length)} label='Next' onClick={onNextClick} size='medium' className='ml-4' />
         </div>
