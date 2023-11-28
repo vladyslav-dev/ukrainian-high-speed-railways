@@ -3,11 +3,11 @@ import CloseIcon from "../Icons/Close"
 interface IToasterProps {
     showToaster: boolean
     onCloseClick: () => void
-
+    message: string
 }
 
 const Toaster = (props: IToasterProps) => {
-    const { showToaster, onCloseClick } = props
+    const { message, showToaster, onCloseClick } = props
 
     return (
         <div
@@ -20,7 +20,7 @@ const Toaster = (props: IToasterProps) => {
                 opacity: showToaster ? '1' : '0',
             }}
         >
-            <span>Please fill the required field to “Find” the tickets.</span>
+            <span>{message}</span>
             <CloseIcon onClick={onCloseClick} />
         </div>
     )

@@ -2,11 +2,13 @@
 
 import Accordion from '@/components/Accordion'
 import Button from '@/components/Button'
+import Toaster from '@/components/Toaster'
 import { useWorkflowStore } from '@/stores/useWorkflowStore'
 import { TBuyTicketsPayload } from '@/types/ticket'
 import { ISelectedSeat } from '@/widgets/SelectSeats'
 import { useRouter } from 'next/navigation'
 import React, { useMemo, useState } from 'react'
+import InputMask from 'react-input-mask';
 
 interface IAccordionRenderData {
   [key: string]: ISelectedSeat[]
@@ -14,8 +16,10 @@ interface IAccordionRenderData {
 
 interface IInputDetails {
   value: string
-  error: string
+  error: boolean
 }
+
+type TFieldName = 'firstName' | 'lastName'
 
 interface IFormDataItem {
   firstName: IInputDetails
@@ -24,6 +28,18 @@ interface IFormDataItem {
 
 interface IFormData {
   [key: string]: IFormDataItem
+}
+
+const isEmailValid = (email: string): boolean => {
+  const re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+
+  return re.test(String(email).toLowerCase())
+}
+
+const isPhoneValid = (phone: string): boolean => {
+  const re = /^\+38\s\(0\d{2}\)\s\d{3}-\d{2}-\d{2}$/
+
+  return re.test(String(phone).toLowerCase())
 }
 
 export default function Passengers() {
@@ -37,19 +53,21 @@ export default function Passengers() {
       acc[item.seatId] = {
         firstName: {
           value: "",
-          error: ""
+          error: false
         },
         lastName: {
           value: "",
-          error: ""
+          error: false
         }
       }
       return acc
     }, {})
   })
 
-  const [phone, setPhone] = useState<string>("")
-  const [email, setEmail] = useState<string>("")
+  const [phone, setPhone] = useState<IInputDetails>({ value: "", error: false })
+  const [email, setEmail] = useState<IInputDetails>({ value: "", error: false })
+
+  const [showErrorToaster, setShowErrorToaster] = useState<boolean>(false)
 
   const accordionRenderData = useMemo<IAccordionRenderData>(() => {
     return selectedSeats.reduce<IAccordionRenderData>((acc, item: ISelectedSeat) => {
@@ -74,14 +92,91 @@ export default function Passengers() {
         ...prev[seatId],
         [event.target.name]: {
           value: event.target.value,
-          error: ""
+          error: false
         }
       }
     }))
   }
 
-  const isFormValid = (): boolean => {
-    return Object.values(formData).every(item => Boolean(item.firstName.value.trim() && item.lastName.value.trim()))
+  const handleContactFormUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const fieldName = event.target.name
+
+    switch (fieldName) {
+      case 'phone':
+        setPhone({
+          value: event.target.value,
+          error: false
+        })
+        break
+      case 'email':
+        setEmail({
+          value: event.target.value,
+          error: false
+        })
+        break
+    }
+  }
+
+  const setInvalidField = (seatId: string, fieldName: TFieldName) => {
+    setFormData((prev) => ({
+      ...prev,
+      [seatId]: {
+        ...prev[seatId],
+        [fieldName]: {
+          ...prev[seatId][fieldName],
+          error: true
+        }
+      }
+    }))
+  }
+
+  const validatePassengerForm = (): { isValid: boolean } => {
+    console.log('validatePassengerForm formData', formData)
+    const result = Object.keys(formData).map((item) => {
+      const firstNameValid = Boolean(formData[item].firstName.value.trim())
+      const lastNameValid = Boolean(formData[item].lastName.value.trim())
+
+      if (!firstNameValid) {
+        setInvalidField(item, 'firstName')
+      }
+
+      if (!lastNameValid) {
+        setInvalidField(item, 'lastName')
+      }
+
+      return Boolean(firstNameValid && lastNameValid)
+    })
+
+    const isValid = result.every(Boolean)
+
+    return { isValid }
+  }
+
+  const validateForm = (): { isValid: boolean } => {
+    const emailValid = isEmailValid(email.value)
+    const phoneValid = isPhoneValid(phone.value)
+    const { isValid: isPassengersValid } = validatePassengerForm()
+
+    if (!emailValid) {
+      setEmail((prev) => ({...prev, error: true }))
+    }
+
+    if (!phoneValid) {
+      setPhone((prev) => ({...prev, error: true }))
+    }
+
+    return { isValid: Boolean(emailValid && phoneValid && isPassengersValid) }
+  }
+
+  const createPayload = (): TBuyTicketsPayload => {
+    return Object.keys(formData).map(seatId => ({
+      seat_id: Number(seatId),
+      firstName: formData[seatId].firstName.value,
+      middleName: "",
+      lastName: formData[seatId].lastName.value,
+      email: email.value,
+      phone: phone.value,
+    }))
   }
 
   const onBackClick = () => {
@@ -89,23 +184,24 @@ export default function Passengers() {
   }
 
   const onNextClick = () => {
-    console.log('isFormValid', isFormValid())
+    const { isValid } = validateForm()
 
-    const payload: TBuyTicketsPayload = Object.keys(formData).map(seatId => ({
-      seat_id: Number(seatId),
-      firstName: formData[seatId].firstName.value,
-      middleName: null,
-      lastName: formData[seatId].lastName.value,
-      email: email,
-      phone: phone,
-    }))
+    if (isValid) {
+      const payload: TBuyTicketsPayload = createPayload()
 
-    setBuyTicketPayload(payload)
+      console.log('payload', payload)
+
+      setBuyTicketPayload(payload)
+
+      router.push('/workflow/payment')
+    } else [
+      setShowErrorToaster(true)
+    ]
   }
 
-  console.log('accordionRenderData', accordionRenderData)
-
-  console.log('selectedSeats', selectedSeats)
+  const onToasterClose = () => {
+    setShowErrorToaster(false)
+  }
 
   return (
     <React.Fragment>
@@ -113,7 +209,13 @@ export default function Passengers() {
         <h2 className='text-xl font-medium mb-3'>Passenger Data</h2>
         <div className='flex flex-col gap-3'>
           {Object.keys(accordionRenderData).map((tripId, index) => (
-            <Accordion key={tripId} expanded={!index} title={accordionRenderData[tripId][0].tripName} subTitle={getFormattedDate(accordionRenderData[tripId][0])}>
+            <Accordion
+              key={tripId}
+              expanded={!index}
+              errorHighlight={formData[accordionRenderData[tripId][0].seatId].firstName.error || formData[accordionRenderData[tripId][0].seatId].lastName.error}
+              title={accordionRenderData[tripId][0].tripName}
+              subTitle={getFormattedDate(accordionRenderData[tripId][0])}
+            >
               <div className='pl-6 pt-3'>
                 {accordionRenderData[tripId].map((item: ISelectedSeat, index) => (
                     <React.Fragment key={item.seatId}>
@@ -123,7 +225,7 @@ export default function Passengers() {
                       </div>
                       <div className='flex items-center gap-3'>
                         <input
-                          className='h-[38px] w-[200px] border border-stroke rounded-[4px] px-3'
+                          className={`h-[38px] w-[200px] border rounded-[4px] px-3 ${formData[item.seatId].firstName.error ? 'border-danger' : 'border-stroke'}`}
                           value={formData[item.seatId].firstName.value}
                           name='firstName'
                           placeholder='First Name'
@@ -131,7 +233,7 @@ export default function Passengers() {
                           data-seat-id={String(item.seatId)}
                         />
                         <input
-                          className='h-[38px] w-[200px] border border-stroke rounded-[4px] px-3'
+                          className={`h-[38px] w-[200px] border rounded-[4px] px-3 ${formData[item.seatId].lastName.error ? 'border-danger' : 'border-stroke'}`}
                           value={formData[item.seatId].lastName.value}
                           name='lastName'
                           placeholder='Last Name'
@@ -144,31 +246,38 @@ export default function Passengers() {
               </div>
             </Accordion>
           ))}
-          <Accordion title={"Contacts"}>
+          <Accordion title={"Contacts"} errorHighlight={email.error || phone.error}>
             <div className='pl-6 pt-3'>
               <div className='flex items-center gap-3'>
                 <input
-                  className='h-[38px] w-[200px] border border-stroke rounded-[4px] px-3'
-                  value={email}
+                  className={`h-[38px] w-[200px] border rounded-[4px] px-3 ${email.error ? 'border-danger' : 'border-stroke'}`}
+                  value={email.value}
                   name='email'
                   placeholder='Email'
-                  onChange={(event) => setEmail(event.target.value)}
+                  onChange={handleContactFormUpdate}
                 />
-                <input
-                  className='h-[38px] w-[200px] border border-stroke rounded-[4px] px-3'
-                  value={phone}
+                <InputMask
+                  mask="+38 (099) 999-99-99"
                   name='phone'
+                  type='tel'
                   placeholder='Phone'
-                  onChange={(event) => setPhone(event.target.value)}
+                  value={phone.value}
+                  onChange={handleContactFormUpdate}
+                  className={`h-[38px] w-[200px] border rounded-[4px] px-3 ${phone.error ? 'border-danger' : 'border-stroke'}`}
                 />
               </div>
             </div>
           </Accordion>
         </div>
+        <Toaster
+          message='Kindly ensure that every field is completed before proceeding.'
+          showToaster={showErrorToaster}
+          onCloseClick={onToasterClose}
+        />
       </div>
-      <div className='h-[90px] p-4 flex justify-end items-center border-t-2 border-stroke'>
+      <div className='h-[90px] p-4 flex justify-end items-center border-t-2 border-primary'>
       <Button label='Back' onClick={onBackClick} size='medium' variant='outlined' />
-      <Button disabled={!isFormValid()} label='Next' onClick={onNextClick} size='medium' className='ml-4' />
+      <Button label='Next' onClick={onNextClick} size='medium' className='ml-4' />
     </div>
   </React.Fragment>
   )

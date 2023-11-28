@@ -76,6 +76,21 @@ namespace UHR.Controllers
 
             return Ok(buyTicketResponse);
         }
+
+        /// <summary>
+        /// Get tickets by phone number
+        /// </summary>
+        [HttpPost("GetTicketsByPhone")]
+        [ProducesResponseType(201, Type = typeof(ICollection<TicketResponse>))]
+        public ActionResult<TicketResponse> GetTicketsByPhone([FromBody] string phone)
+        {
+            ICollection<TicketResponse> ticketResponse = _ticketInterface.GetTicketsByPhone(phone);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(ticketResponse);
+        }
     }
 
 }

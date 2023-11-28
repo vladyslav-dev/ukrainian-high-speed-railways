@@ -65,7 +65,7 @@ const Trip = (props: ISearchResultTrip) => {
     )
 }
 
-interface ICardProps extends ISearchResultData {}
+export interface ICardProps extends ISearchResultData {}
 
 const CardItem = (props: ICardProps) => {
     const { trip, backTrip } = props

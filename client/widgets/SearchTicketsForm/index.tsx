@@ -166,7 +166,11 @@ export default function SearchTicketsForm(props: ISearchTicketsFormProps) {
         />
       </div>
       <Button label="Find" size="large" onClick={onSubmit} className='ml-3' />
-      <Toaster showToaster={showToaster} onCloseClick={onToasterClose} />
+      <Toaster
+        message='Please fill the required field to “Find” the tickets.'
+        showToaster={showToaster}
+        onCloseClick={onToasterClose}
+      />
     </div>
   )
 }

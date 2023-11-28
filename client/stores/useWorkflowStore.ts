@@ -15,7 +15,6 @@ interface WorkflowStore {
 
     buyTicketPayload: TBuyTicketsPayload
     setBuyTicketPayload: (buyTicketPayload: TBuyTicketsPayload) => void
-
 }
 
 export const useWorkflowStore = create<WorkflowStore>()((set, get) => ({

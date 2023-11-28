@@ -147,6 +147,10 @@ const SelectSeats = (props: ISelectSeatsProps) => {
         }
     }, [trip.departure_date, trip.arrival_date])
 
+    const totalPrice = useMemo(() => {
+        return selectedSeats.reduce((acc, cur) => acc + cur.wagonPrice, 0)
+    }, [selectedSeats])
+
     const handleSeatClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const { id } = event.currentTarget
 
@@ -231,6 +235,9 @@ const SelectSeats = (props: ISelectSeatsProps) => {
                 <div className="flex flex-col flex-1">
                     {selectedSeats.length > 0 && <div>Selected seat(s)</div>}
                     <Tickets selectedSeats={selectedSeats} onTicketRemove={handleRemoveTicketClick} />
+                    <div className="border-t-[1px] border-stroke font-500 mt-4 pt-2 pr-2 flex justify-end">
+                        Total: <span className="text-primary ml-2">{totalPrice} USD</span>
+                    </div>
                 </div>
             </div>
         </div>

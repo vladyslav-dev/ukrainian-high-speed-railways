@@ -1,20 +1,19 @@
-import { getTripsByQueryParams, getTripsInfoByTripsIds } from "@/api/trips"
 import CardList from "@/components/CardList"
-import useSearchQueryParams from "@/hooks/useSearchQueryParams"
-import { TFindTripsResponse, ISearchResultData, ITripInfo, TTripInfoResponse, TTripsIds, IFindTrip } from "@/types/trip"
+import { ISearchResultData } from "@/types/trip"
 import Image from "next/image"
-import React, { useMemo } from "react"
+import React from "react"
 
 interface ISearchResultProps {
-    searchResultData: ISearchResultData[]
+    searchResultData: ISearchResultData[],
+    isLoading: boolean
 }
 
 const SearchResult = (props: ISearchResultProps) => {
-    const { searchResultData } = props
+    const { searchResultData, isLoading } = props
 
     return (
         <React.Fragment>
-            {searchResultData.length 
+            {searchResultData.length && !isLoading
                 ?
                     <React.Fragment>
                         <h2 className="text-xl p-4 font-medium">Search Result</h2>  
@@ -29,7 +28,7 @@ const SearchResult = (props: ISearchResultProps) => {
                     </React.Fragment>
                 : 
                     <div className="h-3/4 flex justify-center items-center">
-                        <Image width={512} height={512} src={"/not-found.jpg"} alt="Not-found"/>
+                        <Image priority width={512} height={512} src={"/not-found.jpg"} alt="Not-found"/>
                         <div className="max-w-[330px] w-full flex flex-col gap-5">
                             <h1 className="text-2xl">No Tickets Found</h1>
                             <p>Sorry, no tickets found for your selected dates or cities. Please review your choices or contact our customer support for assistance.</p>

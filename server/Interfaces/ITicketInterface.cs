@@ -12,5 +12,7 @@ namespace UHR.Interfaces
         Ticket GetTicketById(int id);
 
         ICollection<BuyTicketResponse> BuyTickets(List<BuyTicketResponse> purchasedTicketsData);
+
+        ICollection<TicketResponse> GetTicketsByPhone(string phone);
     }
 }
