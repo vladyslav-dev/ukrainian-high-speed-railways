@@ -87,8 +87,6 @@ export default function Payment() {
                 },
               }}
               onLoadPaymentData={paymentRequest => {
-                console.log('load payment data', paymentRequest)
-
                 buyTickets()
               }}
             />
