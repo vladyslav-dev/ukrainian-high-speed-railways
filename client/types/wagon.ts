@@ -1,6 +1,8 @@
+export type TWagonType = 'Standart' | 'VIP'
+
 export interface IWagonType {
     id: number;
-    type: string;
+    type: TWagonType;
 }
 
 export interface IWagonSeatsResponse {
