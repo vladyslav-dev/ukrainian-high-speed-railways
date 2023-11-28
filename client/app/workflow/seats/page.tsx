@@ -11,6 +11,7 @@ import React, { useMemo } from 'react'
 import useSWR from 'swr'
 import { Lexend_Giga } from 'next/font/google'
 import Link from 'next/link'
+import TrainLoader from '@/components/TrainLoader'
 
 const lexendGigaFont = Lexend_Giga({ subsets: ['latin'] })
 
@@ -74,9 +75,9 @@ export default function Seats() {
 
   if (isWagonsLoading) {
     return (
-        <div className="flex justify-center items-center h-screen">
-            <p className="text-xl font-semibold">Loading...</p>
-        </div>
+      <div className="flex justify-center items-center h-screen">
+        <TrainLoader />
+      </div>
     )
   } else {
     return sortedWagons && activeTrip && trip ? (

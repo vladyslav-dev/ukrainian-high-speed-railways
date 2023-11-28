@@ -2,7 +2,7 @@
 
 import SearchResult from '@/widgets/SearchResult'
 import useSearchResultData from '@/hooks/useSearchResultData'
-import Loader from '@/components/Loader'
+import TrainLoader from '@/components/TrainLoader'
 
 export default function Search() {
   const { data, error, isLoading } = useSearchResultData()
@@ -10,7 +10,7 @@ export default function Search() {
   if (isLoading) {
     return (
         <div className="flex justify-center items-center h-screen">
-            <Loader />
+          <TrainLoader />
         </div>
     )
   } else {

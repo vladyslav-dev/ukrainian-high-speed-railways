@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
-import classes from './loader.module.css'
+import classes from './TrainLoader.module.css'
 
-const Loader:FC = () => {
+const TrainLoader:FC = () => {
     return (
         <div className={classes.loader}>
             <div className={classes.train}></div>
@@ -14,4 +14,4 @@ const Loader:FC = () => {
     );
 };
 
-export default Loader;
+export default TrainLoader;
