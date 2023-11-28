@@ -2,6 +2,7 @@
 
 import Accordion from '@/components/Accordion'
 import Button from '@/components/Button'
+import SomethingWentWrong from '@/components/SomethingWentWrong'
 import Toaster from '@/components/Toaster'
 import { useWorkflowStore } from '@/stores/useWorkflowStore'
 import { TBuyTicketsPayload } from '@/types/ticket'
@@ -203,84 +204,88 @@ export default function Passengers() {
     setShowErrorToaster(false)
   }
 
-  return (
-    <React.Fragment>
-      <div className='h-full p-4 overflow-auto'>
-        <h2 className='text-xl font-medium mb-3'>Passenger Data</h2>
-        <div className='flex flex-col gap-3'>
-          {Object.keys(accordionRenderData).map((tripId, index) => (
-            <Accordion
-              key={tripId}
-              expanded={!index}
-              errorHighlight={formData[accordionRenderData[tripId][0].seatId].firstName.error || formData[accordionRenderData[tripId][0].seatId].lastName.error}
-              title={accordionRenderData[tripId][0].tripName}
-              subTitle={getFormattedDate(accordionRenderData[tripId][0])}
-            >
-              <div className='pl-6 pt-3'>
-                {accordionRenderData[tripId].map((item: ISelectedSeat, index) => (
-                    <React.Fragment key={item.seatId}>
-                      <div className='flex flex-col my-4'>
-                        <h4 className='font-medium'>Passenger {index + 1}</h4>
-                        <span className='text-secondary font-normal text-xs'>Wagon {item.wagonNumber}, Place {item.seatNumber} - {item.wagonType}</span>
-                      </div>
-                      <div className='flex items-center gap-3'>
-                        <input
-                          className={`h-[38px] w-[200px] border rounded-[4px] px-3 ${formData[item.seatId].firstName.error ? 'border-danger' : 'border-stroke'}`}
-                          value={formData[item.seatId].firstName.value}
-                          name='firstName'
-                          placeholder='First Name'
-                          onChange={handleFormUpdate}
-                          data-seat-id={String(item.seatId)}
-                        />
-                        <input
-                          className={`h-[38px] w-[200px] border rounded-[4px] px-3 ${formData[item.seatId].lastName.error ? 'border-danger' : 'border-stroke'}`}
-                          value={formData[item.seatId].lastName.value}
-                          name='lastName'
-                          placeholder='Last Name'
-                          onChange={handleFormUpdate}
-                          data-seat-id={String(item.seatId)}
-                        />
-                      </div>
-                    </React.Fragment>
-                  ))}
-              </div>
-            </Accordion>
-          ))}
-          <Accordion title={"Contacts"} errorHighlight={email.error || phone.error}>
-            <div className='pl-6 pt-3'>
-              <div className='flex items-center gap-3'>
-                <input
-                  className={`h-[38px] w-[200px] border rounded-[4px] px-3 ${email.error ? 'border-danger' : 'border-stroke'}`}
-                  value={email.value}
-                  name='email'
-                  placeholder='Email'
-                  onChange={handleContactFormUpdate}
-                />
-                <InputMask
-                  mask="+38 (099) 999-99-99"
-                  name='phone'
-                  type='tel'
-                  placeholder='Phone'
-                  value={phone.value}
-                  onChange={handleContactFormUpdate}
-                  className={`h-[38px] w-[200px] border rounded-[4px] px-3 ${phone.error ? 'border-danger' : 'border-stroke'}`}
-                />
-              </div>
+  if (selectedSeats.length === 0) {
+    return <SomethingWentWrong />
+  } else {
+    return (
+        <React.Fragment>
+          <div className='h-full p-4 overflow-auto'>
+            <h2 className='text-xl font-medium mb-3'>Passenger Data</h2>
+            <div className='flex flex-col gap-3'>
+              {Object.keys(accordionRenderData).map((tripId, index) => (
+                <Accordion
+                  key={tripId}
+                  expanded={!index}
+                  errorHighlight={formData[accordionRenderData[tripId][0].seatId].firstName.error || formData[accordionRenderData[tripId][0].seatId].lastName.error}
+                  title={accordionRenderData[tripId][0].tripName}
+                  subTitle={getFormattedDate(accordionRenderData[tripId][0])}
+                >
+                  <div className='pl-6 pt-3'>
+                    {accordionRenderData[tripId].map((item: ISelectedSeat, index) => (
+                        <React.Fragment key={item.seatId}>
+                          <div className='flex flex-col my-4'>
+                            <h4 className='font-medium'>Passenger {index + 1}</h4>
+                            <span className='text-secondary font-normal text-xs'>Wagon {item.wagonNumber}, Place {item.seatNumber} - {item.wagonType}</span>
+                          </div>
+                          <div className='flex items-center gap-3'>
+                            <input
+                              className={`h-[38px] w-[200px] border rounded-[4px] px-3 ${formData[item.seatId].firstName.error ? 'border-danger' : 'border-stroke'}`}
+                              value={formData[item.seatId].firstName.value}
+                              name='firstName'
+                              placeholder='First Name'
+                              onChange={handleFormUpdate}
+                              data-seat-id={String(item.seatId)}
+                            />
+                            <input
+                              className={`h-[38px] w-[200px] border rounded-[4px] px-3 ${formData[item.seatId].lastName.error ? 'border-danger' : 'border-stroke'}`}
+                              value={formData[item.seatId].lastName.value}
+                              name='lastName'
+                              placeholder='Last Name'
+                              onChange={handleFormUpdate}
+                              data-seat-id={String(item.seatId)}
+                            />
+                          </div>
+                        </React.Fragment>
+                      ))}
+                  </div>
+                </Accordion>
+              ))}
+              <Accordion title={"Contacts"} errorHighlight={email.error || phone.error}>
+                <div className='pl-6 pt-3'>
+                  <div className='flex items-center gap-3'>
+                    <input
+                      className={`h-[38px] w-[200px] border rounded-[4px] px-3 ${email.error ? 'border-danger' : 'border-stroke'}`}
+                      value={email.value}
+                      name='email'
+                      placeholder='Email'
+                      onChange={handleContactFormUpdate}
+                    />
+                    <InputMask
+                      mask="+38 (099) 999-99-99"
+                      name='phone'
+                      type='tel'
+                      placeholder='Phone'
+                      value={phone.value}
+                      onChange={handleContactFormUpdate}
+                      className={`h-[38px] w-[200px] border rounded-[4px] px-3 ${phone.error ? 'border-danger' : 'border-stroke'}`}
+                    />
+                  </div>
+                </div>
+              </Accordion>
             </div>
-          </Accordion>
+            <Toaster
+              type="error"
+              message='Kindly ensure that every field is completed before proceeding.'
+              showToaster={showErrorToaster}
+              onCloseClick={onToasterClose}
+            />
+          </div>
+          <div className='h-[90px] p-4 flex justify-end items-center border-t-2 border-primary'>
+          <Button label='Back' onClick={onBackClick} size='medium' variant='outlined' />
+          <Button label='Next' onClick={onNextClick} size='medium' className='ml-4' />
         </div>
-        <Toaster
-          type="error"
-          message='Kindly ensure that every field is completed before proceeding.'
-          showToaster={showErrorToaster}
-          onCloseClick={onToasterClose}
-        />
-      </div>
-      <div className='h-[90px] p-4 flex justify-end items-center border-t-2 border-primary'>
-      <Button label='Back' onClick={onBackClick} size='medium' variant='outlined' />
-      <Button label='Next' onClick={onNextClick} size='medium' className='ml-4' />
-    </div>
-  </React.Fragment>
-  )
+      </React.Fragment>
+    )
+  }
 }
 

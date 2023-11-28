@@ -9,11 +9,9 @@ import Image from 'next/image'
 import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useMemo } from 'react'
 import useSWR from 'swr'
-import { Lexend_Giga } from 'next/font/google'
 import Link from 'next/link'
 import TrainLoader from '@/components/TrainLoader'
-
-const lexendGigaFont = Lexend_Giga({ subsets: ['latin'] })
+import SomethingWentWrong from '@/components/SomethingWentWrong'
 
 export default function Seats() {
 
@@ -112,12 +110,8 @@ export default function Seats() {
       </React.Fragment>
     )
     :
-    <div className='h-3/4 flex flex-col gap-5 justify-center items-center'>
-        <Image priority src={"/went-wrong.jpg"} alt="Went wrong" width={695} height={252}/>
-        <h1 className={lexendGigaFont.className}>Something went wrong, try to find the trip again!</h1>
-        <Link href={"/"}>
-          <Button label='Go Home'/>
-        </Link>
-    </div>
+    (
+      <SomethingWentWrong />
+    )
   }
 }
