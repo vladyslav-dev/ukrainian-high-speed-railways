@@ -1,10 +1,39 @@
 "use client"
-import React from 'react'
+import React, { useEffect, useMemo } from 'react'
 import GooglePayButton from '@google-pay/button-react'
 import { useRouter } from 'next/navigation'
+import { buyTicketsRequest } from '@/api/tickets'
+import { useWorkflowStore } from '@/stores/useWorkflowStore'
+
 
 export default function Payment() {
+  const { buyTicketPayload, selectedSeats } = useWorkflowStore()
   const router = useRouter()
+
+  useEffect(() => {
+    if (!buyTicketPayload.length) {
+      router.push('/')
+    }
+  }, [])
+
+  const totalPrice = useMemo(() => {
+    const price = selectedSeats.reduce((acc, seat) => {
+      return acc + seat.wagonPrice
+    }, 0)
+
+    return price.toFixed(2)
+  }, [selectedSeats])
+
+  const buyTickets = async () => {
+    const response = await buyTicketsRequest(buyTicketPayload)
+    console.log('buyTickets', response)
+
+    if (response) {
+      router.push("/workflow/success")
+    }
+  }
+
+  console.log('totalPrice', totalPrice)
 
   return (
     <div>
@@ -37,14 +66,15 @@ export default function Payment() {
           transactionInfo: {
             totalPriceStatus: 'FINAL',
             totalPriceLabel: 'Total',
-            totalPrice: '100.00', // <====== PRICE HERE
             currencyCode: 'USD',
             countryCode: 'US',
+            totalPrice,
           },
         }}
         onLoadPaymentData={paymentRequest => {
           console.log('load payment data', paymentRequest)
-          router.push("/workflow/success")
+
+          buyTickets()
         }}
       />
     </div>
