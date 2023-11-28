@@ -1,6 +1,7 @@
 import { ISearchResultData } from '@/types/trip'
 import { create } from 'zustand'
 import { ISelectedSeat } from '@/widgets/SelectSeats'
+import { TBuyTicketsPayload } from '@/types/ticket'
 
 interface WorkflowStore {
     searchResultData: ISearchResultData[]
@@ -11,6 +12,10 @@ interface WorkflowStore {
 
     selectedSeats: ISelectedSeat[]
     setSelectedSeats: (selectedSeats: ISelectedSeat[]) => void
+
+    buyTicketPayload: TBuyTicketsPayload
+    setBuyTicketPayload: (buyTicketPayload: TBuyTicketsPayload) => void
+
 }
 
 export const useWorkflowStore = create<WorkflowStore>()((set, get) => ({
@@ -21,5 +26,8 @@ export const useWorkflowStore = create<WorkflowStore>()((set, get) => ({
     setActiveTrip: (activeTrip: ISearchResultData | null) => set({ activeTrip }),
 
     selectedSeats: [],
-    setSelectedSeats: (selectedSeats: ISelectedSeat[]) => set({ selectedSeats })
+    setSelectedSeats: (selectedSeats: ISelectedSeat[]) => set({ selectedSeats }),
+
+    buyTicketPayload: [],
+    setBuyTicketPayload: (buyTicketPayload: TBuyTicketsPayload) => set({ buyTicketPayload })
 }))

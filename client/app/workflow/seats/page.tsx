@@ -1,17 +1,17 @@
 "use client"
 
-import { getWagonsAndSeatsByTripId, getTripById } from '@/api/trips'
+import { getWagonsAndSeatsByTripId } from '@/api/trips'
 import Button from '@/components/Button'
 import { useWorkflowStore } from '@/stores/useWorkflowStore'
 import { IWagonsAndSeatsResponse } from '@/types/wagon'
 import SelectSeats from '@/widgets/SelectSeats'
 import { useRouter, useSearchParams } from 'next/navigation'
-import React, { useEffect } from 'react'
+import React from 'react'
 import useSWR from 'swr'
 
 export default function Seats() {
 
-  const { activeTrip, selectedSeats, setActiveTrip } = useWorkflowStore()
+  const { activeTrip, selectedSeats } = useWorkflowStore()
 
   const router = useRouter()
 
@@ -40,7 +40,7 @@ export default function Seats() {
       router.push(`/workflow/passengers`)
     }
   }
-  
+
   const trip = activeTrip?.backTrip && isBackTrip ? activeTrip.backTrip : activeTrip?.trip
 
   const title = isBackTrip ? 'Select seat(s) - Return Journey' : 'Select seat(s) - Outbound Journey'
