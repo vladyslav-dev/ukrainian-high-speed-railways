@@ -68,7 +68,7 @@ export default function Seats() {
     ) 
     : 
     <div className='h-3/4 flex flex-col gap-5 justify-center items-center'>
-        <Image src={"/went-wrong.jpg"} alt="Went wrong" width={695} height={252}/>
+        <Image priority src={"/went-wrong.jpg"} alt="Went wrong" width={695} height={252}/>
         <h1 className={lexendGigaFont.className}>Something went wrong, try to find the trip again!</h1>
         <Link href={"/"}>
           <Button label='Go Home'/>

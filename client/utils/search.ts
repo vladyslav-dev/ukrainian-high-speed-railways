@@ -1,4 +1,5 @@
 import { IFindTrip, ISearchResultData, ITripInfo } from "@/types/trip"
+import { useMemo } from "react"
 
 interface IPrepareSearchResultDataParams {
     trips: IFindTrip[]
@@ -6,10 +7,10 @@ interface IPrepareSearchResultDataParams {
 }
 
 export const prepareSearchResultData = ({ trips, tripsInfo }: IPrepareSearchResultDataParams): ISearchResultData[] => {
-    if (!tripsInfo.length) return []
+    if (!tripsInfo.length || !trips.length) return []
 
     const tripsInfoMap = Object.assign({}, ...tripsInfo.map((item: ITripInfo) => ({ [item.tripId]: item })))
-
+    
     if (trips.every((item: IFindTrip) => !item.returned)) {
         /* One Way Trip */
 

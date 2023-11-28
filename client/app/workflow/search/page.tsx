@@ -15,7 +15,7 @@ export default function Search() {
     )
   } else {
     return (
-      <SearchResult searchResultData={data} />
+      <SearchResult searchResultData={data} isLoading={isLoading} />
     )
   }
 }
