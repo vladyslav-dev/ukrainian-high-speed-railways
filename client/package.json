@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@google-pay/button-react": "^3.0.10",
     "@hookform/resolvers": "^3.3.2",
     "@types/react-date-range": "^1.4.7",
     "next": "13.5.6",
