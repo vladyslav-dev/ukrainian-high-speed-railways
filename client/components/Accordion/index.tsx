@@ -6,12 +6,13 @@ import ArrowIcon from '../Icons/Arrow';
 export interface IAccordionProps {
     title: string;
     subTitle?: string;
-    children: string | React.ReactNode;
+    children: React.ReactNode;
     expanded?: boolean;
+    errorHighlight?: boolean;
 }
 
 const Accordion = (props: IAccordionProps) => {
-    const { title, subTitle, children, expanded = false } = props;
+    const { title, subTitle, children, expanded = false, errorHighlight = false } = props;
 
     const [isExpanded, setIsExpanded] = useState<boolean>(expanded);
 
@@ -19,7 +20,13 @@ const Accordion = (props: IAccordionProps) => {
 
     return (
         <React.Fragment>
-            <div className="flex items-center justify-between rounded-md h-17 bg-backgroundLightGrey p-3 cursor-pointer" onClick={toggleAccordion}>
+            <div
+                className={`
+                    flex items-center justify-between rounded-md h-17 bg-backgroundLightGrey p-3 cursor-pointer
+                    border border-storke ${Boolean(errorHighlight && !isExpanded) ? "border-danger" : "border-none"}
+                `}
+                onClick={toggleAccordion}
+            >
                 <div className="flex flex-col">
                     <h6 className="text-base font-medium leading-6 mr-2.5">{title}</h6>
                     {subTitle && <div className="text-xs font-medium">{subTitle}</div>}
