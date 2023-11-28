@@ -132,7 +132,6 @@ export default function Passengers() {
   }
 
   const validatePassengerForm = (): { isValid: boolean } => {
-    console.log('validatePassengerForm formData', formData)
     const result = Object.keys(formData).map((item) => {
       const firstNameValid = Boolean(formData[item].firstName.value.trim())
       const lastNameValid = Boolean(formData[item].lastName.value.trim())
@@ -189,8 +188,6 @@ export default function Passengers() {
 
     if (isValid) {
       const payload: TBuyTicketsPayload = createPayload()
-
-      console.log('payload', payload)
 
       setBuyTicketPayload(payload)
 

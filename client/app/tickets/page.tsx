@@ -20,8 +20,6 @@ const TicketsPage = () => {
         pullTickets()
     }, [])
 
-    console.log('tickets', tickets)
-
     return (
         <div className="h-full w-full bg-white p-4 rounded-tl-[6px] rounded-tr-[6px] overflow-hidden">
             <h1 className="text-2xl p-4 mb-4">Tickets</h1>
