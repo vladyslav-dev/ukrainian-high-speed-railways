@@ -270,6 +270,7 @@ export default function Passengers() {
           </Accordion>
         </div>
         <Toaster
+          type="error"
           message='Kindly ensure that every field is completed before proceeding.'
           showToaster={showErrorToaster}
           onCloseClick={onToasterClose}

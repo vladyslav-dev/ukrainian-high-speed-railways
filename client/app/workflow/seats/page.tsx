@@ -69,10 +69,32 @@ export default function Seats() {
     }
   }
 
+  const isNextDisabled = (): boolean => {
+    console.log('isNextDisabled');
+
+    if (selectedSeats.length === 0) {
+      return true;
+    }
+
+    const isSelectedSeatOnActiveTrip = selectedSeats.some(seat => seat.tripId === activeTrip?.trip.id);
+    const isSelectedSeatOnBackTrip = selectedSeats.some(seat => seat.tripId === activeTrip?.backTrip?.id);
+
+    if (isSelectedSeatOnActiveTrip && !isBackTrip) {
+      return false;
+    }
+
+    if (isSelectedSeatOnActiveTrip && activeTrip?.backTrip && isSelectedSeatOnBackTrip) {
+      return false;
+    }
+
+    return true;
+  };
+
   const trip = activeTrip?.backTrip && isBackTrip ? activeTrip.backTrip : activeTrip?.trip
 
   const title = isBackTrip ? 'Select seat(s) - Return Journey' : 'Select seat(s) - Outbound Journey'
-
+  console.log('selectedSeats', selectedSeats)
+  console.log('activeTrip', activeTrip)
   if (isWagonsLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -85,7 +107,7 @@ export default function Seats() {
         <SelectSeats trip={trip} wagons={sortedWagons} title={title} />
         <div className='h-[90px] p-4 flex justify-end items-center border-t-2 border-primary'>
           <Button label='Back' onClick={onBackClick} size='medium' variant='outlined' />
-          <Button disabled={!Boolean(selectedSeats.length)} label='Next' onClick={onNextClick} size='medium' className='ml-4' />
+          <Button disabled={isNextDisabled()} label='Next' onClick={onNextClick} size='medium' className='ml-4' />
         </div>
       </React.Fragment>
     )

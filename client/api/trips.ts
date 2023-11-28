@@ -7,17 +7,15 @@ export async function getTripsByQueryParams({
     fromDateQuery,
     toDateQuery
 }: TSearchTripsQueryParams): Promise<TFindTripsResponse> {
-    return new Promise((resolve, reject) => {
-        setTimeout(async () => {
-            try {
-                const res = await fetch(`https://uhr-server.azurewebsites.net/api/Trip/search?${originCityQuery}${destinationCityQuery}${fromDateQuery}${toDateQuery}`)
-                const data = await res.json();
-                resolve(data)
-            } catch (error) {
-                reject(error)
-            }
-        }, 3000)
-    })
+    const res = await fetch(`https://uhr-server.azurewebsites.net/api/Trip/search?${originCityQuery}${destinationCityQuery}${fromDateQuery}${toDateQuery}`)
+
+    if (!res.ok) {
+        throw new Error('Failed to fetch data')
+    }
+
+    await new Promise(resolve => setTimeout(resolve, 3000)); // Timeout for 3 seconds
+
+    return res.json()
 }
 
 export async function getTripsInfoByTripsIds(tripsIds: TTripsIds): Promise<TTripInfoResponse> {
