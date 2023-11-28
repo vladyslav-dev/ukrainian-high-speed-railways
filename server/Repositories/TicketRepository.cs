@@ -175,5 +175,60 @@ namespace UHR.Repositories
             _context.SaveChanges();
             return purchasedTicketsData;
         }
+
+        public ICollection<TicketResponse> GetTicketsByPhone(string phone)
+        {
+            var passengers = _context.Passengers
+                                .Include(p => p.Ticket)
+                                    .ThenInclude(t => t.Seat)
+                                        .ThenInclude(s => s.Trip)
+                                            .ThenInclude(t => t.Railway)
+                                                .ThenInclude(r => r.Origin_city)
+                                .Include(p => p.Ticket)
+                                    .ThenInclude(t => t.Seat)
+                                        .ThenInclude(s => s.Trip)
+                                            .ThenInclude(t => t.Railway)
+                                                .ThenInclude(r => r.Destination_city)
+                                .Include(p => p.Ticket)
+                                    .ThenInclude(t => t.Seat)
+                                        .ThenInclude(s => s.Wagon)
+                                            .ThenInclude(w => w.Train)
+                                                .ThenInclude(t => t.Type)
+                                .Include(p => p.Ticket)
+                                    .ThenInclude(t => t.Seat)
+                                        .ThenInclude(s => s.Wagon)
+                                            .ThenInclude(w => w.Type)
+                                .Where(p => p.Phone == phone)
+                                .ToList();
+
+            ICollection<TicketResponse> response = new List<TicketResponse>();
+
+            foreach (var passenger in passengers)
+            {
+                var ticketResponse = new TicketResponse()
+                {
+                    TripId = passenger.Ticket.Seat.Trip.Id,
+                    TripName = passenger.Ticket.Seat.Trip.Name,
+                    DepartureDate = passenger.Ticket.Seat.Trip.Departure_date,
+                    ArrivalDate = passenger.Ticket.Seat.Trip.Arrival_date,
+                    WagonPrice = passenger.Ticket.Seat.Wagon.Seat_Price,
+                    WagonType = passenger.Ticket.Seat.Wagon.Type.Type,
+                    WagonNumber = passenger.Ticket.Seat.Wagon.Number,
+                    SeatId = passenger.Ticket.Seat.Id,
+                    SeatNumber = passenger.Ticket.Seat.Number,
+                    PassengerName = passenger.FirstName,
+                    PassengerLastName = passenger.LastName,
+                    PassengerMiddleName = passenger.MiddleName,
+                    PassengerEmail = passenger.Email,
+                    PassengerPhone = passenger.Phone,
+                    CityTo = passenger.Ticket.Seat.Trip.Railway.Destination_city.Name,
+                    CityFrom = passenger.Ticket.Seat.Trip.Railway.Origin_city.Name
+                };
+
+                response.Add(ticketResponse);
+            }
+
+            return response;
+        }
     }
 }
