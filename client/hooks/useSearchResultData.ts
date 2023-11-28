@@ -42,7 +42,7 @@ const useSearchResultData = (): IUseSearchResultData => {
         isLoading: isTripsInfoLoading
     } = useSWR<TTripInfoResponse>(
         `/api/Trip/TripsInfosByTripsIds/${JSON.stringify(tripsIds)}`,
-        trips.length ? () => getTripsInfoByTripsIds(tripsIds) : null,
+        trips.length ? () => getTripsInfoByTripsIds(tripsIds) : () => [],
         { onSuccess: (data) => {
             const result = prepareSearchResultData({ trips, tripsInfo: data })
 
