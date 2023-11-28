@@ -235,9 +235,11 @@ const SelectSeats = (props: ISelectSeatsProps) => {
                 <div className="flex flex-col flex-1">
                     {selectedSeats.length > 0 && <div>Selected seat(s)</div>}
                     <Tickets selectedSeats={selectedSeats} onTicketRemove={handleRemoveTicketClick} />
-                    <div className="border-t-[1px] border-stroke font-500 mt-4 pt-2 pr-2 flex justify-end">
-                        Total: <span className="text-primary ml-2">{totalPrice} USD</span>
-                    </div>
+                    {totalPrice > 0 && (
+                        <div className="border-t-[1px] border-stroke font-500 mt-4 pt-2 pr-2 flex justify-end">
+                            Total: <span className="text-primary ml-2">{totalPrice} USD</span>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

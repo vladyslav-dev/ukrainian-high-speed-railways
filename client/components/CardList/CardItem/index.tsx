@@ -104,7 +104,7 @@ const CardItem = (props: ICardProps) => {
 
             </div>
             <div className="flex flex-col flex-1 gap-2 h-full max-w-[320px]">
-                <div className="flex flex-col items-center justify-center gap-4 h-full px-4 py-2 border-2 border-primary rounded-[4px]">
+                <div className="flex flex-col items-center justify-center gap-4 h-full px-4 py-2">
                     <div className="flex items-center mr-3">
                         <span className="text-sm">From {minPrice} USD</span>
                     </div>

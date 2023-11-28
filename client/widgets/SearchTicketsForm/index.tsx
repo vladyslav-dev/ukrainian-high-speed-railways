@@ -53,7 +53,8 @@ export default function SearchTicketsForm(props: ISearchTicketsFormProps) {
     arrivalDate: getDateTimeValue('arrivalDate', new Date('')),
   }
 
-  const [showToaster, setShowToaster] = useState<boolean>(false)
+  const [showErrorToaster, setErrorToaster] = useState<boolean>(false)
+  const [showSuccessToaster, setSuccessToaster] = useState<boolean>(false)
   const [searchFormData, setSearchFormData] = useState<ISearchTicketsForm>({
     originCity: {
       value: originCity,
@@ -78,7 +79,8 @@ export default function SearchTicketsForm(props: ISearchTicketsFormProps) {
   }, [cities])
 
   const onToasterClose = () => {
-    setShowToaster(false)
+    setErrorToaster(false)
+    setSuccessToaster(false)
   }
 
   const isValidForm = () => {
@@ -104,8 +106,10 @@ export default function SearchTicketsForm(props: ISearchTicketsFormProps) {
       const arrivalDateQuery = searchFormData.arrivalDate.value ? `&arrivalDate=${searchFormData.arrivalDate.value}` : ''
 
       router.push(`/workflow/search?${originCityQuery}${destinationCityQuery}${departureDateQuery}${arrivalDateQuery}`)
+
+      // setSuccessToaster(true)
     } else {
-      setShowToaster(true)
+      setErrorToaster(true)
     }
   }
 
@@ -167,8 +171,15 @@ export default function SearchTicketsForm(props: ISearchTicketsFormProps) {
       </div>
       <Button label="Find" size="large" onClick={onSubmit} className='ml-3' />
       <Toaster
+        type='error'
         message='Please fill the required field to “Find” the tickets.'
-        showToaster={showToaster}
+        showToaster={showErrorToaster}
+        onCloseClick={onToasterClose}
+      />
+      <Toaster
+        type='success'
+        message='All data is up to date.'
+        showToaster={showSuccessToaster}
         onCloseClick={onToasterClose}
       />
     </div>

@@ -9,11 +9,9 @@ import Image from 'next/image'
 import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useMemo } from 'react'
 import useSWR from 'swr'
-import { Lexend_Giga } from 'next/font/google'
 import Link from 'next/link'
 import TrainLoader from '@/components/TrainLoader'
-
-const lexendGigaFont = Lexend_Giga({ subsets: ['latin'] })
+import SomethingWentWrong from '@/components/SomethingWentWrong'
 
 export default function Seats() {
 
@@ -69,10 +67,32 @@ export default function Seats() {
     }
   }
 
+  const isNextDisabled = (): boolean => {
+    console.log('isNextDisabled');
+
+    if (selectedSeats.length === 0) {
+      return true;
+    }
+
+    const isSelectedSeatOnActiveTrip = selectedSeats.some(seat => seat.tripId === activeTrip?.trip.id);
+    const isSelectedSeatOnBackTrip = selectedSeats.some(seat => seat.tripId === activeTrip?.backTrip?.id);
+
+    if (isSelectedSeatOnActiveTrip && !isBackTrip) {
+      return false;
+    }
+
+    if (isSelectedSeatOnActiveTrip && activeTrip?.backTrip && isSelectedSeatOnBackTrip) {
+      return false;
+    }
+
+    return true;
+  };
+
   const trip = activeTrip?.backTrip && isBackTrip ? activeTrip.backTrip : activeTrip?.trip
 
   const title = isBackTrip ? 'Select seat(s) - Return Journey' : 'Select seat(s) - Outbound Journey'
-
+  console.log('selectedSeats', selectedSeats)
+  console.log('activeTrip', activeTrip)
   if (isWagonsLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -85,17 +105,13 @@ export default function Seats() {
         <SelectSeats trip={trip} wagons={sortedWagons} title={title} />
         <div className='h-[90px] p-4 flex justify-end items-center border-t-2 border-primary'>
           <Button label='Back' onClick={onBackClick} size='medium' variant='outlined' />
-          <Button disabled={!Boolean(selectedSeats.length)} label='Next' onClick={onNextClick} size='medium' className='ml-4' />
+          <Button disabled={isNextDisabled()} label='Next' onClick={onNextClick} size='medium' className='ml-4' />
         </div>
       </React.Fragment>
     )
     :
-    <div className='h-3/4 flex flex-col gap-5 justify-center items-center'>
-        <Image priority src={"/went-wrong.jpg"} alt="Went wrong" width={695} height={252}/>
-        <h1 className={lexendGigaFont.className}>Something went wrong, try to find the trip again!</h1>
-        <Link href={"/"}>
-          <Button label='Go Home'/>
-        </Link>
-    </div>
+    (
+      <SomethingWentWrong />
+    )
   }
 }

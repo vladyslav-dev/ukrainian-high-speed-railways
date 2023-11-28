@@ -132,7 +132,7 @@ export default function DateRangeField(props: IDateRangeFieldProps) {
         <div className={`transition-all pointer-events-none absolute left-[12px] font-medium text-zinc-500 ${isEndDateLabelTop ? "top-[2px] text-[10px]" : "top-1/4"}`} >{endDateLabel}</div>
       </div>
       {(focusedInputs.start || focusedInputs.end) && (
-        <div ref={dateRangeContainerRef} onClick={(e) => e.stopPropagation()} className="absolute top-[52px] left-0 bg-white shadow-lg rounded-lg animate-fade-in">
+        <div ref={dateRangeContainerRef} onClick={(e) => e.stopPropagation()} className="absolute z-[100] top-[52px] left-0 bg-white shadow-lg rounded-lg animate-fade-in">
           <DateRangePicker
             months={2}
             color='#25B491'
@@ -144,6 +144,7 @@ export default function DateRangeField(props: IDateRangeFieldProps) {
             showPreview={true}
             direction="horizontal"
             preventSnapRefocus={true}
+            minDate={new Date()}
           />
         </div>
       )}
