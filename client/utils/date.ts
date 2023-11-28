@@ -21,20 +21,6 @@ export function getDiffTime(date1: Date, date2: Date): string {
 }
 
 export function formatDiffTime(time: string): string {
-    // const [hoursStr, minutesStr] = time.split(':');
-    // const hours = parseInt(hoursStr, 10);
-    // const minutes = parseInt(minutesStr || '0', 10);
-
-    // if (hours >= 24) {
-    //   return `${hours} hours`;
-    // } else {
-    //   if (minutes === 0) {
-    //     return `${hours} hour${hours > 1 ? 's' : ''}`;
-    //   } else {
-    //     return `${hours}:${minutes}`;
-    //   }
-    // }
-
     const [hoursStr, minutesStr] = time.split(':');
     const hours = parseInt(hoursStr, 10);
     const minutes = parseInt(minutesStr || '0', 10);
