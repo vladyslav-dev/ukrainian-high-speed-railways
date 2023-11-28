@@ -20,7 +20,7 @@ export default function Button(props: ButtonProps) {
     }, [size])
 
     const disabledClass = useMemo<string>(() => {
-        return disabled ? 'opacity-60 hover:opacity-60 cursor-not-allowed' : ''
+        return disabled ? 'opacity-60 hover:opacity-60 cursor-not-allowed' : 'hover:opacity-90'
     }, [disabled])
 
     const variantClass = useMemo(() => {
@@ -35,7 +35,7 @@ export default function Button(props: ButtonProps) {
     return (
         <button
             {...props}
-            className={`${sizeClass} font-medium flex-shrink-0 rounded-[6px] transition-all hover:opacity-90 px-3 focus:outline-none ${variantClass} ${disabledClass} ${className}`}
+            className={`${sizeClass} font-medium flex-shrink-0 rounded-[6px] transition-all px-3 focus:outline-none ${variantClass} ${disabledClass} ${className}`}
         >
             {label}
         </button>

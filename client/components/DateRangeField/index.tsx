@@ -116,7 +116,7 @@ export default function DateRangeField(props: IDateRangeFieldProps) {
           type="text"
           readOnly={true}
           value={startDateInputValue}
-          className={`h-[48px] px-[12px] outline-none w-full ${startDateInputClassName} ${isStartDateValid ? "" : "border-[2px] border-danger"}`}
+          className={`h-[48px] px-[12px] pt-[6px] outline-none w-full ${startDateInputClassName} ${isStartDateValid ? "" : "border-[2px] border-danger"}`}
           onFocus={() => handleInputFocus('start')}
         />
         <div className={`transition-all pointer-events-none absolute left-[12px] font-medium text-zinc-500 ${isStartDateLabelTop ? "top-[2px] text-[10px]" : "top-1/4"}`} >{startDateLabel}</div>
@@ -126,7 +126,7 @@ export default function DateRangeField(props: IDateRangeFieldProps) {
           type="text"
           readOnly={true}
           value={endDateInputValue}
-          className={`h-[48px] px-[12px] outline-none w-full ${endDateInputClassName}`}
+          className={`h-[48px] px-[12px] pt-[6px] outline-none w-full ${endDateInputClassName}`}
           onFocus={() => handleInputFocus('end')}
         />
         <div className={`transition-all pointer-events-none absolute left-[12px] font-medium text-zinc-500 ${isEndDateLabelTop ? "top-[2px] text-[10px]" : "top-1/4"}`} >{endDateLabel}</div>

@@ -116,7 +116,7 @@ export default function Autocomplete(props: IAutocompleteProps) {
                 onKeyDown={handleInputKeyDown}
                 onFocus={handleInputFocus}
                 onBlur={handleInputBlur}
-                className={`h-[48px] px-[12px] outline-none w-full ${className} ${isValid ? "" : "border-[2px] border-danger"}`}
+                className={`h-[48px] px-[12px] pt-[6px] outline-none w-full ${className} ${isValid ? "" : "border-[2px] border-danger"}`}
             />
 
             {showDropdown && (

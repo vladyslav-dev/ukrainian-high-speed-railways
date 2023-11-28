@@ -24,6 +24,8 @@ interface ISeatProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export interface ISelectedSeat {
     tripId: number,
+    tripDepartureDate: Date;
+    tripArrivalDate: Date;
     tripName: string
     wagonId: number
     wagonNumber: number
@@ -157,11 +159,13 @@ const SelectSeats = (props: ISelectSeatsProps) => {
 
             if (wagon) {
                 const seat = wagon.wagonSeats.find((seat) => String(seat.id) === id)
-
+                console.log('trip', trip)
                 if (seat) {
                     setSelectedSeats([...selectedSeats, {
                         tripId: trip.id,
                         tripName: trip.name,
+                        tripDepartureDate: trip.departure_date,
+                        tripArrivalDate: trip.arrival_date,
                         wagonId: wagon.wagonId,
                         wagonNumber: wagon.wagonNumber,
                         wagonType: wagon.wagonType.type,
