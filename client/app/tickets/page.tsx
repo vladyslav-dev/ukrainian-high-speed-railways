@@ -2,18 +2,25 @@
 
 import { getTicketsByPhone } from "@/api/tickets"
 import NotFound from "@/components/NotFound"
+import TrainLoader from "@/components/TrainLoader"
 import { TTicketsByPhoneResponse } from "@/types/ticket"
 import { useEffect, useState } from "react"
 
 const TicketsPage = () => {
     const [tickets, setTickets] = useState<TTicketsByPhoneResponse>([])
+    const [isLoading, setIsLoading] = useState<boolean>(true)
 
     const getPhones = () => {
         return JSON.parse(localStorage.getItem('UHR/PHONES') || '[]')
     }
 
     const pullTickets = async () => {
-        Promise.all(getPhones().map((phone: string) => getTicketsByPhone(phone))).then(res => setTickets(res.flat()))
+        Promise.all(getPhones().map((phone: string) => getTicketsByPhone(phone))).then(res => {
+            setTimeout(() => {
+                setTickets(res.flat())
+                setIsLoading(false)
+            }, 1200)
+        })
     }
 
     useEffect(() => {
@@ -23,7 +30,11 @@ const TicketsPage = () => {
     return (
         <div className="h-full w-full bg-white p-4 rounded-tl-[6px] rounded-tr-[6px] overflow-hidden">
             <h1 className="text-2xl p-4 mb-4">Tickets</h1>
-            {tickets.length === 0 ? (
+            {isLoading ? (
+                <div className="flex justify-center items-center h-3/4">
+                    <TrainLoader />
+                </div>
+            ) : tickets.length === 0 ? (
                 <NotFound
                     title="No tickets found"
                     description="You have not bought any tickets yet."
