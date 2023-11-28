@@ -192,6 +192,8 @@ export default function Passengers() {
       console.log('payload', payload)
 
       setBuyTicketPayload(payload)
+
+      router.push('/workflow/payment')
     } else [
       setShowErrorToaster(true)
     ]
