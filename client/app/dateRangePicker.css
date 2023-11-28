@@ -3,5 +3,5 @@
 }
 
 .rdrDayToday .rdrDayNumber span:after {
-    @apply bg-primary
+    background-color: #25B491 !important;
 }

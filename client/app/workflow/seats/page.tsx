@@ -68,7 +68,6 @@ export default function Seats() {
   }
 
   const isNextDisabled = (): boolean => {
-    console.log('isNextDisabled');
 
     if (selectedSeats.length === 0) {
       return true;
@@ -91,8 +90,7 @@ export default function Seats() {
   const trip = activeTrip?.backTrip && isBackTrip ? activeTrip.backTrip : activeTrip?.trip
 
   const title = isBackTrip ? 'Select seat(s) - Return Journey' : 'Select seat(s) - Outbound Journey'
-  console.log('selectedSeats', selectedSeats)
-  console.log('activeTrip', activeTrip)
+
   if (isWagonsLoading) {
     return (
       <div className="flex justify-center items-center h-screen">

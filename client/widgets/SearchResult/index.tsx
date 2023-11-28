@@ -26,7 +26,10 @@ const SearchResult = (props: ISearchResultProps) => {
                     <CardList data={searchResultData} />
                 </React.Fragment>
             ) : (
-                <NotFound />
+                <NotFound
+                    title="No Tickets Found"
+                    description="Sorry, no tickets found for your selected dates or cities. Please review your choices or contact our customer support for assistance."
+                />
             )}
         </React.Fragment>
     )

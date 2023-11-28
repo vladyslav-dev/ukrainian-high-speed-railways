@@ -163,7 +163,7 @@ const SelectSeats = (props: ISelectSeatsProps) => {
 
             if (wagon) {
                 const seat = wagon.wagonSeats.find((seat) => String(seat.id) === id)
-                console.log('trip', trip)
+
                 if (seat) {
                     setSelectedSeats([...selectedSeats, {
                         tripId: trip.id,
