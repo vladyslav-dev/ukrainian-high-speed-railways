@@ -15,7 +15,7 @@ import SomethingWentWrong from '@/components/SomethingWentWrong'
 
 export default function Seats() {
 
-  const { activeTrip, selectedSeats } = useWorkflowStore()
+  const { activeTrip, selectedSeats, setSelectedSeats } = useWorkflowStore()
 
   const router = useRouter()
 
@@ -55,6 +55,7 @@ export default function Seats() {
   }, [wagons?.tripWagons])
 
   const onBackClick = () => {
+    setSelectedSeats([])
     router.back()
   }
 
