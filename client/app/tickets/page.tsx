@@ -42,9 +42,9 @@ const TicketsPage = () => {
             ) : (
                 <div className="h-full overflow-auto py-8">
                     <div className="mx-auto">
-                        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 pb-16">
                             {tickets.map((ticket, index) => (
-                                <div key={index} className="bg-white rounded-lg overflow-hidden shadow-md last:mb-16">
+                                <div key={index} className="bg-white rounded-lg overflow-hidden shadow-md">
                                     <div className="p-6">
                                         <h2 className="text-xl font-bold mb-2">{ticket.tripName}</h2>
                                         <p className="text-sm mb-2">

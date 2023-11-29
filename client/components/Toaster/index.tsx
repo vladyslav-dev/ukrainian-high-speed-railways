@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import CloseIcon from "../Icons/Close"
 
 interface IToasterProps {
@@ -8,7 +9,15 @@ interface IToasterProps {
 }
 
 const Toaster = (props: IToasterProps) => {
-    const { message, showToaster, onCloseClick, type = 'success' } = props
+    let { message, showToaster, onCloseClick, type = 'success' } = props
+
+    useEffect(() => {
+        const timeOut = setTimeout(() => {
+            onCloseClick()
+        }, 3000)
+
+        return () => clearTimeout(timeOut)
+    }, [showToaster])
 
     return (
         <div
