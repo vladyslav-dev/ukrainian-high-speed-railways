@@ -55,7 +55,7 @@ export default function Seats() {
   }, [wagons?.tripWagons])
 
   const onBackClick = () => {
-    setSelectedSeats([])
+    !isBackTrip && setSelectedSeats([])
     router.back()
   }
 
