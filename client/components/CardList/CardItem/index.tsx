@@ -44,13 +44,13 @@ const Trip = (props: ISearchResultTrip) => {
                     <div className="text-lg font-medium">{departureTime}</div>
                     <div className="text-xs text-secondary">{formattedDepartureDate}</div>
                 </div>
-                <div className="flex items-center">
-                    <div className="w-[42px] h-[1px] bg-primary" />
+                <div className="flex items-center w-full justify-center">
+                    <div className="min-w-[20px] flex-1 max-w-[170px] h-[1px] bg-primary" />
                     <div className="flex items-center mx-2">
                         <ClockIcon />
                         <span className="text-primary ml-2">{diffTime}</span>
                     </div>
-                    <div className="w-[42px] h-[1px] bg-primary" />
+                    <div className="min-w-[20px] flex-1 max-w-[170px] h-[1px] bg-primary" />
                 </div>
                 <div>
                     <div className="text-lg font-medium">{arrivalTime}</div>
@@ -91,24 +91,40 @@ const CardItem = (props: ICardProps) => {
         return trip.standart.price + (backTrip ? backTrip.standart.price : 0)
     }, [trip, backTrip])
 
+    console.log('trip', trip)
+    console.log('backTrip', backTrip)
+
     return (
-        <div className="flex gap-6 items-center justify-between bg-white rounded-[6px] p-4 whitespace-nowrap" style={{ boxShadow: "0px 7px 29px 0px rgba(100, 100, 111, 0.20)" }}>
-            <div className="flex flex-col justify-between gap-3 flex-1 min-w-[380px] max-w-[380px]">
+        <div className="flex items-center justify-between bg-white rounded-[6px] p-4 whitespace-nowrap" style={{ boxShadow: "0px 7px 29px 0px rgba(100, 100, 111, 0.20)" }}>
+            <div className="flex w-[60%] flex-col justify-between gap-4 pr-5">
                 <Trip {...trip} />
                 {!!backTrip && (
                     <React.Fragment>
-                        <div className="w-full h-[1px] bg-stroke my-2" />
+                        <div className="h-[1px] bg-stroke my-2" style={{ width: "calc(100% + 20px)"}} />
                         <Trip {...backTrip} />
                     </React.Fragment>
                 )}
 
             </div>
-            <div className="flex flex-col flex-1 gap-2 h-full max-w-[320px]">
-                <div className="flex flex-col items-center justify-center gap-4 h-full px-4 py-2">
-                    <div className="flex items-center mr-3">
-                        <span className="text-sm">From {minPrice} USD</span>
+            <div className="flex flex-col flex-1 h-full border-l border-r border-stroke">
+                <div className="flex flex-1 flex-col gap-2 p-4 text-xs text-secondary">
+                    <span>{trip.standart.seats} Standart place(s) available</span>
+                    <span>{trip.vip.seats} VIP place(s) available</span>
+                </div>
+                <div className="w-full h-[1px] bg-stroke my-2" />
+                {!!backTrip && (
+                    <div className="flex flex-1 flex-col gap-2 p-4 text-xs text-secondary">
+                        <span>{backTrip.standart.seats} Standart place(s) available</span>
+                        <span>{backTrip.vip.seats} VIP place(s) available</span>
                     </div>
-                    <Button label={'Select seats'} disabled={!isAvailable} onClick={handleTicketClick} size='medium' />
+                )}
+            </div>
+            <div className="flex flex-col flex-1 h-full max-w-[320px]">
+                <div className="flex flex-col items-center justify-end h-full px-4 py-2 pr-0">
+                    <div className="flex items-center mb-[60px]">
+                        <span className="text-lg font-semibold">From {minPrice} USD</span>
+                    </div>
+                    <Button label={'Select seats'} disabled={!isAvailable} onClick={handleTicketClick} size='medium' className="w-full" />
                     {!isAvailable && <span className="text-xs text-secondary">No available seats</span>}
                 </div>
             </div>
