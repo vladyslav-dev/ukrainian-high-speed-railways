@@ -12,7 +12,7 @@ const useSearchQueryParams = (): TSearchTripsQueryParams => {
 
     const tripsQueryParams = useMemo(() => {
         const departureDateISO = departureDate ? new Date(departureDate).toISOString() : null
-        const arrivalDateISO = arrivalDate ? new Date(arrivalDate).toISOString() : null
+        const arrivalDateISO = (arrivalDate != "Invalid Date") ? new Date(arrivalDate as string).toISOString() : null
 
         const originCityQuery = originCity ? `originCity=${originCity}` : ''
         const destinationCityQuery = destinationCity ? `&destinationCity=${destinationCity}` : ''

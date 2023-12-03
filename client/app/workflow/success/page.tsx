@@ -8,12 +8,12 @@ import { useWorkflowStore } from '@/stores/useWorkflowStore'
 import { useRouter } from 'next/navigation'
 
 export default function Success() {
-  const { buyTicketPayload } = useWorkflowStore()
+  const { buyTicketPayload, setSelectedSeats } = useWorkflowStore()
   const router = useRouter()
 
   useEffect(() => {
     router.prefetch('/')
-
+    setSelectedSeats([])
     if (buyTicketPayload.length === 0) {
       router.push('/')
     }
