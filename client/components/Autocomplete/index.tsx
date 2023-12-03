@@ -22,7 +22,7 @@ export default function Autocomplete(props: IAutocompleteProps) {
 
     useEffect(() => {
         const filteredOptions = options.filter((option: string) => {
-            return option.toLowerCase().includes(inputValue.toLowerCase())
+            return option.toLowerCase().includes(inputValue?.toLowerCase())
         })
         setFilteredOptions(filteredOptions)
     }, [inputValue, options])
