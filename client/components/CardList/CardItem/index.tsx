@@ -111,17 +111,19 @@ const CardItem = (props: ICardProps) => {
                     <span>{trip.standart.seats} Standart place(s) available</span>
                     <span>{trip.vip.seats} VIP place(s) available</span>
                 </div>
-                <div className="w-full h-[1px] bg-stroke my-2" />
                 {!!backTrip && (
-                    <div className="flex flex-1 flex-col gap-2 p-4 text-xs text-secondary">
-                        <span>{backTrip.standart.seats} Standart place(s) available</span>
-                        <span>{backTrip.vip.seats} VIP place(s) available</span>
-                    </div>
+                    <React.Fragment>
+                        <div className="w-full h-[1px] bg-stroke my-2" />
+                        <div className="flex flex-1 flex-col gap-2 p-4 text-xs text-secondary">
+                            <span>{backTrip.standart.seats} Standart place(s) available</span>
+                            <span>{backTrip.vip.seats} VIP place(s) available</span>
+                        </div>
+                    </React.Fragment>
                 )}
             </div>
             <div className="flex flex-col flex-1 h-full max-w-[320px]">
-                <div className="flex flex-col items-center justify-end h-full px-4 py-2 pr-0">
-                    <div className="flex items-center mb-[60px]">
+                <div className="flex flex-col items-center justify-end h-full px-4 py-2 pr-0 pb-0">
+                    <div className={`flex items-center ${!!backTrip ? "mb-14" : "mb-4"}`}>
                         <span className="text-lg font-semibold">From {minPrice} USD</span>
                     </div>
                     <Button label={'Select seats'} disabled={!isAvailable} onClick={handleTicketClick} size='medium' className="w-full" />
