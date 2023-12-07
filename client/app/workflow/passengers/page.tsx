@@ -212,7 +212,7 @@ export default function Passengers() {
               {Object.keys(accordionRenderData).map((tripId, index) => (
                 <Accordion
                   key={tripId}
-                  expanded={!index}
+                  expanded
                   errorHighlight={formData[accordionRenderData[tripId][0].seatId].firstName.error || formData[accordionRenderData[tripId][0].seatId].lastName.error}
                   title={accordionRenderData[tripId][0].tripName}
                   subTitle={getFormattedDate(accordionRenderData[tripId][0])}
@@ -247,7 +247,7 @@ export default function Passengers() {
                   </div>
                 </Accordion>
               ))}
-              <Accordion title={"Contacts"} errorHighlight={email.error || phone.error}>
+              <Accordion expanded title={"Contacts"} errorHighlight={email.error || phone.error}>
                 <div className='pl-6 pt-3'>
                   <div className='flex items-center gap-3'>
                     <input
